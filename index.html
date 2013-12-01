@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="checkout.js"></script>
+  </head>
+  <body>
+    <div class="spinner" style="display:none">
+      <div class="spinner-image">Please wait</div>
+      <div class="spinner-text"></div>
+    </div>
+    <div class="zinc-view">
+      <div class="variant-options">
+        <h2>Variant Options</h2>
+        <form id="variant-options-form" method="post">
+          <div class="retailer">
+            Retailer:
+            <select class="retailer" name="retailer">
+              <option value="macys">Macy's</option>
+              <option value="jcrew">J. Crew</option>
+            </select>
+          </div>
+          <div class="product-url">
+            Url: <input class="product-url" type="text" name="product_url">
+          </div>
+          <input class="submit" type="submit" value="Submit">
+        </form>
+      </div>
+
+      <div class="shipping-methods" style="display:none">
+        <h2>Shipping Methods</h2>
+        <form id="shipping-methods-form" method="post">
+          <h3>Products</h3>
+          <input class="retailer" style="display:none" name="retailer">
+          <div class="products"></div>
+          <h3>Shipping Information</h3>
+          <div class="first-name">
+            First Name: <input class="first-name" type="text" name="first-name">
+          </div>
+          <div class="last-name">
+            Last Name: <input class="last-name" type="text" name="last-name">
+          </div>
+          <div class="address-line1">
+            Address Line 1: <input class="address-line1" type="text" name="address-line1">
+          </div>
+          <div class="address-line2">
+            Address Line 2: <input class="address-line2" type="text" name="address-line2">
+          </div>
+          <div class="zip-code">
+            Zip Code: <input class="zip-code" type="text" name="zip-code">
+          </div>
+          <div class="city">
+            City: <input class="city" type="text" name="city">
+          </div>
+          <div class="state">
+            State: <input class="state" type="text" name="state">
+          </div>
+          <div class="country">
+            Country: <input class="country" type="text" name="country">
+          </div>
+          <div class="phone_number">
+            Phone Number: <input class="phone_number" type="text" name="phone_number">
+          </div>
+        </form>
+      </div>
+      <div class="store-card">
+      </div>
+      <div class="review-order">
+      </div>
+      <div class="place-order">
+      </div>
+    </div>
+  </body>
+</html>
