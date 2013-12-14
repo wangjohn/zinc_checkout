@@ -32,7 +32,7 @@
         <form id="shipping-methods-form" method="post">
           <h3>Product Quantities</h3>
           <input class="retailer" style="display:none" name="retailer">
-          <div class="products"></div>
+          <div class="product-results"></div>
           <h3>Shipping Information</h3>
           <div class="first-name">
             First Name: <input class="first-name" type="text" name="first-name">
@@ -64,7 +64,25 @@
           <input class="submit" type="submit" value="Submit">
         </form>
       </div>
-      <div class="store-card">
+      <div class="store-card" style='display:none'>
+        <h2>Store Card</h2>
+        <form id="store-card-form" method="post">
+          <h3>Shipping Methods</h3>
+          <input class="retailer" style="display:none" name="retailer">
+          <div class="shipping-method-results"></div>
+          <h3>Credit Card Information</h3>
+          <div class="number">
+            Credit Card Number: <input class="number" type="text" name="number">
+          </div>
+          <div class="expiration-month">
+            Expiration Month: <input class="expiration-month" type="text" name="expiration-month">
+          </div>
+          <div class="expiration-year">
+            Expiration Year: <input class="expiration-year" type="text" name="expiration-year">
+          </div>
+          <div class="billing-address">
+            Billing Address
+          </div>
       </div>
       <div class="review-order">
       </div>

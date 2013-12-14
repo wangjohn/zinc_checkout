@@ -96,7 +96,7 @@ var populateProducts = function(selector) {
  */
 
 $(function() {
-  $('.shipping-methods .products').on('click', 'input.variant-checkbox', function(e) {
+  $('.shipping-methods .product-results').on('click', 'input.variant-checkbox', function(e) {
     var obj = $(this);
     if (obj.is(':checked')) {
       obj.next().show();
@@ -116,7 +116,7 @@ $(function() {
       },
       callback: function(data) {
         $("#shipping-methods-form .retailer").val(data['retailer']);
-        populateVariantOptions("#shipping-methods-form .products", data['variant_options']);
+        populateVariantOptions("#shipping-methods-form .product-results", data['variant_options']);
 
         showSection(".shipping-methods");
         console.log(data);
@@ -144,6 +144,10 @@ $(function() {
         }
       },
       callback: function(data) {
+        $("#shipping-methods-form .retailer").val(data['retailer']);
+        populateVariantOptions("#shipping-methods-form .product-results", data['variant_options']);
+
+        showSection(".store-card");
         console.log(data);
       }
     });
