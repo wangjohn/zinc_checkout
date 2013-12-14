@@ -1,3 +1,8 @@
+/**
+ * Main helper functions
+ * ----------------------------------------------------------------------------
+ */
+
 var loadingSpinner = function(spinnerText) {
   $(".zinc-view").children().hide();
   $(".spinner").show();
@@ -42,6 +47,11 @@ var waitForResult = function(url, requestId, callback) {
   });
 };
 
+/**
+ * API Call specific functions
+ * ----------------------------------------------------------------------------
+ */
+
 var populateVariantOptions = function(selector, variantOptions) {
   for (var i in variantOptions) {
     var currentOption = variantOptions[i];
@@ -54,7 +64,8 @@ var populateVariantOptions = function(selector, variantOptions) {
 
     var variantHtml = [];
     variantHtml.push("<div class='variant'>");
-    variantHtml.push("<input class='variant' name='" + currentOption.product_id + "'>");
+    variantHtml.push("<input type='checkbox' class='variant-checkbox' name='" + currentOption.product_id + "'>");
+    variantHtml.push("<input class='variant-quantity' name='" + currentOption.product_id + "' style='display:none'>");
     variantHtml.push(dimensionsHtml.join(", "));
     variantHtml.push("</div>");
 
@@ -64,7 +75,36 @@ var populateVariantOptions = function(selector, variantOptions) {
   }
 };
 
+var populateProducts = function(selector) {
+  var products = [];
+  $(selector).each(function(index, value){
+    selectedObj = $(value)
+    products.push({
+      "product_id": selectedObj.attr('name'),
+      "quantity": selectedObj.next().val()
+    });
+  });
+
+  return products;
+};
+
+
+
+/**
+ * Main logic for listeners
+ * ----------------------------------------------------------------------------
+ */
+
 $(function() {
+  $('.shipping-methods .products').on('click', 'input.variant-checkbox', function(e) {
+    var obj = $(this);
+    if (obj.is(':checked')) {
+      obj.next().show();
+    } else {
+      obj.next().hide();
+    }
+  });
+
   $("#variant-options-form").submit(function(e) {
     e.preventDefault();
 
@@ -91,7 +131,17 @@ $(function() {
       url: "https://demotwo.zinc.io/v0/shipping_methods",
       data: {
         "retailer": $("#variant-options-form select.retailer").val(),
-        "product_url": $("#variant-options-form input.product-url").val()
+        "products": populateProducts("#shipping-methods-form input.variant-checkbox:checked"),
+        "shipping_address": {
+          "first_name": $("#shipping-methods-form input.first-name").val(),
+          "last_name": $("#shipping-methods-form input.last-name").val(),
+          "address_line1": $("#shipping-methods-form input.address-line1").val(),
+          "address_line2": $("#shipping-methods-form input.address-line2").val(),
+          "zip_code": $("#shipping-methods-form input.zip-code").val(),
+          "state": $("#shipping-methods-form input.state").val(),
+          "country": $("#shipping-methods-form input.country").val(),
+          "phone_number": $("#shipping-methods-form input.phone-number").val()
+        }
       },
       callback: function(data) {
         console.log(data);
