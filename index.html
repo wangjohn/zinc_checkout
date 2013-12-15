@@ -9,6 +9,8 @@
       <div class="spinner-image">Please wait</div>
       <div class="spinner-text"></div>
     </div>
+    <div class="error-handling" style="display:none">
+    </div>
     <div class="zinc-view">
       <div class="variant-options">
         <h2>Variant Options</h2>
@@ -81,8 +83,12 @@
             Expiration Year: <input class="expiration-year" type="text" name="expiration-year">
           </div>
           <div class="billing-address">
-            Billing Address
+            Billing Address: <input class="use-shipping-address" type="checkbox" checked> Use shipping address
+            <div class="card-billing-address">
+            </div>
           </div>
+          <input class="submit" type="submit" value="Submit">
+        </form>
       </div>
       <div class="review-order">
       </div>

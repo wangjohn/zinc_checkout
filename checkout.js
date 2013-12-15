@@ -3,6 +3,12 @@
  * ----------------------------------------------------------------------------
  */
 
+var showError = function(data) {
+  $(".zinc-view").children().hide();
+  $(".error-handling").html(data['message']);
+  $(".error-handling").show();
+};
+
 var loadingSpinner = function(spinnerText) {
   $(".zinc-view").children().hide();
   $(".spinner").show();
@@ -12,6 +18,16 @@ var loadingSpinner = function(spinnerText) {
 var showSection = function(section) {
   $(".spinner").hide();
   $(section).show();
+};
+
+var handleZincResponse = function(func) {
+  return function(data) {
+    if (data['_type'] == 'error') {
+      showError(data);
+    } else {
+      func(data);
+    }
+  }
 };
 
 var makeZincRequest = function(options) {
@@ -41,10 +57,40 @@ var waitForResult = function(url, requestId, callback) {
       setTimeout(function() {
         waitForResult(url, requestId, callback)
       }, 1000);
+    } else if (data['_type'] == "error") {
+      showError(data);
     } else {
       callback(data);
     }
   });
+};
+
+var populateHtmlOptions = function(options, attributes) {
+  var htmlList = [];
+
+  if (options instanceof Array) {
+    for (i in options) {
+      var newOptions = options[i];
+      var subHtmlList = [];
+      for (var j in attributes) {
+        subHtmlList.push(newOptions[attributes[j]]);
+      }
+      htmlList.push(subHtmlList.join(": "));
+    }
+  } else {
+    for (var j in attributes) {
+      htmlList.push(options[attributes[j]]);
+    }
+  }
+
+  return htmlList.join(", ");
+};
+
+var _populateOptions = function(options, attributes, htmlList) {
+  for (var i in attributes) {
+    var attr = attributes[i];
+    htmlList.push(options[attr]);
+  }
 };
 
 /**
@@ -56,22 +102,30 @@ var populateVariantOptions = function(selector, variantOptions) {
   for (var i in variantOptions) {
     var currentOption = variantOptions[i];
 
-    var dimensionsHtml = [];
-    for (var j in currentOption.dimensions) {
-      var currentDimension = currentOption.dimensions[j]
-      dimensionsHtml.push(currentDimension.name + ": " + currentDimension.value);
-    }
+    var variantHtml = [
+      "<div class='variant'>",
+      "<input type='checkbox' class='variant-checkbox' name='" + currentOption.product_id + "'>",
+      "<input class='variant-quantity' name='" + currentOption.product_id + "' style='display:none'>",
+      populateHtmlOptions(currentOption.dimensions, ['name', 'value']),
+      "</div>"
+    ];
 
-    var variantHtml = [];
-    variantHtml.push("<div class='variant'>");
-    variantHtml.push("<input type='checkbox' class='variant-checkbox' name='" + currentOption.product_id + "'>");
-    variantHtml.push("<input class='variant-quantity' name='" + currentOption.product_id + "' style='display:none'>");
-    variantHtml.push(dimensionsHtml.join(", "));
-    variantHtml.push("</div>");
+    $(selector).append(variantHtml.join(""));
+  }
+};
 
-    $(selector).append(
-      variantHtml.join("")
-    );
+var populateShippingResults = function(selector, shippingResults) {
+  for (var i in shippingResults) {
+    var currentResult = shippingResults[i];
+
+    var resultHtml = [
+      "<div class='shipping-result'>",
+      "<input type='radio' name='shipping-result-checkbox' shipping-method-id='" + currentResult.shipping_method_id + "'>",
+      populateHtmlOptions(currentResult, ['name', 'description', 'price']),
+      "</div>"
+    ];
+
+    $(selector).append(resultHtml.join(""));
   }
 };
 
@@ -114,13 +168,13 @@ $(function() {
         "retailer": $("#variant-options-form select.retailer").val(),
         "product_url": $("#variant-options-form input.product-url").val()
       },
-      callback: function(data) {
+      callback: handleZincResponse(function(data) {
         $("#shipping-methods-form .retailer").val(data['retailer']);
         populateVariantOptions("#shipping-methods-form .product-results", data['variant_options']);
 
         showSection(".shipping-methods");
         console.log(data);
-      }
+      })
     });
   });
 
@@ -143,13 +197,31 @@ $(function() {
           "phone_number": $("#shipping-methods-form input.phone-number").val()
         }
       },
-      callback: function(data) {
+      callback: handleZincResponse(function(data) {
         $("#shipping-methods-form .retailer").val(data['retailer']);
-        populateVariantOptions("#shipping-methods-form .product-results", data['variant_options']);
+        populateShippingResults("#store-card-form .shipping-method-results", data['shipping_methods']);
 
         showSection(".store-card");
-        console.log(data);
-      }
+      })
+    });
+  });
+
+  $("#store-card-form").submit(function(e) {
+    e.preventDefault();
+
+    makeZincRequest({
+      url: "https://demotwo.zinc.io/v0/store_card",
+      data: {
+        "number": $("#store-card-form input.number").val(),
+        "expiration_month": $("#store-card-form input.expiration-month").val(),
+        "expiration_year": $("#store-card-form input.expiration-year").val(),
+        "billing_address": {
+
+        }
+      },
+      callback: handleZincResponse(function(data) {
+        showSection(".review-order");
+      })
     });
   });
 });
