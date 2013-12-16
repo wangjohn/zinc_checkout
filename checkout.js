@@ -30,6 +30,17 @@ var handleZincResponse = function(func) {
   }
 };
 
+var createSelectorData = function(selector, attributes) {
+  var result = {};
+  var jqSelector = $(selector);
+  for (var i in attributes) {
+    var attr = attributes[i];
+    result[attr] = jqSelector.filter(_convertToSelector(attr)).val();
+  }
+
+  return result;
+};
+
 var makeZincRequest = function(options) {
   $.ajax({
     url: options['url'],
@@ -91,6 +102,10 @@ var _populateOptions = function(options, attributes, htmlList) {
     var attr = attributes[i];
     htmlList.push(options[attr]);
   }
+};
+
+var _convertToSelector = function(attribute) {
+  return "." + attribute.replace(/_/, "-");
 };
 
 /**
@@ -173,7 +188,6 @@ $(function() {
         populateVariantOptions("#shipping-methods-form .product-results", data['variant_options']);
 
         showSection(".shipping-methods");
-        console.log(data);
       })
     });
   });
@@ -186,16 +200,16 @@ $(function() {
       data: {
         "retailer": $("#variant-options-form select.retailer").val(),
         "products": populateProducts("#shipping-methods-form input.variant-checkbox:checked"),
-        "shipping_address": {
-          "first_name": $("#shipping-methods-form input.first-name").val(),
-          "last_name": $("#shipping-methods-form input.last-name").val(),
-          "address_line1": $("#shipping-methods-form input.address-line1").val(),
-          "address_line2": $("#shipping-methods-form input.address-line2").val(),
-          "zip_code": $("#shipping-methods-form input.zip-code").val(),
-          "state": $("#shipping-methods-form input.state").val(),
-          "country": $("#shipping-methods-form input.country").val(),
-          "phone_number": $("#shipping-methods-form input.phone-number").val()
-        }
+        "shipping_address": createSelectorData("#shipping-methods-form input", [
+            "first_name",
+            "last_name",
+            "address_line1",
+            "address_line2",
+            "zip_code",
+            "state",
+            "country",
+            "phone_number"
+          ])
       },
       callback: handleZincResponse(function(data) {
         $("#shipping-methods-form .retailer").val(data['retailer']);
