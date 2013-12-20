@@ -197,6 +197,12 @@ var fetchBillingAddressData = function(checkbox_selector, selector, attributes) 
  */
 
 $(function() {
+  // Initialize the handlebars templates
+  $('.variant-options').append(Handlebars.templates['variant_options']());
+  $('.shipping-methods').append(Handlebars.templates['shipping_methods']());
+  $('.store-card').append(Handlebars.templates['store_card']());
+  $('.review-order').append(Handlebars.templates['review_order']());
+
   var addressDataAttributes = [
     "first_name",
     "last_name",

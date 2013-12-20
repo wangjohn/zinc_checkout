@@ -2,6 +2,12 @@
 <html>
   <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="handlebars-v1.1.2.js"></script>
+    <script src="compiled_templates/_address_input.js"></script>
+    <script src="compiled_templates/variant_options.js"></script>
+    <script src="compiled_templates/shipping_methods.js"></script>
+    <script src="compiled_templates/store_card.js"></script>
+    <script src="compiled_templates/review_order.js"></script>
     <script type="text/javascript" src="checkout.js"></script>
   </head>
   <body>
@@ -12,119 +18,11 @@
     <div class="error-handling" style="display:none">
     </div>
     <div class="zinc-view">
-      <div class="variant-options">
-        <h2>Variant Options</h2>
-        <form id="variant-options-form" method="post">
-          <div class="retailer">
-            Retailer:
-            <select class="retailer" name="retailer">
-              <option value="macys">Macy's</option>
-              <option value="jcrew">J. Crew</option>
-            </select>
-          </div>
-          <div class="product-url">
-            Url: <input class="product-url" type="text" name="product_url">
-          </div>
-          <input class="submit" type="submit" value="Submit">
-        </form>
-      </div>
-
-      <div class="shipping-methods" style="display:none">
-        <h2>Shipping Methods</h2>
-        <form id="shipping-methods-form" method="post">
-          <h3>Product Quantities</h3>
-          <input class="retailer" style="display:none" name="retailer">
-          <div class="product-results"></div>
-          <h3>Shipping Information</h3>
-          <div class="first-name">
-            First Name: <input class="first-name" type="text" name="first-name">
-          </div>
-          <div class="last-name">
-            Last Name: <input class="last-name" type="text" name="last-name">
-          </div>
-          <div class="address-line1">
-            Address Line 1: <input class="address-line1" type="text" name="address-line1">
-          </div>
-          <div class="address-line2">
-            Address Line 2: <input class="address-line2" type="text" name="address-line2">
-          </div>
-          <div class="zip-code">
-            Zip Code: <input class="zip-code" type="text" name="zip-code">
-          </div>
-          <div class="city">
-            City: <input class="city" type="text" name="city">
-          </div>
-          <div class="state">
-            State: <input class="state" type="text" name="state">
-          </div>
-          <div class="country">
-            Country: <input class="country" type="text" name="country">
-          </div>
-          <div class="phone-number">
-            Phone Number: <input class="phone-number" type="text" name="phone_number">
-          </div>
-          <input class="submit" type="submit" value="Submit">
-        </form>
-      </div>
-      <div class="store-card" style='display:none'>
-        <h2>Store Card</h2>
-        <form id="store-card-form" method="post">
-          <h3>Shipping Methods</h3>
-          <input class="retailer" style="display:none" name="retailer">
-          <div class="shipping-method-results"></div>
-          <h3>Credit Card Information</h3>
-          <div class="number">
-            Credit Card Number: <input class="number" type="text" name="number">
-          </div>
-          <div class="expiration-month">
-            Expiration Month: <input class="expiration-month" type="text" name="expiration-month">
-          </div>
-          <div class="expiration-year">
-            Expiration Year: <input class="expiration-year" type="text" name="expiration-year">
-          </div>
-          <div class="billing-address">
-            Billing Address: <input class="use-shipping-address" type="checkbox" checked> Use shipping address
-            <div class="billing-address-information" style="display:none;">
-              <div class="card-billing-address">
-                <div class="first-name">
-                  First Name: <input class="first-name" type="text" name="first-name">
-                </div>
-                <div class="last-name">
-                  Last Name: <input class="last-name" type="text" name="last-name">
-                </div>
-                <div class="address-line1">
-                  Address Line 1: <input class="address-line1" type="text" name="address-line1">
-                </div>
-                <div class="address-line2">
-                  Address Line 2: <input class="address-line2" type="text" name="address-line2">
-                </div>
-                <div class="zip-code">
-                  Zip Code: <input class="zip-code" type="text" name="zip-code">
-                </div>
-                <div class="city">
-                  City: <input class="city" type="text" name="city">
-                </div>
-                <div class="state">
-                  State: <input class="state" type="text" name="state">
-                </div>
-                <div class="country">
-                  Country: <input class="country" type="text" name="country">
-                </div>
-              </div>
-            </div>
-          </div>
-          <input class="submit" type="submit" value="Submit">
-        </form>
-      </div>
-      <div class="review-order">
-        <h2>Review Order</h2>
-        <div class="retailer"></div>
-        <div class="products"></div>
-        <div class="shipping-address"></div>
-        <div class="payment-method"></div>
-      </div>
-      <div class="place-order">
-      </div>
+      <div class="variant-options"></div>
+      <div class="shipping-methods" style="display:none"></div>
+      <div class="store-card" style="display:none"></div>
+      <div class="review-order" style="display:none"></div>
+      <div class="place-order" style="display:none"></div>
     </div>
   </body>
 </html>

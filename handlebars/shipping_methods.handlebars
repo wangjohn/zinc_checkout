@@ -1,0 +1,12 @@
+<h2>Shipping Methods</h2>
+<form id="shipping-methods-form" method="post">
+  <h3>Product Quantities</h3>
+  <input class="retailer" style="display:none" name="retailer">
+  <div class="product-results"></div>
+  <h3>Shipping Information</h3>
+  {{> _address_input }}
+  <div class="phone-number">
+    Phone Number: <input class="phone-number" type="text" name="phone_number">
+  </div>
+  <input class="submit" type="submit" value="Submit">
+</form>

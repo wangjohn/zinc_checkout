@@ -1,0 +1,25 @@
+<h2>Store Card</h2>
+<form id="store-card-form" method="post">
+  <h3>Shipping Methods</h3>
+  <input class="retailer" style="display:none" name="retailer">
+  <div class="shipping-method-results"></div>
+  <h3>Credit Card Information</h3>
+  <div class="number">
+    Credit Card Number: <input class="number" type="text" name="number">
+  </div>
+  <div class="expiration-month">
+    Expiration Month: <input class="expiration-month" type="text" name="expiration-month">
+  </div>
+  <div class="expiration-year">
+    Expiration Year: <input class="expiration-year" type="text" name="expiration-year">
+  </div>
+  <div class="billing-address">
+    Billing Address: <input class="use-shipping-address" type="checkbox" checked> Use shipping address
+    <div class="billing-address-information" style="display:none;">
+      <div class="card-billing-address">
+        {{> _address_input }}
+      </div>
+    </div>
+  </div>
+  <input class="submit" type="submit" value="Submit">
+</form>
