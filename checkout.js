@@ -157,6 +157,19 @@ var populateProducts = function(selector) {
   return products;
 };
 
+var fetchBillingAddressData = function(checkbox_selector, selector, attributes) {
+  if ($(checkbox_selector).is(":checked")) {
+    var data = $("body").data("shipping_address_data");
+    var result = {};
+    for (var i in attributes) {
+      result[attributes[i]] = data[attributes[i]];
+    }
+
+    return result;
+  } else {
+    return createSelectorData(selector, attributes);
+  }
+};
 
 
 /**
@@ -165,12 +178,31 @@ var populateProducts = function(selector) {
  */
 
 $(function() {
+  var addressDataAttributes = [
+    "first_name",
+    "last_name",
+    "address_line1",
+    "address_line2",
+    "zip_code",
+    "state",
+    "country"
+  ];
+
   $('.shipping-methods .product-results').on('click', 'input.variant-checkbox', function(e) {
     var obj = $(this);
     if (obj.is(':checked')) {
       obj.next().show();
     } else {
       obj.next().hide();
+    }
+  });
+
+  $('.store-card .billing-address').on('click', '.use-shipping-address', function(e) {
+    var obj = $(this);
+    if (obj.is(':checked')) {
+      obj.next().hide();
+    } else {
+      obj.next().show();
     }
   });
 
@@ -184,7 +216,7 @@ $(function() {
         "product_url": $("#variant-options-form input.product-url").val()
       },
       callback: handleZincResponse(function(data) {
-        $("#shipping-methods-form .retailer").val(data['retailer']);
+        $("body").data("retailer", data["retailer"]);
         populateVariantOptions("#shipping-methods-form .product-results", data['variant_options']);
 
         showSection(".shipping-methods");
@@ -195,24 +227,18 @@ $(function() {
   $("#shipping-methods-form").submit(function(e) {
     e.preventDefault();
 
+    var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes.concat("phone_number"));
+    $("body").data("shipping_address_data", shippingAddressData);
+
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/shipping_methods",
       data: {
-        "retailer": $("#variant-options-form select.retailer").val(),
+        "retailer": $("body").data("retailer"),
         "products": populateProducts("#shipping-methods-form input.variant-checkbox:checked"),
-        "shipping_address": createSelectorData("#shipping-methods-form input", [
-            "first_name",
-            "last_name",
-            "address_line1",
-            "address_line2",
-            "zip_code",
-            "state",
-            "country",
-            "phone_number"
-          ])
+        "shipping_address": shippingAddressData
       },
       callback: handleZincResponse(function(data) {
-        $("#shipping-methods-form .retailer").val(data['retailer']);
+        $("body").data("shipping_methods_response", data);
         populateShippingResults("#store-card-form .shipping-method-results", data['shipping_methods']);
 
         showSection(".store-card");
@@ -229,11 +255,10 @@ $(function() {
         "number": $("#store-card-form input.number").val(),
         "expiration_month": $("#store-card-form input.expiration-month").val(),
         "expiration_year": $("#store-card-form input.expiration-year").val(),
-        "billing_address": {
-
-        }
+        "billing_address": fetchBillingAddressData("input.use-shipping-address", ".card-billing-address input", addressDataAttributes)
       },
       callback: handleZincResponse(function(data) {
+        $("body").data("store_card_response", data);
         showSection(".review-order");
       })
     });
