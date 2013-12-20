@@ -97,13 +97,6 @@ var populateHtmlOptions = function(options, attributes) {
   return htmlList.join(", ");
 };
 
-var _populateOptions = function(options, attributes, htmlList) {
-  for (var i in attributes) {
-    var attr = attributes[i];
-    htmlList.push(options[attr]);
-  }
-};
-
 var _convertToSelector = function(attribute) {
   return "." + attribute.replace(/_/, "-");
 };
@@ -112,21 +105,6 @@ var _convertToSelector = function(attribute) {
  * API Call specific functions
  * ----------------------------------------------------------------------------
  */
-
-var populateShippingResults = function(selector, shippingResults) {
-  for (var i in shippingResults) {
-    var currentResult = shippingResults[i];
-
-    var resultHtml = [
-      "<div class='shipping-result'>",
-      "<input type='radio' name='shipping-result-checkbox' shipping-method-id='" + currentResult.shipping_method_id + "'>",
-      populateHtmlOptions(currentResult, ['name', 'description', 'price']),
-      "</div>"
-    ];
-
-    $(selector).append(resultHtml.join(""));
-  }
-};
 
 var populateProducts = function(selector) {
   var products = [];
@@ -227,7 +205,7 @@ $(function() {
       callback: handleZincResponse(function(data) {
         $("body").data("retailer", data["retailer"]);
         $("#shipping-methods-form .product-results").append(
-          Handlebars.partials["_variant_options"](data)
+          Handlebars.partials["_variant_option_results"](data)
         );
 
         showSection(".shipping-methods");
@@ -250,7 +228,9 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("shipping_methods_response", data);
-        populateShippingResults("#store-card-form .shipping-method-results", data['shipping_methods']);
+        $("#store-card-form .shipping-method-results").append(
+          Handlebars.partials["_shipping_method_results"](data)
+        );
 
         showSection(".store-card");
       })
