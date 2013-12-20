@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+HANDLEBARS_PATH = File.expand_path("../handlebars", __FILE__)
+COMPILED_TEMPLATE_PATH = File.expand_path("../compiled_templates", __FILE__)
+
+Dir.foreach(HANDLEBARS_PATH) do |handlebars_file|
+  if /\.handlebars$/ =~ handlebars_file
+    handlebars_path = HANDLEBARS_PATH + "/" + handlebars_file
+    result_path = COMPILED_TEMPLATE_PATH + "/" + handlebars_file.gsub(/handlebars$/, "js")
+
+    if /^_/ =~ handlebars_file
+      system "handlebars -p #{handlebars_path} -f #{result_path}"
+    else
+      system "handlebars #{handlebars_path} -f #{result_path}"
+    end
+    puts "Precompiling #{handlebars_file}"
+  end
+end
