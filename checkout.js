@@ -76,25 +76,13 @@ var waitForResult = function(url, requestId, callback) {
   });
 };
 
-var populateHtmlOptions = function(options, attributes) {
-  var htmlList = [];
-
-  if (options instanceof Array) {
-    for (i in options) {
-      var newOptions = options[i];
-      var subHtmlList = [];
-      for (var j in attributes) {
-        subHtmlList.push(newOptions[attributes[j]]);
-      }
-      htmlList.push(subHtmlList.join(": "));
-    }
-  } else {
-    for (var j in attributes) {
-      htmlList.push(options[attributes[j]]);
-    }
-  }
-
-  return htmlList.join(", ");
+var initializeHandlebars = function() {
+  $('.variant-options').append(Handlebars.templates['variant_options']());
+  $('.shipping-methods').append(
+    Handlebars.templates['shipping_methods']({ phone_number: true })
+  );
+  $('.store-card').append(Handlebars.templates['store_card']());
+  $('.review-order').append(Handlebars.templates['review_order']());
 };
 
 var _convertToSelector = function(attribute) {
@@ -116,26 +104,8 @@ var populateProducts = function(selector) {
     });
   });
 
+  $('body').data("products", products);
   return products;
-};
-
-var populateReviewOrder = function(selector) {
-  var obj = $(selector);
-
-  obj.find(".retailer").html($("body").data("retailer"));
-  obj.find(".products");
-
-  // Shipping-address display
-  var shippingData = $("body").data("shipping_address_data");
-  var shippingHtmlList = [];
-  for (var attribute in shippingData) {
-    if (shippingData.hasOwnProperty(attribute)) {
-      shippingHtmlList.push("<div class='attribute'>" + attribute + "</div>");
-      shippingHtmlList.push("<div class='value'>" + shippingData[attribute] + "</div>");
-    }
-  }
-  var shippingHtml = shippingHtmlList.join("");
-  obj.find(".shipping-address").html(shippingHtml);
 };
 
 var fetchBillingAddressData = function(checkbox_selector, selector, attributes) {
@@ -152,6 +122,31 @@ var fetchBillingAddressData = function(checkbox_selector, selector, attributes) 
   }
 };
 
+var displayReviewOrder = function(selector) {
+  var productsData = $("body").data("products");
+  var variants = $("body").data("variant_options_response")["variant_options"];
+  var selectedProducts = [];
+
+  for (var i=0; i<productsData.length; i++) {
+    for (var j=0; j<variants.length; j++) {
+      if (variants[j].product_id === productsData[i].product_id) {
+        selectedProducts.push(variants[j]);
+      }
+    }
+  }
+
+  var data = {
+    retailer: $("body").data("variant_options_response")["retailer"],
+    products: selectedProducts,
+    shipping_address: $("body").data("shipping_address_data"),
+    payment_method: $("body").data("store_card_response")
+  };
+
+  $(selector).append(
+    Handlebars.partials["review_order"](data)
+  );
+}
+
 
 /**
  * Main logic for listeners
@@ -159,13 +154,7 @@ var fetchBillingAddressData = function(checkbox_selector, selector, attributes) 
  */
 
 $(function() {
-  // Initialize the handlebars templates
-  $('.variant-options').append(Handlebars.templates['variant_options']());
-  $('.shipping-methods').append(
-    Handlebars.templates['shipping_methods']({ phone_number: true })
-  );
-  $('.store-card').append(Handlebars.templates['store_card']());
-  $('.review-order').append(Handlebars.templates['review_order']());
+  initializeHandlebars();
 
   var addressDataAttributes = [
     "first_name",
@@ -205,7 +194,7 @@ $(function() {
         "product_url": $("#variant-options-form input.product-url").val()
       },
       callback: handleZincResponse(function(data) {
-        $("body").data("retailer", data["retailer"]);
+        $("body").data("variant_options_response", data);
         $("#shipping-methods-form .product-results").append(
           Handlebars.partials["_variant_option_results"](data)
         );
@@ -252,7 +241,8 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("store_card_response", data);
-        populateReviewOrder(".review-order");
+        displayReviewOrder(".review-order");
+
         showSection(".review-order");
       })
     });
