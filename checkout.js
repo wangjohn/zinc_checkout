@@ -82,7 +82,6 @@ var initializeHandlebars = function() {
     Handlebars.templates['shipping_methods']({ phone_number: true })
   );
   $('.store-card').append(Handlebars.templates['store_card']());
-  $('.review-order').append(Handlebars.templates['review_order']());
 };
 
 var _convertToSelector = function(attribute) {
@@ -216,7 +215,7 @@ $(function() {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/shipping_methods",
       data: {
-        "retailer": $("body").data("retailer"),
+        "retailer": $("body").data("variant_options_response")["retailer"],
         "products": populateProducts("#shipping-methods-form input.variant-checkbox:checked"),
         "shipping_address": shippingAddressData
       },
