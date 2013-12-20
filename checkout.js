@@ -157,6 +157,25 @@ var populateProducts = function(selector) {
   return products;
 };
 
+var populateReviewOrder = function(selector) {
+  var obj = $(selector);
+
+  obj.find(".retailer").html($("body").data("retailer"));
+  obj.find(".products");
+
+  // Shipping-address display
+  var shippingData = $("body").data("shipping_address_data");
+  var shippingHtmlList = [];
+  for (var attribute in shippingData) {
+    if (shippingData.hasOwnProperty(attribute)) {
+      shippingHtmlList.push("<div class='attribute'>" + attribute + "</div>");
+      shippingHtmlList.push("<div class='value'>" + shippingData[attribute] + "</div>");
+    }
+  }
+  var shippingHtml = shippingHtmlList.join("");
+  obj.find(".shipping-address").html(shippingHtml);
+};
+
 var fetchBillingAddressData = function(checkbox_selector, selector, attributes) {
   if ($(checkbox_selector).is(":checked")) {
     var data = $("body").data("shipping_address_data");
@@ -259,6 +278,7 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("store_card_response", data);
+        populateReviewOrder(".review-order");
         showSection(".review-order");
       })
     });
