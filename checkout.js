@@ -113,22 +113,6 @@ var _convertToSelector = function(attribute) {
  * ----------------------------------------------------------------------------
  */
 
-var populateVariantOptions = function(selector, variantOptions) {
-  for (var i in variantOptions) {
-    var currentOption = variantOptions[i];
-
-    var variantHtml = [
-      "<div class='variant'>",
-      "<input type='checkbox' class='variant-checkbox' name='" + currentOption.product_id + "'>",
-      "<input class='variant-quantity' name='" + currentOption.product_id + "' style='display:none'>",
-      populateHtmlOptions(currentOption.dimensions, ['name', 'value']),
-      "</div>"
-    ];
-
-    $(selector).append(variantHtml.join(""));
-  }
-};
-
 var populateShippingResults = function(selector, shippingResults) {
   for (var i in shippingResults) {
     var currentResult = shippingResults[i];
@@ -242,7 +226,9 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("retailer", data["retailer"]);
-        populateVariantOptions("#shipping-methods-form .product-results", data['variant_options']);
+        $("#shipping-methods-form .product-results").append(
+          Handlebars.partials["_variant_options"](data)
+        );
 
         showSection(".shipping-methods");
       })
