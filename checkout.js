@@ -161,7 +161,9 @@ var fetchBillingAddressData = function(checkbox_selector, selector, attributes) 
 $(function() {
   // Initialize the handlebars templates
   $('.variant-options').append(Handlebars.templates['variant_options']());
-  $('.shipping-methods').append(Handlebars.templates['shipping_methods']());
+  $('.shipping-methods').append(
+    Handlebars.templates['shipping_methods']({ phone_number: true })
+  );
   $('.store-card').append(Handlebars.templates['store_card']());
   $('.review-order').append(Handlebars.templates['review_order']());
 

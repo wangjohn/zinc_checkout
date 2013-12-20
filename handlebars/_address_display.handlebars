@@ -1,0 +1,29 @@
+<div class="first-name">
+  First Name: {{ first_name }}
+</div>
+<div class="last-name">
+  Last Name: {{ last_name }}
+</div>
+<div class="address-line1">
+  Address Line 1: {{ address_line1 }}
+</div>
+<div class="address-line2">
+  Address Line 2: {{ address_line2 }}
+</div>
+<div class="zip-code">
+  Zip Code: {{ zip_code }}
+</div>
+<div class="city">
+  City: {{ city }}
+</div>
+<div class="state">
+  State: {{ state }}
+</div>
+<div class="country">
+  Country: {{ country }}
+</div>
+{{#if phone_number}}
+  <div class="phone-number">
+    Phone Number: {{ phone_number }}
+  </div>
+{{/if}}

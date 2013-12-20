@@ -4,9 +4,6 @@
   <input class="retailer" style="display:none" name="retailer">
   <div class="product-results"></div>
   <h3>Shipping Information</h3>
-  {{> _address_input }}
-  <div class="phone-number">
-    Phone Number: <input class="phone-number" type="text" name="phone_number">
-  </div>
+  {{> _address_input this }}
   <input class="submit" type="submit" value="Submit">
 </form>
