@@ -1,0 +1,20 @@
+<h2>Review Order</h2>
+<div class="retailer">
+  Retailer: {{ retailer }}
+</div>
+<div class="products">
+  {{#each products}}
+    {{> _display_variant_option this}}
+  {{/each}}
+</div>
+<div class="shipping-address">
+  {{> _address_display shipping_address_data }}
+</div>
+<div class="payment-method">
+  <div class="payment-method-brand">
+    Credit Card Brand: <span class="brand">{{ payment_method.brand }}</span>
+  </div>
+  <div class="payment-method-last-four">
+    Number: **** **** **** {{ payment_method.last_four }}
+  </div>
+</div>

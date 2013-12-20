@@ -130,6 +130,9 @@ var displayReviewOrder = function(selector) {
   for (var i=0; i<productsData.length; i++) {
     for (var j=0; j<variants.length; j++) {
       if (variants[j].product_id === productsData[i].product_id) {
+        // TODO: this actually mutates variants[j], but for now it doesn't matter
+        // Just a note for the future
+        variants[j].quantity = productsData[i].quantity;
         selectedProducts.push(variants[j]);
       }
     }
@@ -143,7 +146,7 @@ var displayReviewOrder = function(selector) {
   };
 
   $(selector).append(
-    Handlebars.partials["review_order"](data)
+    Handlebars.partials["_review_order"](data)
   );
 }
 
