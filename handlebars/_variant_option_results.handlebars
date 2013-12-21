@@ -1,21 +1,11 @@
 {{#each variant_options}}
   <div class="variant">
-    <input type="checkbox" class="variant-checkbox" name="{{ product_id }}">
-    <input class="variant-quantity" name="{{ product_id }}" style="display:none">
-    <div class="variant-option">
-      <div class="variant-price">
-        Price: <span class="price">{{ unit_price }}</span>
-      </div>
-      {{#each dimensions}}
-      <div class="variant-description">
-        <span class="variant-name">{{ name }}</span>: <span class="variant-value">{{ value }}</span>
-      </div>
-      {{/each}}
-      {{#if quantity}}
-      <div class="variant-quantity">
-        Quantity: <span class="quantity">{{ quantity }}</span>
-      </div>
-      {{/if}}
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" class="variant-checkbox" name="{{ product_id }}">
+      </span>
+      <input class="variant-quantity form-control" name="{{ product_id }}">
     </div>
+    {{> _display_variant_option this }}
   </div>
 {{/each}}
