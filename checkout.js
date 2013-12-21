@@ -172,21 +172,11 @@ $(function() {
   ];
 
   $('.shipping-methods .product-results').on('click', 'input.variant-checkbox', function(e) {
-    var obj = $(this);
-    if (obj.is(':checked')) {
-      obj.next().show();
-    } else {
-      obj.next().hide();
-    }
+    $(this).next().toggle();
   });
 
   $('.store-card .billing-address').on('click', '.use-shipping-address', function(e) {
-    var obj = $(this);
-    if (obj.is(':checked')) {
-      obj.next().hide();
-    } else {
-      obj.next().show();
-    }
+    $(this).next().toggle();
   });
 
   $("#variant-options-form").submit(function(e) {
@@ -266,7 +256,7 @@ $(function() {
         "retailer": $("body").data("variant_options_response")["retailer"],
         "products": $("body").data("products"),
         "shipping_address": $("body").data("shipping_address_data"),
-        "is_gift": $("#review-order-form input.is-gift").val(),
+        "is_gift": $("#review-order-form input.is-gift").attr(":checked") !== undefined,
         "shipping_method_id": $("body").data("shipping_method_id"),
         "payment_method": {
           "security_code": $("body").data("security_code"),
@@ -292,7 +282,7 @@ $(function() {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/place_order",
       data: {
-        "place_order_key", $("body").data("review_order_response")["place_order_key"]
+        "place_order_key": $("body").data("review_order_response")["place_order_key"]
       },
       callback: handleZincResponse(function(data) {
         showSection(".completed-order");
