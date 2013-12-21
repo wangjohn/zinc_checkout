@@ -1,4 +1,29 @@
 .product-results .variant {
   display: inline-block;
-  width: 12%;
+  width: 100px;
+}
+
+.product-results .variant input.variant-quantity {
+  width: 70px;
+}
+
+.product-results .variant:hover {
+  border-color: #428bca;
+}
+
+.product-results .variant.checked {
+  border: 5px solid #398439;
+  background-color: rgba(57,132,57,0.25);
+}
+
+.product-results #products-carousel {
+  height: 100px;
+  width: 70%;
+}
+
+.product-results #products-carousel .carousel-inner {
+  height: 100px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }

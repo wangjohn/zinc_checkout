@@ -84,6 +84,24 @@ var initializeHandlebars = function() {
   $('.store-card').append(Handlebars.templates['store_card']());
   $('.review-order').append(Handlebars.templates['review_order']());
   $('.place_order').append(Handlebars.templates['place_order']());
+
+  Handlebars.registerHelper('everyNth', function(context, modulus, options) {
+    var fn = options.fn, inverse = options.inverse;
+    var ret = "";
+    if(context && context.length > 0) {
+      for(var i=0, j=context.length; i<j; i++) {
+        var modZero = i % modulus === 0;
+        ret = ret + fn(_.extend({}, context[i], {
+          isModZero: modZero,
+          isModMinusOneOrLast: i % modulus === modulus - 1 || i === context.length - 1,
+          modulusGroup: Math.floor(i/modulus)
+        }));
+      }
+    } else {
+      ret = inverse(this);
+    }
+    return ret;
+  });
 };
 
 var _convertToSelector = function(attribute) {
@@ -101,7 +119,7 @@ var populateProducts = function(selector) {
     selectedObj = $(value)
     products.push({
       "product_id": selectedObj.attr('name'),
-      "quantity": selectedObj.next().val()
+      "quantity": selectedObj.closest(".variant").find(".variant-quanitity").val()
     });
   });
 
@@ -172,7 +190,7 @@ $(function() {
   ];
 
   $('.shipping-methods .product-results').on('click', 'input.variant-checkbox', function(e) {
-    $(this).next().toggle();
+    $(this).closest('.variant').toggleClass('checked');
   });
 
   $('.store-card .billing-address').on('click', '.use-shipping-address', function(e) {
@@ -193,6 +211,7 @@ $(function() {
         $("#shipping-methods-form .product-results").append(
           Handlebars.partials["_variant_option_results"](data)
         );
+        $("#products-carousel").carousel();
 
         showSection(".shipping-methods");
       })
