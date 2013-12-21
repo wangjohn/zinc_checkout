@@ -1,10 +1,12 @@
 .product-results .variant {
   display: inline-block;
-  width: 125px;
+  width: 161px;
+  height: 100px;
+  overflow-y: auto;
 }
 
 .product-results .variant input.variant-quantity {
-  width: 70px;
+  width: 100px;
 }
 
 .product-results .variant:hover {
@@ -12,6 +14,6 @@
 }
 
 .product-results .variant.checked {
-  border: 5px solid #398439;
+  border: 3px solid #398439;
   background-color: rgba(57,132,57,0.25);
 }
