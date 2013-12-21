@@ -286,5 +286,17 @@ $(function() {
     });
   });
 
-  $("
+  $("place-order-form").submit(function(e) {
+    e.preventDefault();
+
+    makeZincRequest({
+      url: "https://demotwo.zinc.io/v0/place_order",
+      data: {
+        "place_order_key", $("body").data("review_order_response")["place_order_key"]
+      },
+      callback: handleZincResponse(function(data) {
+        showSection(".completed-order");
+      })
+    });
+  });
 });
