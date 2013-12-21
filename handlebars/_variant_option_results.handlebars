@@ -1,32 +1,11 @@
-<div id="products-carousel" class="products-carousel carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    {{#everyNth variant_options 3}}
-      {{#if isModZero}}
-        <li data-target="#products-carousel" data-slide-to="{{ modulusGroup }}"></li>
-      {{/if}}
-    {{/everyNth}}
-  </ol>
-
-  <div class="carousel-inner">
-    {{#everyNth variant_options 3}}
-      {{#if isModZero}}
-        <div class="item">
-      {{/if}}
-      <div class="variant thumbnail">
-        <div class="input-group input-group-sm">
-          <span class="input-group-addon">
-            <input type="checkbox" class="variant-checkbox" name="{{ product_id }}">
-          </span>
-          <input class="variant-quantity form-control" name="{{ product_id }}" placeholder="Quanitity">
-        </div>
-        {{> _display_variant_option this }}
-      </div>
-      {{#if isModMinusOneOrLast}}
-        </div>
-      {{/if}}
-    {{/everyNth}}
+{{#each variant_options}}
+  <div class="variant thumbnail">
+    <div class="input-group input-group-sm">
+      <span class="input-group-addon">
+        <input type="checkbox" class="variant-checkbox" name="{{ product_id }}">
+      </span>
+      <input class="variant-quantity form-control" name="{{ product_id }}" placeholder="Quanitity">
+    </div>
+    {{> _display_variant_option this }}
   </div>
-
-  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">Left</a>
-  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">Right</a>
-</div>
+{{/each}}
