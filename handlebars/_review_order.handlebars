@@ -1,20 +1,32 @@
 <h2>Review Order</h2>
 <div class="retailer">
-  Retailer: {{ retailer }}
+  <h3>Retailer</h3>
+  {{ retailer }}
 </div>
 <div class="products">
+  <h3>Products</h3>
   {{#each products}}
     {{> _display_variant_option this}}
   {{/each}}
 </div>
 <div class="shipping-address">
-  {{> _address_display shipping_address_data }}
+  <h3>Shipping Address</h3>
+  {{> _address_display shipping_address }}
 </div>
 <div class="payment-method">
+  <h3>Payment Information</h3>
   <div class="payment-method-brand">
     Credit Card Brand: <span class="brand">{{ payment_method.brand }}</span>
   </div>
   <div class="payment-method-last-four">
-    Number: **** **** **** {{ payment_method.last_four }}
+    Credit Card: **** **** **** {{ payment_method.last_four }}
+  </div>
+</div>
+<div class="customer-information">
+  <div class="gift">
+    Send as gift: <input class="is-gift" type="checkbox" name="is-gift">
+  </div>
+  <div class="email-address">
+    Confirmation Email: <input class="email-address" type="text" name="email-address">
   </div>
 </div>

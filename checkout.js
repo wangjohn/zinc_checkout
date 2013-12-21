@@ -232,6 +232,7 @@ $(function() {
 
   $("#store-card-form").submit(function(e) {
     e.preventDefault();
+    $("body").data("security_code", $("#store-card-form input.security-code").val());
 
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/store_card",
