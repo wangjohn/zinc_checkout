@@ -82,6 +82,8 @@ var initializeHandlebars = function() {
     Handlebars.templates['shipping_methods']({ phone_number: true })
   );
   $('.store-card').append(Handlebars.templates['store_card']());
+  $('.review-order').append(Handlebars.templates['review_order']());
+  $('.place_order').append(Handlebars.templates['place_order']());
 };
 
 var _convertToSelector = function(attribute) {
@@ -164,6 +166,7 @@ $(function() {
     "address_line1",
     "address_line2",
     "zip_code",
+    "city",
     "state",
     "country"
   ];
@@ -233,6 +236,9 @@ $(function() {
   $("#store-card-form").submit(function(e) {
     e.preventDefault();
     $("body").data("security_code", $("#store-card-form input.security-code").val());
+    $("body").data("shipping_method_id",
+      $(".shipping-method-results input.shipping-result-radio:checked").attr("shipping-method-id")
+    );
 
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/store_card",
@@ -244,10 +250,41 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("store_card_response", data);
-        displayReviewOrder(".review-order");
+        displayReviewOrder(".review-order .review-order-information");
 
         showSection(".review-order");
       })
     });
   });
+
+  $("#review-order-form").submit(function(e) {
+    e.preventDefault();
+
+    makeZincRequest({
+      url: "https://demotwo.zinc.io/v0/review_order",
+      data: {
+        "retailer": $("body").data("variant_options_response")["retailer"],
+        "products": $("body").data("products"),
+        "shipping_address": $("body").data("shipping_address_data"),
+        "is_gift": $("#review-order-form input.is-gift").val(),
+        "shipping_method_id": $("body").data("shipping_method_id"),
+        "payment_method": {
+          "security_code": $("body").data("security_code"),
+          "cc_token": $("body").data("store_card_response")["cc_token"],
+        },
+        "affiliate_id": "", // TODO: fill this in at some point
+        "customer_email": $("#review-order-form input.email-address").val()
+      },
+      callback: handleZincResponse(function(data) {
+        $("body").data("review_order_response", data);
+        $(".place-order .final-pricing").append(
+          Handlebars.partials["_place_order"](data)
+        );
+
+        showSection(".place-order");
+      })
+    });
+  });
+
+  $("
 });
