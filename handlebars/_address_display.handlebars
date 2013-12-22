@@ -1,29 +1,58 @@
-<div class="first-name">
-  First Name: {{ first_name }}
-</div>
-<div class="last-name">
-  Last Name: {{ last_name }}
-</div>
-<div class="address-line1">
-  Address Line 1: {{ address_line1 }}
-</div>
-<div class="address-line2">
-  Address Line 2: {{ address_line2 }}
-</div>
-<div class="zip-code">
-  Zip Code: {{ zip_code }}
-</div>
-<div class="city">
-  City: {{ city }}
-</div>
-<div class="state">
-  State: {{ state }}
-</div>
-<div class="country">
-  Country: {{ country }}
-</div>
-{{#if phone_number}}
-  <div class="phone-number">
-    Phone Number: {{ phone_number }}
+<div class="form-horizontal">
+  <div class="first-name form-group">
+    <label class="col-sm-2 control-label">First Name</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ first_name }}</p>
+    </div>
   </div>
-{{/if}}
+  <div class="last-name form-group">
+    <label class="col-sm-2 control-label">Last Name</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ last_name }}</p>
+    </div>
+  </div>
+  <div class="address-line1 form-group">
+    <label class="col-sm-2 control-label">Address Line 1</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ address_line1 }}</p>
+    </div>
+  </div>
+  <div class="address-line2 form-group">
+    <label class="col-sm-2 control-label">Address Line 2</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ address_line2 }}</p>
+    </div>
+  </div>
+  <div class="zip-code form-group">
+    <label class="col-sm-2 control-label">Zip Code</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ zip_code }}</p>
+    </div>
+  </div>
+  <div class="city form-group">
+    <label class="col-sm-2 control-label">City</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ city }}</p>
+    </div>
+  </div>
+  <div class="state form-group">
+    <label class="col-sm-2 control-label">State</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ state }}</p>
+    </div>
+  </div>
+  <div class="country form-group">
+    <label class="col-sm-2 control-label">Country</label>
+    <div class="col-sm-3">
+      <p class="form-control-static">{{ country }}</p>
+    </div>
+  </div>
+  {{#if phone_number}}
+    <div class="phone-number form-group">
+      <label class="col-sm-2 control-label">Phone Number</label>
+      <div class="col-sm-3">
+        <p class="form-control-static">{{ phone_number }}</p>
+      </div>
+    </div>
+  {{/if}}
+</div>
