@@ -3,13 +3,23 @@
 
 <div class="customer-information">
   <h2>Customer Information</h3>
-  <form id="review-order-form" method="post">
-    <div class="is-gift">
-      Send as gift: <input class="is-gift" type="checkbox" name="is-gift">
+  <form id="review-order-form" class="form-horizontal" method="post">
+    <div class="is-gift form-group clearfix">
+      <label class="col-sm-2 control-label">Send As Gift</label>
+      <div class="col-sm-3">
+        <input class="is-gift" type="checkbox" name="is-gift">
+      </div>
     </div>
-    <div class="email-address">
-      Confirmation Email: <input class="email-address" type="text" name="email-address">
+    <div class="email-address form-group clearfix">
+      <label class="col-sm-2 control-label">Confirmation Email</label>
+      <div class="col-sm-3">
+        <input class="email-address form-control" type="text" name="email-address">
+      </div>
     </div>
-    <input class="submit" type="submit" value="Review Final Order">
+    <div class="form-group clearfix">
+      <div class="col-sm-offset-2 col-sm-3">
+        <button class="btn btn-default" type="submit">Review Final Order</button>
+      </div>
+    </div>
   </form>
 </div>
