@@ -6,6 +6,17 @@
       </span>
       <input class="variant-quantity form-control" name="{{ product_id }}" placeholder="Quanitity">
     </div>
-    {{> _display_variant_option this }}
+    <div class="variant-option">
+      <div class="variant-price">
+        <label class="variant-price control-label">Price</label>
+        <span class="price">{{ unit_price }}</span>
+      </div>
+      {{#each dimensions}}
+        <div class="variant-description">
+          <label class="variant-description-name control-label">{{ name }}</label>
+          <span class="variant-value">{{ value }}</span>
+        </div>
+      {{/each}}
+    </div>
   </div>
 {{/each}}
