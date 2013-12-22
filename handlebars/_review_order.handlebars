@@ -1,5 +1,5 @@
 <div class="retailer">
-  <h3>Retailer</h3>
+  <h2>Retailer</h2>
   <div class="form-horizontal">
     <div class="retailer-name form-group">
       <label class="col-sm-2 control-label">Retailer Name</label>
@@ -10,17 +10,17 @@
   </div>
 </div>
 <div class="products">
-  <h3>Products</h3>
+  <h2>Products</h2>
   {{#each products}}
     {{> _display_variant_option this}}
   {{/each}}
 </div>
 <div class="shipping-address">
-  <h3>Shipping Address</h3>
+  <h2>Shipping Address</h2>
   {{> _address_display shipping_address }}
 </div>
 <div class="payment-method">
-  <h3>Payment Information</h3>
+  <h2>Payment Information</h2>
   <div class="form-horizontal">
     <div class="payment-method-brand form-group">
       <label class="col-sm-2 control-label">Credit Card Brand</label>

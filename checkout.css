@@ -1,3 +1,16 @@
+h2, h3, h4, h5 {
+  font-weight: bold;
+  margin-left: 2%;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
 .product-results .variant {
   display: inline-block;
   width: 161px;
@@ -25,14 +38,12 @@
 }
 
 .shipping-method-results .shipping-result-select {
-  width: 40px;
   display: inline-block;
 }
 
 .shipping-method-results .shipping-result-select input.shipping-result-radio {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+  float: right;
+  margin-right: 10px;
 }
 
 .variant-option label.variant-price,
