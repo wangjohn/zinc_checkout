@@ -14,10 +14,20 @@
 </div>
 <div class="payment-method">
   <h3>Payment Information</h3>
-  <div class="payment-method-brand">
-    Credit Card Brand: <span class="brand">{{ payment_method.brand }}</span>
-  </div>
-  <div class="payment-method-last-four">
-    Credit Card: **** **** **** {{ payment_method.last_four }}
+  <div class="form-horizontal">
+    <div class="payment-method-brand form-group">
+      <label class="col-sm-2 control-label">Credit Card Brand</label>
+      <div class="col-sm-3">
+        <p class="form-control-static">{{ payment_method.brand }}</p>
+      </div>
+    </div>
+    <div class="payment-method-last-four form-group">
+      <label class="col-sm-2 control-label">Credit Card</label>
+      <div class="col-sm-3">
+        <p class="form-control-static">
+          **** **** **** {{ payment_method.last_four }}
+        </p>
+      </div>
+    </div>
   </div>
 </div>
