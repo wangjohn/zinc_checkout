@@ -23,3 +23,14 @@
   width: 40%;
   margin-left: 20px;
 }
+
+.shipping-method-results .shipping-result-select {
+  width: 40px;
+  display: inline-block;
+}
+
+.shipping-method-results .shipping-result-select input.shipping-result-radio {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}

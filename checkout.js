@@ -256,8 +256,8 @@ $(function() {
       url: "https://demotwo.zinc.io/v0/store_card",
       data: {
         "number": $("#store-card-form input.number").val(),
-        "expiration_month": $("#store-card-form input.expiration-month").val(),
-        "expiration_year": $("#store-card-form input.expiration-year").val(),
+        "expiration_month": $("#store-card-form .expiration-month").val(),
+        "expiration_year": $("#store-card-form .expiration-year").val(),
         "billing_address": fetchBillingAddressData("input.use-shipping-address", ".card-billing-address input", addressDataAttributes)
       },
       callback: handleZincResponse(function(data) {
