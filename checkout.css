@@ -1,14 +1,7 @@
-h2, h3, h4, h5 {
+h2.page-header {
   font-weight: bold;
   margin-left: 2%;
-}
-
-h2 {
   font-size: 24px;
-}
-
-h3 {
-  font-size: 18px;
 }
 
 .product-results {
@@ -37,8 +30,6 @@ h3 {
 
 .progress {
   margin-top: 50px;
-  width: 40%;
-  margin-left: 20px;
 }
 
 .shipping-method-results .shipping-result-select {

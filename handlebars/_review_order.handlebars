@@ -1,5 +1,5 @@
 <div class="retailer">
-  <h2>Retailer</h2>
+  <h2 class="page-header">Retailer</h2>
   <div class="form-horizontal">
     <div class="retailer-name form-group">
       <label class="col-sm-2 control-label">Retailer Name</label>
@@ -10,17 +10,17 @@
   </div>
 </div>
 <div class="products">
-  <h2>Products</h2>
+  <h2 class="page-header">Products</h2>
   {{#each products}}
     {{> _display_variant_option this}}
   {{/each}}
 </div>
 <div class="shipping-address">
-  <h2>Shipping Address</h2>
+  <h2 class="page-header">Shipping Address</h2>
   {{> _address_display shipping_address }}
 </div>
 <div class="payment-method">
-  <h2>Payment Information</h2>
+  <h2 class="page-header">Payment Information</h2>
   <div class="form-horizontal">
     <div class="payment-method-brand form-group">
       <label class="col-sm-2 control-label">Credit Card Brand</label>

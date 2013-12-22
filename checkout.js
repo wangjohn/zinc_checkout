@@ -11,13 +11,12 @@ var showError = function(data) {
 
 var loadingSpinner = function(spinnerText) {
   $(".zinc-view").children().hide();
-  $(".progress").hide();
+  $(".progress .progress-bar").css("width", "20%");
   $(".spinner").show();
   $(".spinner .spinner-text").text(spinnerText);
 };
 
-var showSection = function(section, completion) {
-  $(".progress .progress-bar").css("width", completion);
+var showSection = function(section) {
   $(".spinner").hide();
   $(".progress").show();
   $(section).show();
