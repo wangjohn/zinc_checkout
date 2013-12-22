@@ -216,7 +216,7 @@ $(function() {
         );
         $("#products-carousel").carousel();
 
-        showSection(".shipping-methods", "20%");
+        showSection(".shipping-methods", "40%");
       })
     });
   });
@@ -240,7 +240,7 @@ $(function() {
           Handlebars.partials["_shipping_method_results"](data)
         );
 
-        showSection(".store-card", "40%");
+        showSection(".store-card", "60%");
       })
     });
   });
@@ -264,7 +264,7 @@ $(function() {
         $("body").data("store_card_response", data);
         displayReviewOrder(".review-order .review-order-information");
 
-        showSection(".review-order", "60%");
+        showSection(".review-order", "80%");
       })
     });
   });
@@ -292,7 +292,7 @@ $(function() {
           Handlebars.partials["_place_order"](data)
         );
 
-        showSection(".place-order", "80%");
+        showSection(".place-order", "100%");
       })
     });
   });
