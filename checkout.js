@@ -9,9 +9,12 @@ var showError = function(data) {
   $(".error-handling").show();
 };
 
+var updateProgressBar = function(completion) {
+  $(".progress-bar").css("width", completion);
+};
+
 var loadingSpinner = function(spinnerText) {
   $(".zinc-view").children().hide();
-  $(".progress .progress-bar").css("width", "20%");
   $(".spinner").show();
   $(".spinner .spinner-text").text(spinnerText);
 };
@@ -214,8 +217,9 @@ $(function() {
           Handlebars.partials["_variant_option_results"](data)
         );
         $("#products-carousel").carousel();
+        updateProgressBar("40%");
 
-        showSection(".shipping-methods", "40%");
+        showSection(".shipping-methods");
       })
     });
   });
@@ -239,7 +243,8 @@ $(function() {
           Handlebars.partials["_shipping_method_results"](data)
         );
 
-        showSection(".store-card", "60%");
+        updateProgressBar("60%");
+        showSection(".store-card");
       })
     });
   });
@@ -263,7 +268,8 @@ $(function() {
         $("body").data("store_card_response", data);
         displayReviewOrder(".review-order .review-order-information");
 
-        showSection(".review-order", "80%");
+        updateProgressBar("80%");
+        showSection(".review-order");
       })
     });
   });
@@ -291,7 +297,8 @@ $(function() {
           Handlebars.partials["_place_order"](data)
         );
 
-        showSection(".place-order", "100%");
+        updateProgressBar("100%");
+        showSection(".place-order");
       })
     });
   });
@@ -305,7 +312,7 @@ $(function() {
         "place_order_key": $("body").data("review_order_response")["place_order_key"]
       },
       callback: handleZincResponse(function(data) {
-        showSection(".completed-order", "100%");
+        showSection(".completed-order");
       })
     });
   });
