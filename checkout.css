@@ -17,3 +17,9 @@
   border: 3px solid #398439;
   background-color: rgba(57,132,57,0.25);
 }
+
+.progress {
+  margin-top: 50px;
+  width: 40%;
+  margin-left: 20px;
+}

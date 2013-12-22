@@ -11,12 +11,15 @@ var showError = function(data) {
 
 var loadingSpinner = function(spinnerText) {
   $(".zinc-view").children().hide();
+  $(".progress").hide();
   $(".spinner").show();
   $(".spinner .spinner-text").text(spinnerText);
 };
 
-var showSection = function(section) {
+var showSection = function(section, completion) {
+  $(".progress .progress-bar").css("width", completion);
   $(".spinner").hide();
+  $(".progress").show();
   $(section).show();
 };
 
@@ -116,10 +119,10 @@ var _convertToSelector = function(attribute) {
 var populateProducts = function(selector) {
   var products = [];
   $(selector).each(function(index, value){
-    selectedObj = $(value)
+    selectedObj = $(value);
     products.push({
       "product_id": selectedObj.attr('name'),
-      "quantity": selectedObj.closest(".variant").find(".variant-quanitity").val()
+      "quantity": selectedObj.closest(".variant").find(".variant-quantity").val()
     });
   });
 
@@ -194,7 +197,7 @@ $(function() {
   });
 
   $('.store-card .billing-address').on('click', '.use-shipping-address', function(e) {
-    $(this).next().toggle();
+    $(".billing-address-information").toggle();
   });
 
   $("#variant-options-form").submit(function(e) {
@@ -213,7 +216,7 @@ $(function() {
         );
         $("#products-carousel").carousel();
 
-        showSection(".shipping-methods");
+        showSection(".shipping-methods", "20%");
       })
     });
   });
@@ -237,7 +240,7 @@ $(function() {
           Handlebars.partials["_shipping_method_results"](data)
         );
 
-        showSection(".store-card");
+        showSection(".store-card", "40%");
       })
     });
   });
@@ -261,7 +264,7 @@ $(function() {
         $("body").data("store_card_response", data);
         displayReviewOrder(".review-order .review-order-information");
 
-        showSection(".review-order");
+        showSection(".review-order", "60%");
       })
     });
   });
@@ -281,7 +284,6 @@ $(function() {
           "security_code": $("body").data("security_code"),
           "cc_token": $("body").data("store_card_response")["cc_token"],
         },
-        "affiliate_id": "", // TODO: fill this in at some point
         "customer_email": $("#review-order-form input.email-address").val()
       },
       callback: handleZincResponse(function(data) {
@@ -290,7 +292,7 @@ $(function() {
           Handlebars.partials["_place_order"](data)
         );
 
-        showSection(".place-order");
+        showSection(".place-order", "80%");
       })
     });
   });
@@ -304,7 +306,7 @@ $(function() {
         "place_order_key": $("body").data("review_order_response")["place_order_key"]
       },
       callback: handleZincResponse(function(data) {
-        showSection(".completed-order");
+        showSection(".completed-order", "100%");
       })
     });
   });

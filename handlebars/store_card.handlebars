@@ -4,40 +4,43 @@
   <div class="shipping-method-results"></div>
   <h3>Credit Card Information</h3>
   <div class="number form-group">
-    <label class="col-sm-2 control-label">Credit Card Number</label>
+    <label class="col-sm-1 control-label">Credit Card Number</label>
     <div class="col-sm-3">
       <input class="number form-control" type="text" name="number">
     </div>
   </div>
   <div class="expiration-month form-group">
-    <label class="col-sm-2 control-label">Expiration Month</label>
+    <label class="col-sm-1 control-label">Expiration Month</label>
     <div class="col-sm-3">
       <input class="expiration-month form-control" type="text" name="expiration-month">
     </div>
   </div>
   <div class="expiration-year form-group">
-    <label class="col-sm-2 control-label">Expiration Year</label>
+    <label class="col-sm-1 control-label">Expiration Year</label>
     <div class="col-sm-3">
       <input class="expiration-year form-control" type="text" name="expiration-year">
     </div>
   </div>
   <div class="security-code form-group">
-    <label class="col-sm-2 control-label">Security Code</label>
+    <label class="col-sm-1 control-label">Security Code</label>
     <div class="col-sm-3">
       <input class="security-code form-control" type="text" name="security-code">
     </div>
   </div>
-  <div class="billing-address form-group">
-    <label class="col-sm-2 control-label">Billing Address</label>
-    <input class="use-shipping-address" type="checkbox" checked> Use shipping address
-    <div class="billing-address-information" style="display:none;">
-      <div class="card-billing-address">
-        {{> _address_input }}
-      </div>
+  <h3>Billing Address</h3>
+  <div class="form-group billing-address">
+    <label class="col-sm-2 control-label">Use Shipping Address</label>
+    <div class="col-sm-1">
+      <input class="use-shipping-address" type="checkbox" checked>
+    </div>
+  </div>
+  <div class="billing-address-information" style="display:none;">
+    <div class="card-billing-address">
+      {{> _address_input }}
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-3">
+    <div class="col-sm-offset-1 col-sm-3">
       <button class="btn btn-default" type="submit">Submit</button>
     </div>
   </div>
