@@ -34,3 +34,13 @@
   margin-right: auto;
   display: block;
 }
+
+.variant-option label.variant-price,
+.variant-option label.variant-description-name,
+.variant-option label.variant-quantity {
+  padding: 0;
+}
+
+.form-horizontal .form-group {
+  margin-bottom: 8px;
+}

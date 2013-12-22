@@ -1,16 +1,19 @@
 <div class="variant-option">
   <div class="variant-price">
-    Price: <span class="price">{{ unit_price }}</span>
+    <label class="variant-price control-label">Price</label>
+    <span class="price">{{ unit_price }}</span>
   </div>
   {{#each dimensions}}
   <div class="variant-description">
-    <span class="variant-name">{{ name }}</span>: <span class="variant-value">{{ value }}</span>
+    <label class="variant-description-name control-label">{{ name }}</label>
+    <span class="variant-value">{{ value }}</span>
   </div>
   {{/each}}
   {{#if quantity}}
-  <div class="variant-quantity">
-    Quantity: <span class="quantity">{{ quantity }}</span>
-  </div>
+    <div class="variant-quantity">
+      <label class="variant-quantity control-label">Quantity</label>
+      <span class="quantity">{{ quantity }}</span>
+    </div>
   {{/if}}
 </div>
 
