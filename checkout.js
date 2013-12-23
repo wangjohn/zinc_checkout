@@ -89,7 +89,7 @@ var initializeHandlebars = function() {
   );
   $('.store-card').append(Handlebars.templates['store_card']());
   $('.review-order').append(Handlebars.templates['review_order']());
-  $('.place_order').append(Handlebars.templates['place_order']());
+  $('.place-order').append(Handlebars.templates['place_order']());
 
   Handlebars.registerHelper("capitalize", function(string, options) {
     return string.charAt(0).toUpperCase() + string.slice(1);
