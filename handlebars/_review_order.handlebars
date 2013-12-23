@@ -4,7 +4,7 @@
     <div class="retailer-name form-group">
       <label class="col-sm-2 control-label">Retailer Name</label>
       <div class="col-sm-3">
-        <p class="form-control-static">{{ retailer }}</p>
+        <p class="form-control-static input-sm">{{ retailer }}</p>
       </div>
     </div>
   </div>
@@ -16,21 +16,21 @@
       <div class="variant-price form-group">
         <label class="col-sm-2 control-label">Price</label>
         <div class="col-sm-3">
-          <p class="form-control-static">{{ unit_price }}</p>
+          <p class="form-control-static input-sm">{{ unit_price }}</p>
         </div>
       </div>
       {{#each dimensions}}
         <div class="variant-description form-group">
-          <label class="col-sm-2 control-label">{{ name }}</label>
+          <label class="col-sm-2 control-label">{{ capitalize name}}</label>
           <div class="col-sm-3">
-            <p class="form-control-static">{{ value }}</p>
+            <p class="form-control-static input-sm">{{ value }}</p>
           </div>
         </div>
       {{/each}}
       <div class="variant-quantity form-group">
         <label class="col-sm-2 control-label">Quantity</label>
         <div class="col-sm-3">
-          <p class="form-control-static">{{ quantity }}</p>
+          <p class="form-control-static input-sm">{{ quantity }}</p>
         </div>
       </div>
     </div>
@@ -46,13 +46,13 @@
     <div class="payment-method-brand form-group">
       <label class="col-sm-2 control-label">Credit Card Brand</label>
       <div class="col-sm-3">
-        <p class="form-control-static">{{ payment_method.brand }}</p>
+        <p class="form-control-static input-sm">{{ payment_method.brand }}</p>
       </div>
     </div>
     <div class="payment-method-last-four form-group">
       <label class="col-sm-2 control-label">Credit Card</label>
       <div class="col-sm-3">
-        <p class="form-control-static">
+        <p class="form-control-static input-sm">
           **** **** **** {{ payment_method.last_four }}
         </p>
       </div>

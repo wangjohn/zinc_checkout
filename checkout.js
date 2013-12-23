@@ -90,22 +90,8 @@ var initializeHandlebars = function() {
   $('.review-order').append(Handlebars.templates['review_order']());
   $('.place_order').append(Handlebars.templates['place_order']());
 
-  Handlebars.registerHelper('everyNth', function(context, modulus, options) {
-    var fn = options.fn, inverse = options.inverse;
-    var ret = "";
-    if(context && context.length > 0) {
-      for(var i=0, j=context.length; i<j; i++) {
-        var modZero = i % modulus === 0;
-        ret = ret + fn(_.extend({}, context[i], {
-          isModZero: modZero,
-          isModMinusOneOrLast: i % modulus === modulus - 1 || i === context.length - 1,
-          modulusGroup: Math.floor(i/modulus)
-        }));
-      }
-    } else {
-      ret = inverse(this);
-    }
-    return ret;
+  Handlebars.registerHelper("capitalize", function(string, options) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   });
 };
 
