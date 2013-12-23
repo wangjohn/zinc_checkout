@@ -296,7 +296,7 @@ $(function() {
     });
   });
 
-  $("place-order-form").submit(function(e) {
+  $("#place-order-form").submit(function(e) {
     e.preventDefault();
 
     makeZincRequest({
