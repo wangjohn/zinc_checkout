@@ -5,7 +5,9 @@
 
 var showError = function(data) {
   $(".zinc-view").children().hide();
-  $(".error-handling").html(data['message']);
+  $(".spinner").hide();
+  $(".error-message").html(data['message']);
+  $(".error-handling").alert();
   $(".error-handling").show();
 };
 
@@ -21,7 +23,6 @@ var loadingSpinner = function(spinnerText) {
 
 var showSection = function(section) {
   $(".spinner").hide();
-  $(".progress").show();
   $(section).show();
 };
 

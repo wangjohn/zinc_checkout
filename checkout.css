@@ -4,6 +4,7 @@ h2.page-header {
   font-size: 24px;
 }
 
+.error-handling,
 .spinner {
   width: 70%;
   margin-left: auto;
