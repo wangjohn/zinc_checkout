@@ -90,6 +90,7 @@ var initializeHandlebars = function() {
   $('.store-card').append(Handlebars.templates['store_card']());
   $('.review-order').append(Handlebars.templates['review_order']());
   $('.place-order').append(Handlebars.templates['place_order']());
+  $('.completed-order').append(Handlebars.templates['completed_order']());
 
   Handlebars.registerHelper("capitalize", function(string, options) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -304,6 +305,9 @@ $(function() {
         "place_order_key": $("body").data("review_order_response")["place_order_key"]
       },
       callback: handleZincResponse(function(data) {
+        $(".completed-order .order-confirmation").append(
+          Handlebars.partials["_completed_order"](data)
+        );
         showSection(".completed-order");
       })
     });
