@@ -2,25 +2,27 @@
   <div class="subtotal form-group">
     <label class="col-sm-2 control-label">Subtotal</label>
     <div class="col-sm-3">
-      <p class="form-control-static">{{ price_components.subtotal }}</p>
+      <p class="form-control-static">{{ displayDollars price_components.subtotal }}</p>
     </div>
   </div>
   <div class="shipping form-group">
     <label class="col-sm-2 control-label">Shipping</label>
     <div class="col-sm-3">
-      <p class="form-control-static">{{ price_components.shipping }}</p>
+      <p class="form-control-static">{{ displayDollars price_components.shipping }}</p>
     </div>
   </div>
   <div class="tax form-group">
     <label class="col-sm-2 control-label">Tax</label>
     <div class="col-sm-3">
-      <p class="form-control-static">{{ price_components.tax }}</p>
+      <p class="form-control-static">{{ displayDollars price_components.tax }}</p>
     </div>
   </div>
   <div class="total form-group">
     <label class="col-sm-2 control-label">Total</label>
     <div class="col-sm-3">
-      <p class="form-control-static">{{ price_components.total }}</p>
+      <p class="form-control-static">
+        <strong>{{ displayDollars price_components.total }}</strong>
+      </p>
     </div>
   </div>
 </div>
