@@ -93,6 +93,10 @@ var initializeHandlebars = function() {
   Handlebars.registerHelper("capitalize", function(string, options) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   });
+
+  Handlebars.registerHelper("displayDollars", function(cents, options) {
+    return "$" + (parseInt(cents) / 100).toString();
+  });
 };
 
 var _convertToSelector = function(attribute) {
@@ -151,6 +155,7 @@ var displayReviewOrder = function(selector) {
   var data = {
     retailer: $("body").data("variant_options_response")["retailer"],
     products: selectedProducts,
+    product_url: $("body").data("variant_options_response")["product_url"],
     shipping_address: $("body").data("shipping_address_data"),
     payment_method: $("body").data("store_card_response")
   };

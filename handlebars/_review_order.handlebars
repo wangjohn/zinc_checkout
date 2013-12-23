@@ -11,12 +11,18 @@
 </div>
 <div class="products">
   <h2 class="page-header">Products</h2>
-  {{#each products}}
-    <div class="variant-option form-horizontal">
+  <div class="variant-option form-horizontal">
+    <div class="variant-url form-group">
+      <label class="col-sm-2 control-label">Product URL</label>
+      <div class="col-sm-3">
+        <p class="form-control-static input-sm">{{ product_url }}</p>
+      </div>
+    </div>
+    {{#each products}}
       <div class="variant-price form-group">
         <label class="col-sm-2 control-label">Price</label>
         <div class="col-sm-3">
-          <p class="form-control-static input-sm">{{ unit_price }}</p>
+          <p class="form-control-static input-sm">{{ displayDollars unit_price }}</p>
         </div>
       </div>
       {{#each dimensions}}
@@ -33,8 +39,8 @@
           <p class="form-control-static input-sm">{{ quantity }}</p>
         </div>
       </div>
-    </div>
-  {{/each}}
+    {{/each}}
+  </div>
 </div>
 <div class="shipping-address">
   <h2 class="page-header">Shipping Address</h2>
