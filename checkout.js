@@ -47,12 +47,22 @@ var createSelectorData = function(selector, attributes) {
   return result;
 };
 
+var valPassingCall = function(cb) {
+  return function(e) {
+    e.preventDefault();
+
+    if (!$(e.currentTarget).hasClass("has-validation-error")) {
+      cb(e);
+    }
+  }
+};
+
 var makeZincRequest = function(options) {
   $.ajax({
     url: options['url'],
     type: "POST",
     dataType: "json",
-    beforeSend: function() {
+    afterSend: function() {
       loadingSpinner("Making request to '" + options['url'] + "'");
     },
     data: JSON.stringify(options['data'])
@@ -187,6 +197,8 @@ $(function() {
     "country"
   ];
 
+  $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
+
   $('.shipping-methods .product-results').on('click', 'input.variant-checkbox', function(e) {
     $(this).closest('.variant').toggleClass('checked');
   });
@@ -195,9 +207,7 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
-  $("#variant-options-form").submit(function(e) {
-    e.preventDefault();
-
+  $("#variant-options-form").submit(valPassingCall(function(e) {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/variant_options",
       data: {
@@ -215,11 +225,9 @@ $(function() {
         showSection(".shipping-methods");
       })
     });
-  });
+  }));
 
-  $("#shipping-methods-form").submit(function(e) {
-    e.preventDefault();
-
+  $("#shipping-methods-form").submit(valPassingCall(function(e) {
     var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes.concat("phone_number"));
     $("body").data("shipping_address_data", shippingAddressData);
 
@@ -240,9 +248,9 @@ $(function() {
         showSection(".store-card");
       })
     });
-  });
+  }));
 
-  $("#store-card-form").submit(function(e) {
+  $("#store-card-form").submit(valPassingCall(function(e) {
     e.preventDefault();
     $("body").data("security_code", $("#store-card-form input.security-code").val());
     $("body").data("shipping_method_id",
@@ -265,11 +273,9 @@ $(function() {
         showSection(".review-order");
       })
     });
-  });
+  }));
 
-  $("#review-order-form").submit(function(e) {
-    e.preventDefault();
-
+  $("#review-order-form").submit(valPassingCall(function(e) {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/review_order",
       data: {
@@ -294,11 +300,9 @@ $(function() {
         showSection(".place-order");
       })
     });
-  });
+  }));
 
-  $("#place-order-form").submit(function(e) {
-    e.preventDefault();
-
+  $("#place-order-form").submit(valPassingCall(function(e) {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/place_order",
       data: {
@@ -311,5 +315,5 @@ $(function() {
         showSection(".completed-order");
       })
     });
-  });
+  }));
 });

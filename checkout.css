@@ -58,3 +58,12 @@ h2.page-header {
 .form-horizontal .form-group {
   margin-bottom: 8px;
 }
+
+.controls .help-block {
+  margin: 0;
+}
+
+.controls .help-block ul {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}

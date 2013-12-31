@@ -1,17 +1,17 @@
-<form id="store-card-form" class="form-horizontal" method="post">
+<form id="store-card-form" class="form-horizontal" method="post" novalidate>
   <h2 class="page-header">Shipping Methods</h2>
   <div class="shipping-method-results"></div>
   <h2 class="page-header">Credit Card Information</h2>
   <div class="number form-group">
     <label class="col-sm-2 control-label">Credit Card Number</label>
-    <div class="col-sm-3">
-      <input class="number form-control input-sm" type="text" name="number">
+    <div class="col-sm-3 controls">
+      <input class="number form-control input-sm" type="text" name="number" required>
     </div>
   </div>
   <div class="expiration-month form-group">
     <label class="col-sm-2 control-label">Expiration</label>
-    <div class="col-sm-1">
-      <select class="expiration-month form-control input-sm" name="expiration-month">
+    <div class="col-sm-1 controls">
+      <select class="expiration-month form-control input-sm" name="expiration-month" required>
         <option selected="selected">Month</option>
         <option>01</option>
         <option>02</option>
@@ -27,8 +27,8 @@
         <option>12</option>
       </select>
     </div>
-    <div class="col-sm-2">
-      <select class="expiration-year form-control input-sm" name="expiration-year">
+    <div class="col-sm-2 controls">
+      <select class="expiration-year form-control input-sm" name="expiration-year" required>
         <option selected="selected">Year</option>
         <option>2014</option>
         <option>2015</option>
@@ -45,14 +45,14 @@
   </div>
   <div class="security-code form-group">
     <label class="col-sm-2 control-label">Security Code</label>
-    <div class="col-sm-1">
-      <input class="security-code form-control input-sm" type="text" name="security-code">
+    <div class="col-sm-1 controls">
+      <input class="security-code form-control input-sm" type="text" name="security-code" required>
     </div>
   </div>
   <h2 class="page-header">Billing Address</h2>
   <div class="form-group billing-address">
     <label class="col-sm-2 control-label">Use Shipping Address</label>
-    <div class="col-sm-2">
+    <div class="col-sm-2 controls">
       <input class="use-shipping-address input-sm" type="checkbox" checked>
     </div>
   </div>

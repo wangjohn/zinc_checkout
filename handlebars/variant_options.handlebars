@@ -1,9 +1,9 @@
 <h2 class="page-header">Variant Options</h2>
-<form id="variant-options-form" class="form-horizontal" method="post">
+<form id="variant-options-form" class="form-horizontal" method="post" novalidate>
   <div class="retailer form-group">
     <label class="col-sm-2 control-label">Retailer</label>
-    <div class="col-sm-3">
-      <select class="retailer form-control input-sm" name="retailer">
+    <div class="col-sm-3 controls">
+      <select class="retailer form-control input-sm" name="retailer" required>
         <option value="macys">Macy's</option>
         <option value="jcrew">J. Crew</option>
       </select>
@@ -11,8 +11,8 @@
   </div>
   <div class="product-url form-group">
     <label class="col-sm-2 control-label">Product Url</label>
-    <div class="col-sm-3">
-      <input class="product-url form-control input-sm" type="text" name="product_url">
+    <div class="col-sm-3 controls">
+      <input class="product-url form-control input-sm" type="text" name="product_url" required>
     </div>
   </div>
   <div class="form-group">

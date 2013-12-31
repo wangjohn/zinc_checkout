@@ -1,17 +1,17 @@
 <div class="review-order-information"></div>
 <div class="customer-information">
   <h2 class="page-header">Customer Information</h2>
-  <form id="review-order-form" class="form-horizontal" method="post">
+  <form id="review-order-form" class="form-horizontal" method="post" novalidate>
     <div class="is-gift form-group clearfix">
       <label class="col-sm-2 control-label">Send As Gift</label>
-      <div class="col-sm-3">
+      <div class="col-sm-3 controls">
         <input class="is-gift input-sm" type="checkbox" name="is-gift">
       </div>
     </div>
     <div class="email-address form-group clearfix">
       <label class="col-sm-2 control-label">Confirmation Email</label>
-      <div class="col-sm-3">
-        <input class="email-address input-sm form-control" type="text" name="email-address">
+      <div class="col-sm-3 controls">
+        <input class="email-address input-sm form-control" type="email" name="email-address" required >
       </div>
     </div>
     <div class="form-group clearfix">
