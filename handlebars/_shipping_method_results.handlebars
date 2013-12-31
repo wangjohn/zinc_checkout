@@ -1,9 +1,9 @@
 {{#each shipping_methods}}
   <div class="shipping-result clearfix">
-    <span class="shipping-result-select col-sm-2">
+    <span class="shipping-result-select col-sm-3">
       <input type="radio" class="shipping-result-radio" name="shipping-result-radio" shipping-method-id="{{ shipping_method_id }}">
     </span>
-    <span class="shipping-method-description col-sm-3">
+    <span class="shipping-method-description col-sm-8">
       {{ name }}, {{ description }}, {{ price }}
     </span>
   </div>

@@ -2,8 +2,8 @@
   <h2 class="page-header">Retailer</h2>
   <div class="form-horizontal">
     <div class="retailer-name form-group">
-      <label class="col-sm-2 control-label">Retailer Name</label>
-      <div class="col-sm-3 controls">
+      <label class="col-sm-3 control-label">Retailer Name</label>
+      <div class="col-sm-8 controls">
         <p class="form-control-static input-sm">{{ retailer }}</p>
       </div>
     </div>
@@ -13,29 +13,29 @@
   <h2 class="page-header">Products</h2>
   <div class="variant-option form-horizontal">
     <div class="variant-url form-group">
-      <label class="col-sm-2 control-label">Product URL</label>
-      <div class="col-sm-3 controls">
+      <label class="col-sm-3 control-label">Product URL</label>
+      <div class="col-sm-8 controls">
         <p class="form-control-static input-sm">{{ product_url }}</p>
       </div>
     </div>
     {{#each products}}
       <div class="variant-price form-group">
-        <label class="col-sm-2 control-label">Price</label>
-        <div class="col-sm-3 controls">
+        <label class="col-sm-3 control-label">Price</label>
+        <div class="col-sm-8 controls">
           <p class="form-control-static input-sm">{{ displayDollars unit_price }}</p>
         </div>
       </div>
       {{#each dimensions}}
         <div class="variant-description form-group">
-          <label class="col-sm-2 control-label">{{ capitalize name}}</label>
-          <div class="col-sm-3 controls">
+          <label class="col-sm-3 control-label">{{ capitalize name}}</label>
+          <div class="col-sm-8 controls">
             <p class="form-control-static input-sm">{{ value }}</p>
           </div>
         </div>
       {{/each}}
       <div class="variant-quantity form-group">
-        <label class="col-sm-2 control-label">Quantity</label>
-        <div class="col-sm-3 controls">
+        <label class="col-sm-3 control-label">Quantity</label>
+        <div class="col-sm-8 controls">
           <p class="form-control-static input-sm">{{ quantity }}</p>
         </div>
       </div>
@@ -50,14 +50,14 @@
   <h2 class="page-header">Payment Information</h2>
   <div class="form-horizontal">
     <div class="payment-method-brand form-group">
-      <label class="col-sm-2 control-label">Credit Card Brand</label>
-      <div class="col-sm-3 controls">
+      <label class="col-sm-3 control-label">Credit Card Brand</label>
+      <div class="col-sm-8 controls">
         <p class="form-control-static input-sm">{{ payment_method.brand }}</p>
       </div>
     </div>
     <div class="payment-method-last-four form-group">
-      <label class="col-sm-2 control-label">Credit Card</label>
-      <div class="col-sm-3 controls">
+      <label class="col-sm-3 control-label">Credit Card</label>
+      <div class="col-sm-8 controls">
         <p class="form-control-static input-sm">
           **** **** **** {{ payment_method.last_four }}
         </p>
