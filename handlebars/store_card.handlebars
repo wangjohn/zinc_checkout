@@ -11,7 +11,7 @@
   <div class="expiration-month form-group">
     <label class="col-sm-3 control-label">Expiration</label>
     <div class="col-sm-3 controls">
-      <select class="expiration-month form-control input-sm" name="expiration-month" required>
+      <select class="expiration-month form-control input-sm" name="expiration-month" type="number" data-validation-number-message="You must select a month" required>
         <option selected="selected">Month</option>
         <option>01</option>
         <option>02</option>
@@ -28,7 +28,7 @@
       </select>
     </div>
     <div class="col-sm-5 controls">
-      <select class="expiration-year form-control input-sm" name="expiration-year" required>
+      <select class="expiration-year form-control input-sm" name="expiration-year" type="number" data-validation-number-message="You must select a year" required>
         <option selected="selected">Year</option>
         <option>2014</option>
         <option>2015</option>
