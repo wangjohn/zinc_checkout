@@ -197,7 +197,11 @@ $(function() {
     "country"
   ];
 
-  $("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
+  $("input,select,textarea").not("[type=submit]").jqBootstrapValidation({
+    filter: function () {
+      return $(this).is(":visible");
+    }
+  });
 
   $('.shipping-methods .product-results').on('click', 'input.variant-checkbox', function(e) {
     $(this).closest('.variant').toggleClass('checked');
