@@ -1,9 +1,16 @@
 var ProductDimensions = (function() {
+  var dimensionSelectTemplate = Handlebars.partials["_variant_options_dimension_select"];
+  var dropdownTemplate = Handlebars.partials["_variant_option_results"];
+
   var createProductDropdowns = function(selector, variantOptions) {
     var productDimensions = _getProductDimensions(variantOptions);
+
+    // Initialize the product dropdown html
     $(selector).append(
-      Handlebars.partials["_variant_option_results"](productDimensions["dimensionNames"])
+      dropdownTemplate(productDimensions)
     );
+    _initializeStartingDropdowns(selector, productDimensions);
+
 
     // Listeners for the product dimensions
     for (var i in productDimensions["dimensionNames"]) {
@@ -11,24 +18,46 @@ var ProductDimensions = (function() {
       _dimensionSelectElement(selector, currentName).change(function() {
         var self = this;
         var productDimensionList = _getProductDimensionList(selector, currentName, productDimensions);
-        var html = Handlebars.partials["_variant_options_dimension_select"](productDimensionList);
+        var html = dimensionSelectTemplate({values: productDimensionList, name: currentName});
         _clearSelectionsAfter(selector, currentName, productDimensions);
         self.html(html);
       });
     }
   };
 
+  var _initializeStartingDropdowns = function(selector, productDimensions) {
+    var dimensions = productDimensions["dimensions"];
+    var dimensionNames = productDimensions["dimensionNames"];
+    for (var i in dimensionNames) {
+      dimensions = _initializeDropdown(selector, i, dimensionNames, dimensions)();
+    }
+  };
+
+  var _initializeDropdown = function(selector, i, dimensionNames, dimensions) {
+    return function() {
+      var name = dimensionNames[i];
+      var keys = _listOfKeys(dimensions);
+      _dimensionSelectElement(selector, name).append(
+        dimensionSelectTemplate({values: keys, name: name})
+      );
+
+      if (i < dimensionNames.length - 1) {
+        return dimensions[keys[0]];
+      }
+    };
+  };
+
   var _clearSelectionsAfter = function(selector, name, productDimensions) {
     var index = productDimensions["namesToIndices"][name];
     var dimensionsToClear = [];
-    for (var i=index+1; i<productDimensions["dimensionNames"].length, i++) {
+    for (var i=(index+1); i<productDimensions["dimensionNames"].length; i++) {
       var currentName = productDimensions["dimensionNames"][i];
       _dimensionSelectElement(selector, currentName).html();
     }
   };
 
   var _dimensionSelectElement = function(selector, name) {
-    return $(selector).find("." + name);
+    return $(selector).find(".variant-dimension").find("." + name);
   };
 
   var _getPrevDimensionValues = function(selector, name, dimensionNames) {
@@ -45,15 +74,19 @@ var ProductDimensions = (function() {
   };
 
   var _getProductDimensionList = function(selector, name, productDimensions) {
-    var prevDimensionValues = _getPrevDimensionValues(selector, name productDimensions["dimensionNames"]);
+    var prevDimensionValues = _getPrevDimensionValues(selector, name, productDimensions["dimensionNames"]);
     var dimenHash = productDimensions["dimensions"];
     for (var i in prevDimensionValues) {
       dimenHash = dimenHash[prevDimensionValues[i]];
     }
 
+    return _listOfKeys(dimenHash);
+  };
+
+  var _listOfKeys = function(associative_array) {
     var result = [];
-    for (var property in dimenHash) {
-      if (dimenHash.hasOwnProperty(property)) {
+    for (var property in associative_array) {
+      if (associative_array.hasOwnProperty(property)) {
         result.push(property);
       }
     }
@@ -61,7 +94,7 @@ var ProductDimensions = (function() {
   };
 
   var _getProductDimensions = function(variantOptions) {
-    var dimensionNames = {};
+    var dimensionNames = [];
     var namesToIndices = {};
     var dimensions = {};
 
@@ -96,25 +129,6 @@ var ProductDimensions = (function() {
         result[val] = {};
         result = result[val];
       }
-    }
-  };
-
-  var createProductDropdowns = function(selector, variantOptions) {
-    var productDimensions = _getProductDimensions(variantOptions);
-    $(selector).append(
-        Handlebars.partials["_variant_option_results"](productDimensions["dimensionNames"])
-        );
-
-    // Listeners for the product dimensions
-    for (var i in productDimensions["dimensionNames"]) {
-      var currentName = productDimensions["dimensionNames"][i];
-      _dimensionSelectElement(selector, currentName).change(function() {
-        var self = this;
-        var productDimensionList = _getProductDimensionList(selector, currentName, productDimensions);
-        var html = Handlebars.partials["_variant_options_dimension_select"](productDimensionList);
-        _clearSelectionsAfter(selector, currentName, productDimensions);
-        self.html(html);
-      });
     }
   };
 

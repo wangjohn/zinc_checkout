@@ -223,7 +223,7 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("variant_options_response", data);
-        productDimensions.createProductDropdowns(".variant-dimension", data["variant_options"]);
+        ProductDimensions.createProductDropdowns("#shipping-methods-form .product-results", data["variant_options"]);
 
         updateProgressBar("40%");
         showSection(".shipping-methods");
