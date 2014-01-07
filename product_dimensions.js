@@ -14,15 +14,25 @@ var ProductDimensions = (function() {
 
     // Listeners for the product dimensions
     for (var i in productDimensions["dimensionNames"]) {
+      _dropdownChangeListener(i, productDimensions, selector)();
+    }
+  };
+
+  var _dropdownChangeListener = function(i, productDimensions, selector) {
+    return function() {
       var currentName = productDimensions["dimensionNames"][i];
       _dimensionSelectElement(selector, currentName).change(function() {
-        var self = this;
-        var productDimensionList = _getProductDimensionList(selector, currentName, productDimensions);
-        var html = dimensionSelectTemplate({values: productDimensionList, name: currentName});
-        _clearSelectionsAfter(selector, currentName, productDimensions);
-        self.html(html);
+        if (i < productDimensions["dimensionNames"].length - 1) {
+          var nextIndex = productDimensions["namesToIndices"][currentName] + 1;
+          var nextName = productDimensions["dimensionNames"][nextIndex];
+          var productDimensionList = _getProductDimensionList(selector, nextName, productDimensions);
+          var html = dimensionSelectTemplate({values: productDimensionList, name: nextName});
+          _clearSelectionsAfter(selector, nextName, productDimensions);
+          console.log(html);
+          _dimensionSelectElement(selector, nextName).html(html);
+        }
       });
-    }
+    };
   };
 
   var _initializeStartingDropdowns = function(selector, productDimensions) {
@@ -49,7 +59,6 @@ var ProductDimensions = (function() {
 
   var _clearSelectionsAfter = function(selector, name, productDimensions) {
     var index = productDimensions["namesToIndices"][name];
-    var dimensionsToClear = [];
     for (var i=(index+1); i<productDimensions["dimensionNames"].length; i++) {
       var currentName = productDimensions["dimensionNames"][i];
       _dimensionSelectElement(selector, currentName).html();
@@ -60,12 +69,11 @@ var ProductDimensions = (function() {
     return $(selector).find(".variant-dimension").find("." + name);
   };
 
-  var _getPrevDimensionValues = function(selector, name, dimensionNames) {
-    var count = 0;
+  var _getPrevDimensionValues = function(selector, name, productDimensions) {
+    var index = productDimensions["namesToIndices"][name];
     var prevValues = [];
 
-    while (count < dimensionNames.length && dimensionNames[count] != name) {
-      count += 1;
+    for (var i=0; i<index; i++) {
       var val = _dimensionSelectElement(selector, dimensionNames[count]).val();
       prevValues.push(val);
     }
@@ -74,7 +82,7 @@ var ProductDimensions = (function() {
   };
 
   var _getProductDimensionList = function(selector, name, productDimensions) {
-    var prevDimensionValues = _getPrevDimensionValues(selector, name, productDimensions["dimensionNames"]);
+    var prevDimensionValues = _getPrevDimensionValues(selector, name, productDimensions);
     var dimenHash = productDimensions["dimensions"];
     for (var i in prevDimensionValues) {
       dimenHash = dimenHash[prevDimensionValues[i]];
