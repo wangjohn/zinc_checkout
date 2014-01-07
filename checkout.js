@@ -24,6 +24,8 @@ var loadingSpinner = function(spinnerText) {
 var showSection = function(section) {
   $(".spinner").hide();
   $(section).show();
+  $(".stage-navigation").find("li.active").removeClass("active");
+  $(".stage-navigation").find(section).addClass("active");
 };
 
 var handleZincResponse = function(func) {
