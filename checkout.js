@@ -101,6 +101,7 @@ var initializeHandlebars = function() {
   $('.review-order').append(Handlebars.templates['review_order']());
   $('.place-order').append(Handlebars.templates['place_order']());
   $('.completed-order').append(Handlebars.templates['completed_order']());
+  $('.modal-footer').append(Handlebars.templates['stage_navigation']());
 
   Handlebars.registerHelper("capitalize", function(string, options) {
     return string.charAt(0).toUpperCase() + string.slice(1);
