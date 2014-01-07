@@ -3,50 +3,22 @@
   <head>
     <title>Zinc Checkout</title>
     <link rel="stylesheet" type="text/css" href="assets/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="checkout.css">
     <script type="text/javascript" src="assets/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="assets/handlebars-v1.1.2.js"></script>
     <script type="text/javascript" src="assets/bootstrap.js"></script>
-    <script src="compiled_templates/_address_input.js"></script>
-    <script src="compiled_templates/_address_display.js"></script>
-    <script src="compiled_templates/_completed_order.js"></script>
-    <script src="compiled_templates/_place_order.js"></script>
-    <script src="compiled_templates/_review_order.js"></script>
-    <script src="compiled_templates/_shipping_method_results.js"></script>
-    <script src="compiled_templates/_variant_option_results.js"></script>
-    <script src="compiled_templates/variant_options.js"></script>
-    <script src="compiled_templates/shipping_methods.js"></script>
-    <script src="compiled_templates/store_card.js"></script>
-    <script src="compiled_templates/review_order.js"></script>
-    <script src="compiled_templates/place_order.js"></script>
-    <script src="compiled_templates/completed_order.js"></script>
-    <script type="text/javascript" src="checkout.js"></script>
-    <script type="text/javascript" src="assets/jq-bootstrap-validation-1.3.6.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#zinc-checkout").modal({
+          show: false,
+          remote: "modal.html"
+        });
+      });
+    </script>
   </head>
   <body>
-    <div class="overlay">
-      <div class="panel">
-        <div class="spinner jumbotron" style="display:none">
-          <h2>Loading...</h2>
-          <p class="spinner-text"></p>
-          <div class="progress progress-striped active">
-            <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-            </div>
-          </div>
-        </div>
-        <div class="error-handling alert alert-danger" style="display:none">
-          <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
-          <div class="error-message"></div>
-        </div>
-        <div class="zinc-view">
-          <div class="variant-options"></div>
-          <div class="shipping-methods" style="display:none"></div>
-          <div class="store-card" style="display:none"></div>
-          <div class="review-order" style="display:none"></div>
-          <div class="place-order" style="display:none"></div>
-          <div class="completed-order" style="display:none"></div>
-        </div>
-      </div>
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#zinc-checkout">
+      Launch Zinc Checkout
+    </button>
+    <div class="modal fade" id="zinc-checkout" tabindex="-1" role="dialog" aria-labelledby="zinc-checkout-label" aria-hidden="true">
     </div>
   </body>
 </html>
