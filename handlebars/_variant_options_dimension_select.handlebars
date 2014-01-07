@@ -1,4 +1,5 @@
 <select class="dimension-values form-control input-sm {{ name }}">
+  <option value="" disabled selected>Select {{ capitalize name }}</option>
   {{#each values}}
     <option value="{{ this }}">{{ this }}</option>
   {{/each}}
