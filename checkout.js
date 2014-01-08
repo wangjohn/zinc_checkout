@@ -101,7 +101,6 @@ var initializeHandlebars = function() {
   );
   $('.store-card').append(Handlebars.templates['store_card']());
   $('.review-order').append(Handlebars.templates['review_order']());
-  $('.place-order').append(Handlebars.templates['place_order']());
   $('.completed-order').append(Handlebars.templates['completed_order']());
   $('.modal-footer').append(Handlebars.templates['stage_navigation']());
 
@@ -271,37 +270,33 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("store_card_response", data);
-        displayReviewOrder(".review-order .review-order-information");
 
-        updateProgressBar("80%");
-        showSection(".review-order");
-      })
-    });
-  }));
+        // Make a review_order request immediately after the store_card request
+        makeZincRequest({
+          url: "https://demotwo.zinc.io/v0/review_order",
+          data: {
+            "retailer": $("body").data("variant_options_response")["retailer"],
+            "products": $("body").data("products"),
+            "shipping_address": $("body").data("shipping_address_data"),
+            "is_gift": $("#store-card-form input.is-gift").attr(":checked") !== undefined,
+            "shipping_method_id": $("body").data("shipping_method_id"),
+            "payment_method": {
+              "security_code": $("body").data("security_code"),
+              "cc_token": $("body").data("store_card_response")["cc_token"],
+            },
+            "customer_email": $("#store-card-form input.email-address").val()
+          },
+          callback: handleZincResponse(function(data) {
+            $("body").data("review_order_response", data);
+            $(".place-order .final-pricing").append(
+              Handlebars.partials["_place_order"](data)
+            );
 
-  $("#review-order-form").submit(valPassingCall(function(e) {
-    makeZincRequest({
-      url: "https://demotwo.zinc.io/v0/review_order",
-      data: {
-        "retailer": $("body").data("variant_options_response")["retailer"],
-        "products": $("body").data("products"),
-        "shipping_address": $("body").data("shipping_address_data"),
-        "is_gift": $("#review-order-form input.is-gift").attr(":checked") !== undefined,
-        "shipping_method_id": $("body").data("shipping_method_id"),
-        "payment_method": {
-          "security_code": $("body").data("security_code"),
-          "cc_token": $("body").data("store_card_response")["cc_token"],
-        },
-        "customer_email": $("#review-order-form input.email-address").val()
-      },
-      callback: handleZincResponse(function(data) {
-        $("body").data("review_order_response", data);
-        $(".place-order .final-pricing").append(
-          Handlebars.partials["_place_order"](data)
-        );
-
-        updateProgressBar("100%");
-        showSection(".place-order");
+            displayReviewOrder(".review-order .review-order-information");
+            updateProgressBar("100%");
+            showSection(".review-order");
+          })
+        });
       })
     });
   }));
