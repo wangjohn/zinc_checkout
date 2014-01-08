@@ -289,10 +289,6 @@ $(function() {
           },
           callback: handleZincResponse(function(data) {
             $("body").data("review_order_response", data);
-            $(".place-order .final-pricing").append(
-              Handlebars.partials["_place_order"](data)
-            );
-
             displayReviewOrder(".review-order");
             updateProgressBar("100%");
             showSection(".review-order");
