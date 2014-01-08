@@ -70,31 +70,55 @@
     modal.id = "zinc-checkout-modal";
     modal.setAttribute("tab-index", "-1");
     modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-labelledby", "zinc-checkout-label");
+    modal.setAttribute("aria-labelledby", "zinc-checkout-modal-label");
     modal.setAttribute("aria-hidden", "true");
 
-    modal.appendChild(createIFrameElement());
+    var modalDialog = document.createElement("div");
+    modalDialog.className = "modal-dialog";
+
+    var modalContent = document.createElement("div");
+    modalContent.className = "modal-content";
+
+    modalContent.appendChild(createModalHeader());
+    modalContent.appendChild(createIFrameElement());
+    modalDialog.appendChild(modalContent);
+    modal.appendChild(modalDialog);
+
     return modal;
+  };
+
+  var createModalHeader = function() {
+    var modalHeader = document.createElement("div");
+    modalHeader.className = "checkout-dismiss";
+    modalHeader.style.height = "0px";
+    modalHeader.style.width = "0px";
+    modalHeader.style.float = "right";
+
+    var dismiss = document.createElement("button");
+    dismiss.type = "button";
+    dismiss.className = "close";
+    dismiss.setAttribute("data-dismiss", "modal");
+    dismiss.setAttribute("aria-hidden", "true");
+    dismiss.style.position = "relative";
+    dismiss.style.zIndex = "1";
+    dismiss.style.margin = "25px 40px 0";
+    dismiss.innerHTML = "&times;";
+
+    modalHeader.appendChild(dismiss);
+    return modalHeader;
   };
 
   var createIFrameElement = function() {
     var iframe = document.createElement("iframe");
+    iframe.className = "modal-body";
     iframe.setAttribute("src", iframeSource);
 
     // Styling the iframe
-    //iframe.style.zIndex = 9999;
-    //iframe.style.backgroundColor = "transparent";
-    //iframe.style.border = "0px none transparent";
-    //iframe.style.overflowX = "hidden";
-    //iframe.style.overflowY = "auto";
-    //iframe.style.visibility = "visible";
-    //iframe.style.margin = "0px";
-    //iframe.style.padding = "0px";
-    //iframe.style.position = "fixed";
-    //iframe.style.left = "0px";
-    //iframe.style.top = "0px";
-    //iframe.style.width = "100%";
-    //iframe.style.height = "100%";
+    iframe.style.border = "0px none transparent";
+    iframe.style.padding = "0px";
+    iframe.style.position = "relative";
+    iframe.style.width = "100%";
+    iframe.style.height = "80%";
 
     return iframe;
   };
