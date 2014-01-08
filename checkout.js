@@ -213,7 +213,7 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
-  $("#variant-options-form").submit(valPassingCall(function(e) {
+  $("#variant-options-form").on("submit", valPassingCall(function(e) {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/variant_options",
       data: {
@@ -231,7 +231,7 @@ $(function() {
     });
   }));
 
-  $("#shipping-methods-form").submit(valPassingCall(function(e) {
+  $("#shipping-methods-form").on("submit", valPassingCall(function(e) {
     var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes.concat("phone_number"));
     $("body").data("shipping_address_data", shippingAddressData);
 
@@ -254,8 +254,7 @@ $(function() {
     });
   }));
 
-  $("#store-card-form").submit(valPassingCall(function(e) {
-    e.preventDefault();
+  $("#store-card-form").on("submit", valPassingCall(function(e) {
     $("body").data("security_code", $("#store-card-form input.security-code").val());
     $("body").data("shipping_method_id",
       $(".shipping-method-results input.shipping-result-radio:checked").attr("shipping-method-id")
@@ -298,7 +297,8 @@ $(function() {
     });
   }));
 
-  $("#place-order-form").submit(valPassingCall(function(e) {
+  $(".review-order").on("submit", "#place-order-form", valPassingCall(function(e) {
+    console.log("placing order");
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/place_order",
       data: {
