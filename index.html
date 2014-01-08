@@ -7,18 +7,19 @@
     <script type="text/javascript" src="assets/bootstrap.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-        $("#zinc-checkout").modal({
-          show: false,
-          remote: "modal.html"
+        $("#zinc-checkout-modal").modal({
+          show: false
+          //remote: "modal.html"
         });
       });
     </script>
   </head>
   <body>
-    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#zinc-checkout">
-      Launch Zinc Checkout
+    <button class="zinc-button-el" data-toggle="modal" data-target="#zinc-checkout-modal" style="visibility: visible; display: block; min-height: 30px;">
+      <span>Checkout</span>
     </button>
-    <div class="modal fade" id="zinc-checkout" tabindex="-1" role="dialog" aria-labelledby="zinc-checkout-label" aria-hidden="true">
+    <div class="modal fade" id="zinc-checkout-modal" tab-index="-1" role="dialog" aria-labelledby="zinc-checkout-label" aria-hidden="true">
+      <iframe src="modal.html" style="z-index: 9999; background-color: transparent; border: 0px none transparent; overflow-x: hidden; overflow-y: auto; visibility: visible; margin: 0px; padding: 0px;"></iframe>
     </div>
   </body>
 </html>
