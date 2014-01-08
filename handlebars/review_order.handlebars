@@ -5,7 +5,7 @@
       <div class="retailer-name form-group">
         <label class="col-sm-3 control-label">Retailer Name</label>
         <div class="col-sm-8 controls">
-          <p class="form-control-static input-sm">{{ retailer }}</p>
+          <p class="form-control-static input-sm">{{ capitalize retailer }}</p>
         </div>
       </div>
     </div>
@@ -69,7 +69,34 @@
   <div class="place-order">
     <h2 class="page-header">Review Order Total</h2>
     <form id="place-order-form" class="form-horizontal" method="post" novalidate>
-      <div class="final-pricing"></div>
+      <div class="final-pricing">
+        <div class="subtotal form-group">
+          <label class="col-sm-3 control-label">Subtotal</label>
+          <div class="col-sm-8 controls">
+            <p class="form-control-static">{{ displayDollars price_components.subtotal }}</p>
+          </div>
+        </div>
+        <div class="shipping form-group">
+          <label class="col-sm-3 control-label">Shipping</label>
+          <div class="col-sm-8 controls">
+            <p class="form-control-static">{{ displayDollars price_components.shipping }}</p>
+          </div>
+        </div>
+        <div class="tax form-group">
+          <label class="col-sm-3 control-label">Tax</label>
+          <div class="col-sm-8 controls">
+            <p class="form-control-static">{{ displayDollars price_components.tax }}</p>
+          </div>
+        </div>
+        <div class="total form-group">
+          <label class="col-sm-3 control-label">Total</label>
+          <div class="col-sm-8 controls">
+            <p class="form-control-static">
+            <strong>{{ displayDollars price_components.total }}</strong>
+            </p>
+          </div>
+        </div>
+      </div>
       <div class="col-sm-offset-3 col-sm-8">
         <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
       </div>

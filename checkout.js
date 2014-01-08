@@ -25,7 +25,7 @@ var showSection = function(section) {
   $(".spinner").hide();
   $(section).show();
   $(".stage-navigation").find("li.active").removeClass("active");
-  $(".stage-navigation").find(section).addClass("active");
+  $(".stage-navigation").find(section + "-nav").addClass("active");
 };
 
 var handleZincResponse = function(func) {
@@ -104,7 +104,6 @@ var initializeHandlebars = function() {
     Handlebars.templates['shipping_methods']({ phone_number: true })
   );
   $('.store-card').append(Handlebars.templates['store_card']());
-  $('.review-order').append(Handlebars.templates['review_order']());
   $('.completed-order').append(Handlebars.templates['completed_order']());
   $('.modal-footer').append(Handlebars.templates['stage_navigation']());
 
@@ -171,11 +170,12 @@ var displayReviewOrder = function(selector) {
     products: selectedProducts,
     product_url: $("body").data("variant_options_response")["product_url"],
     shipping_address: $("body").data("shipping_address_data"),
-    payment_method: $("body").data("store_card_response")
+    payment_method: $("body").data("store_card_response"),
+    price_components: $("body").data("review_order_response")["price_components"]
   };
 
   $(selector).append(
-    Handlebars.partials["_review_order"](data)
+    Handlebars.templates["review_order"](data)
   );
 }
 
@@ -293,7 +293,7 @@ $(function() {
               Handlebars.partials["_place_order"](data)
             );
 
-            displayReviewOrder(".review-order .review-order-information");
+            displayReviewOrder(".review-order");
             updateProgressBar("100%");
             showSection(".review-order");
           })
