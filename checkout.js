@@ -64,7 +64,7 @@ var makeZincRequest = function(options) {
     url: options['url'],
     type: "POST",
     dataType: "json",
-    afterSend: function() {
+    beforeSend: function() {
       loadingSpinner("Making request to '" + options['url'] + "'");
     },
     data: JSON.stringify(options['data'])
@@ -124,7 +124,7 @@ var _convertToSelector = function(attribute) {
 
 var populateProducts = function(selector) {
   var products = [{
-    "product_id": $(selector).last().attr('product-id'),
+    "product_id": $(selector).val(),
     "quantity": 1
   }];
 
@@ -218,7 +218,8 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("variant_options_response", data);
-        ProductDimensions.createProductDropdowns("#shipping-methods-form .product-results", data["variant_options"]);
+        ProductDimensions.createProductDropdowns(
+          "#shipping-methods-form .product-results", data["variant_options"]);
 
         updateProgressBar("40%");
         showSection(".shipping-methods");
@@ -234,7 +235,7 @@ $(function() {
       url: "https://demotwo.zinc.io/v0/shipping_methods",
       data: {
         "retailer": $("body").data("variant_options_response")["retailer"],
-        "products": populateProducts("#shipping-methods-form select.dimension-values"),
+        "products": populateProducts("#shipping-methods-form .variant-product-info input.product-id"),
         "shipping_address": shippingAddressData
       },
       callback: handleZincResponse(function(data) {
