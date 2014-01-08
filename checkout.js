@@ -70,6 +70,8 @@ var makeZincRequest = function(options) {
     data: JSON.stringify(options['data'])
   }).done(function(data){
     waitForResult(options['url'], data['request_id'], options['callback']);
+  }).fail(function(jqXhr, textStatus){
+    showError({ "message": "Oops, it seems like we weren't able to reach the Zinc server." });
   });
 };
 
@@ -91,6 +93,8 @@ var waitForResult = function(url, requestId, callback) {
     } else {
       callback(data);
     }
+  }).fail(function(jqXhr, textStatus){
+    showError({ "message": "Oops, it seems like we weren't able to reach the Zinc server." });
   });
 };
 
