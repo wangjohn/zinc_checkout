@@ -103,17 +103,21 @@ var ProductDimensions = (function() {
     var dimensionNames = [];
     var namesToIndices = {};
     var dimensions = {};
+    var dimensionProductMap = {};
 
-    for (var i in variantOptions) {
+    for (var i=0; i<variantOptions.length; i++) {
       var currentDimensions = variantOptions[i]["dimensions"];
       currentDimensions.sort(function(a,b) { return a["name"].localeCompare(b["name"]) });
+      var currentDimensionProductMap = dimensionProductMap;
 
-      for (var j in currentDimensions) {
+      for (var j=0; j<currentDimensions.length; j++) {
         if (i == 0) {
           namesToIndices[currentDimensions[j]["name"]] = j;
           dimensionNames.push(currentDimensions[j]["name"]);
         }
 
+        // TODO: currentDimensionProductMap finish
+        currentDimensionProductMap[currentDimensions[j]["value"]]
         _insertLatestDimension(j, currentDimensions, dimensions);
       }
     };
@@ -122,6 +126,20 @@ var ProductDimensions = (function() {
       "namesToIndices": namesToIndices,
       "dimensionNames": dimensionNames,
       "dimensions": dimensions
+    }
+  };
+
+  var _constructDimensionProductMap = function(variantOptions) {
+    var dimensionProductMap = {};
+
+    for (var i=0; i<variantOptions.length; i++) {
+      var currentDimensions = variantOptions[i]["dimensions"];
+      currentDimensions.sort(function(a,b) { return a["name"].localeCompare(b["name"]) });
+
+      var currentMap = dimensionProductMap;
+      for (var j=0; j<currentDimensions.length; j++) {
+        currentMap[
+      }
     }
   };
 

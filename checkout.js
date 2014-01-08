@@ -123,14 +123,10 @@ var _convertToSelector = function(attribute) {
  */
 
 var populateProducts = function(selector) {
-  var products = [];
-  $(selector).each(function(index, value){
-    selectedObj = $(value);
-    products.push({
-      "product_id": selectedObj.attr('name'),
-      "quantity": selectedObj.closest(".variant").find(".variant-quantity").val()
-    });
-  });
+  var products = [{
+    "product_id": $(selector).last().attr('product-id'),
+    "quantity": 1
+  }];
 
   $('body').data("products", products);
   return products;
@@ -238,7 +234,7 @@ $(function() {
       url: "https://demotwo.zinc.io/v0/shipping_methods",
       data: {
         "retailer": $("body").data("variant_options_response")["retailer"],
-        "products": populateProducts("#shipping-methods-form input.variant-checkbox:checked"),
+        "products": populateProducts("#shipping-methods-form select.dimension-values"),
         "shipping_address": shippingAddressData
       },
       callback: handleZincResponse(function(data) {
