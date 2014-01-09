@@ -33,7 +33,7 @@ var showSection = function(section) {
 
 var handleZincResponse = function(func) {
   return function(data) {
-    if (data['_type'] == 'error') {
+    if (data['_type'] === 'error') {
       showError(data);
     } else {
       func(data);
@@ -89,12 +89,12 @@ var waitForResult = function(url, requestId, callback) {
       loadingSpinner('Waiting for response to request_id: ' + requestId);
     },
   }).done(function(data) {
-    if (data['_type'] == "error" && data['code'] == "request_processing") {
+    if (data['_type'] === "error" && data['code'] === "request_processing") {
       console.log('waiting');
       setTimeout(function() {
         waitForResult(url, requestId, callback)
       }, 1000);
-    } else if (data['_type'] == "error") {
+    } else if (data['_type'] === "error") {
       showError(data);
     } else {
       callback(data);

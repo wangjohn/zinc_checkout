@@ -3,9 +3,24 @@
   var iframeSource = "modal.html";
   var defaultButtonText = "Checkout";
 
-  var jqueryUrl = "assets/jquery-1.10.2.min.js";
-  var bootstrapJsUrl = "assets/bootstrap.js";
-  var buttonCssUrl = "button.css";
+  var resourceLoading = {
+    "jquery": {
+      "url": "assets/jquery-1.10.2.min.js",
+      "skipLoad": function() {
+        return (window.jQuery);
+      }
+    },
+    "bootstrap-js": {
+      "url": "assets/bootstrap.js",
+      "skipLoad": function() {
+        return (typeof $().modal == 'function');
+      }
+    },
+    "button-css": {
+      "url": "button.css",
+      "skipLoad": function() { false }
+    }
+  };
 
   var retailerRegex = /amazon|macys|jcrew/;
 
@@ -14,37 +29,44 @@
   var zincModalId = "zinc-checkout-modal";
   var zincModalContentId = "zinc-checkout-modal-content";
 
-  var loadScript = function(url, callback) {
-    if (/.css/.test(url)) {
-      script = document.createElement('link');
-      script.rel = "stylesheet";
-      script.type = "text/css";
-      script.href = url;
+  var loadScript = function(scriptData, callback) {
+    var url = scriptData["url"];
+    var skipLoad = scriptData["skipLoad"];
+
+    if (skipLoad()) {
+      callback();
     } else {
-      var script = document.createElement('script');
-      script.src = url;
-    }
-    script.async = true;
-
-    var entry = document.getElementsByTagName('script')[0];
-    entry.parentNode.insertBefore(script, entry);
-
-    script.onload = script.onreadstatechange = function() {
-      var rdyState = script.readyState;
-
-      if (!rdyState || /complete|loaded/.test(script.readyState)) {
-        callback();
-
-        script.onload = null;
-        script.onreadystatechange = null;
+      if (/.css/.test(url)) {
+        script = document.createElement('link');
+        script.rel = "stylesheet";
+        script.type = "text/css";
+        script.href = url;
+      } else {
+        var script = document.createElement('script');
+        script.src = url;
       }
-    };
+      script.async = true;
+
+      var entry = document.getElementsByTagName('script')[0];
+      entry.parentNode.insertBefore(script, entry);
+
+      script.onload = script.onreadstatechange = function() {
+        var rdyState = script.readyState;
+
+        if (!rdyState || /complete|loaded/.test(script.readyState)) {
+          callback();
+
+          script.onload = null;
+          script.onreadystatechange = null;
+        }
+      };
+    }
   };
 
   var initialize = function(){
-    loadScript(buttonCssUrl, function() {
-      loadScript(jqueryUrl, function() {
-        loadScript(bootstrapJsUrl, function() {
+    loadScript(resourceLoading["button-css"], function() {
+      loadScript(resourceLoading["jquery"], function() {
+        loadScript(resourceLoading["bootstrap-js"], function() {
           var scriptElement = findScriptElement();
           var modal = createModalElement();
 

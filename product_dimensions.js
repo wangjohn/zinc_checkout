@@ -38,7 +38,7 @@ var ProductDimensions = (function() {
     return function() {
       var name = dimensionNames[i];
       var keys;
-      if (i == 0){
+      if (i === 0){
         keys = _listOfKeys(dimensions);
       } else {
         keys = [];
@@ -110,7 +110,7 @@ var ProductDimensions = (function() {
       var productMap = dimensionProductMap;
 
       for (var j=0; j<currentDimensions.length; j++) {
-        if (i == 0) {
+        if (i === 0) {
           namesToIndices[currentDimensions[j]["name"]] = j;
           dimensionNames.push(currentDimensions[j]["name"]);
         }
