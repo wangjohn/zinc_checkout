@@ -9,6 +9,7 @@ var showError = function(data) {
   $(".error-message").html(data['message']);
   $(".error-handling").alert();
   $(".error-handling").show();
+  triggerResizeEvent();
 };
 
 var updateProgressBar = function(completion) {
@@ -19,6 +20,7 @@ var loadingSpinner = function(spinnerText) {
   $(".zinc-view").children().hide();
   $(".spinner").show();
   $(".spinner .spinner-text").text(spinnerText);
+  triggerResizeEvent();
 };
 
 var showSection = function(section) {
@@ -26,6 +28,7 @@ var showSection = function(section) {
   $(section).show();
   $(".stage-navigation").find("li.active").removeClass("active");
   $(".stage-navigation").find(section + "-nav").addClass("active");
+  triggerResizeEvent();
 };
 
 var handleZincResponse = function(func) {
@@ -60,6 +63,9 @@ var valPassingCall = function(cb) {
 };
 
 var makeZincRequest = function(options) {
+  var data = options["data"];
+  data["client_token"] = "zinc_monkey";
+
   $.ajax({
     url: options['url'],
     type: "POST",
@@ -67,7 +73,7 @@ var makeZincRequest = function(options) {
     beforeSend: function() {
       loadingSpinner("Making request to '" + options['url'] + "'");
     },
-    data: JSON.stringify(options['data'])
+    data: JSON.stringify(data)
   }).done(function(data){
     waitForResult(options['url'], data['request_id'], options['callback']);
   }).fail(function(jqXhr, textStatus){
@@ -96,6 +102,10 @@ var waitForResult = function(url, requestId, callback) {
   }).fail(function(jqXhr, textStatus){
     showError({ "message": "Oops, it seems like we weren't able to reach the Zinc server." });
   });
+};
+
+var triggerResizeEvent = function() {
+  $("#content-wrapper").trigger("zinc-resize");
 };
 
 var initializeHandlebars = function() {

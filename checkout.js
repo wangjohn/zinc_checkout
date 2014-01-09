@@ -1,12 +1,17 @@
 (function(){
 
   var iframeSource = "modal.html";
-  var scriptElementId = "zinc-checkout";
   var defaultButtonText = "Checkout";
 
   var jqueryUrl = "assets/jquery-1.10.2.min.js";
   var bootstrapJsUrl = "assets/bootstrap.js";
   var buttonCssUrl = "button.css";
+
+  var scriptElementId = "zinc-checkout";
+  var zincIframeId = "zinc-checkout-iframe";
+  var zincModalId = "zinc-checkout-modal";
+  var zincModalContentId = "zinc-checkout-modal-content";
+  var zincButtonId = "zinc-checkout-button";
 
   var loadScript = function(url, callback) {
     if (/.css/.test(url)) {
@@ -47,13 +52,42 @@
           document.body.insertBefore(modal, scriptElement);
 
           $(function() {
-            $("#zinc-checkout-modal").modal({
+            $("#" + zincModalId).modal({
               show: false
             });
+
+            var iframe = document.getElementById(zincIframeId);
+            $("#" + zincModalId).on("shown.bs.modal", function(e) {
+              resizeModal(iframe);
+            });
+
+            dynamicResizeIFrame();
           });
         });
       });
     });
+  };
+
+  var dynamicResizeIFrame = function() {
+    var iframe = document.getElementById(zincIframeId);
+    iframe.onload = function() {
+      iframe.contentWindow.$("#content-wrapper").on("zinc-resize", function() {
+        resizeModal(iframe);
+      });
+    };
+  };
+
+  var resizeModal = function(iframe) {
+    var height;
+    if (iframe.contentDocument.getElementById("content-wrapper")) {
+      height = iframe.contentDocument.getElementById("content-wrapper").scrollHeight;
+    } else if (iframe.contentWindow.document.getElementById("content-wrapper")) {
+      height = iframe.contentWindow.document.getElementById("content-wrapper").scrollHeight;
+    }
+
+    if (height) {
+      document.getElementById(zincModalContentId).style.height = height;
+    }
   };
 
   var findScriptElement = function() {
@@ -67,7 +101,7 @@
   var createModalElement = function() {
     var modal = document.createElement("div");
     modal.className = "modal fade";
-    modal.id = "zinc-checkout-modal";
+    modal.id = zincModalId;
     modal.setAttribute("tab-index", "-1");
     modal.setAttribute("role", "dialog");
     modal.setAttribute("aria-labelledby", "zinc-checkout-modal-label");
@@ -78,6 +112,7 @@
 
     var modalContent = document.createElement("div");
     modalContent.className = "modal-content";
+    modalContent.id = zincModalContentId;
 
     modalContent.appendChild(createModalHeader());
     modalContent.appendChild(createIFrameElement());
@@ -101,7 +136,7 @@
     dismiss.setAttribute("aria-hidden", "true");
     dismiss.style.position = "relative";
     dismiss.style.zIndex = "1";
-    dismiss.style.margin = "25px 40px 0";
+    dismiss.style.margin = "15px 40px 0";
     dismiss.innerHTML = "&times;";
 
     modalHeader.appendChild(dismiss);
@@ -111,6 +146,7 @@
   var createIFrameElement = function() {
     var iframe = document.createElement("iframe");
     iframe.className = "modal-body";
+    iframe.id = zincIframeId;
     iframe.setAttribute("src", iframeSource);
 
     // Styling the iframe
@@ -118,7 +154,7 @@
     iframe.style.padding = "0px";
     iframe.style.position = "relative";
     iframe.style.width = "100%";
-    iframe.style.height = "80%";
+    iframe.style.height = "100%";
 
     return iframe;
   };
@@ -126,6 +162,7 @@
   var createButtonElement = function(buttonText) {
     var button = document.createElement("button");
     button.className = "zinc-button-el";
+    button.id = zincButtonId;
     button.setAttribute("data-toggle", "modal");
     button.setAttribute("data-target", "#zinc-checkout-modal");
     button.style.visibility = "visible";
