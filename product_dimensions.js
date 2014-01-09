@@ -30,21 +30,22 @@ var ProductDimensions = (function() {
     var dimensions = productDimensions["dimensions"];
     var dimensionNames = productDimensions["dimensionNames"];
     for (var i=0; i<dimensionNames.length; i++) {
-      dimensions = _initializeDropdown(selector, i, dimensionNames, dimensions)();
+      _initializeDropdown(selector, i, dimensionNames, dimensions)();
     }
   };
 
   var _initializeDropdown = function(selector, i, dimensionNames, dimensions) {
     return function() {
       var name = dimensionNames[i];
-      var keys = _listOfKeys(dimensions);
+      var keys;
+      if (i == 0){
+        keys = _listOfKeys(dimensions);
+      } else {
+        keys = [];
+      }
       _dimensionSelectElement(selector, name).append(
         dimensionSelectTemplate({values: keys, name: name})
       );
-
-      if (i < dimensionNames.length - 1) {
-        return dimensions[keys[0]];
-      }
     };
   };
 

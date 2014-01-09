@@ -177,8 +177,4 @@
   };
 
   initialize();
-  return function() {
-    console.log("Asdf");
-    initialize()
-  };
 })();

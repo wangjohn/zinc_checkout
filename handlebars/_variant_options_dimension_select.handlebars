@@ -1,4 +1,8 @@
-<select class="dimension-values form-control input-sm {{ sanitizeName name }}" name="{{name }}">
+<select class="dimension-values form-control input-sm {{ sanitizeName name }}"
+  name="{{name }}"
+  data-validation-regex-regex="^(?!\s*$).+"
+  data-validation-regex-message="You must select an option"
+>
   <option value="" disabled selected>Select {{ capitalize name }}</option>
   {{#each values}}
     <option value="{{ this }}">{{ this }}</option>
