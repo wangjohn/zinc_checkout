@@ -109,7 +109,6 @@ var triggerResizeEvent = function() {
 };
 
 var initializeHandlebars = function() {
-  $('.variant-options').append(Handlebars.templates['variant_options']());
   $('.shipping-methods').append(
     Handlebars.templates['shipping_methods']({ phone_number: true })
   );
@@ -227,12 +226,12 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
-  $("#variant-options-form").on("submit", valPassingCall(function(e) {
+  $("body").on("variant_options_request", function(e) {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/variant_options",
       data: {
-        "retailer": $("#variant-options-form select.retailer").val(),
-        "product_url": $("#variant-options-form input.product-url").val()
+        "retailer": e.data.retailer,
+        "product_url": e.data.product_url
       },
       callback: handleZincResponse(function(data) {
         $("body").data("variant_options_response", data);
@@ -244,7 +243,7 @@ $(function() {
         showSection(".shipping-methods");
       })
     });
-  }));
+  });
 
   $("#shipping-methods-form").on("submit", valPassingCall(function(e) {
     var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes.concat("phone_number"));
