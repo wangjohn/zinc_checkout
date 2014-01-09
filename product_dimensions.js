@@ -169,7 +169,6 @@ var ProductDimensions = (function() {
 
     if (productDimensions["dimensionNames"].length === 0 &&
         variantOptions.length > 0) {
-      console.log(variantOptions);
       var productInfo = {
         "product_id": variantOptions[0]["product_id"],
         "unit_price": variantOptions[0]["unit_price"]

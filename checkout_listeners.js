@@ -99,6 +99,7 @@ var waitForResult = function(url, requestId, callback) {
     } else {
       callback(data);
     }
+    triggerResizeEvent();
   }).fail(function(jqXhr, textStatus){
     showError({ "message": "Oops, it seems like we weren't able to reach the Zinc server." });
   });
@@ -226,12 +227,12 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
-  $("body").on("variant_options_request", function(e) {
+  $("body").on("variant_options_request", function(e, eventData) {
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/variant_options",
       data: {
-        "retailer": e.data.retailer,
-        "product_url": e.data.product_url
+        "retailer": eventData.retailer,
+        "product_url": eventData.product_url
       },
       callback: handleZincResponse(function(data) {
         $("body").data("variant_options_response", data);

@@ -47,7 +47,7 @@
           var scriptElement = findScriptElement();
           var modal = createModalElement();
 
-          document.body.insertBefore(button, scriptElement);
+          document.body.insertBefore(modal, scriptElement);
 
           $(function() {
             $("#" + zincModalId).modal({
@@ -55,8 +55,8 @@
             });
 
             var iframe = document.getElementById(zincIframeId);
-            $("#" + zincModalId).on("zinc_modal_event", function(e) {
-              $(iframe.contentWindow.document.body).trigger("variant_options_request", e.data);
+            $("#" + zincModalId).on("zinc_modal_event", function(e, data) {
+              iframe.contentWindow.$("#content-wrapper").trigger("variant_options_request", data);
               $(this).modal('show');
             });
 
