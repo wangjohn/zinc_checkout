@@ -108,20 +108,13 @@
   var dynamicResizeIFrame = function() {
     var iframe = document.getElementById(zincIframeId);
     iframe.onload = function() {
-      iframe.contentWindow.$("#content-wrapper").on("zinc-resize", function() {
-        resizeModal(iframe);
+      iframe.contentWindow.$("#content-wrapper").on("zinc-resize", function(e, data) {
+        resizeModal(data);
       });
     };
   };
 
-  var resizeModal = function(iframe) {
-    var height;
-    if (iframe.contentDocument.getElementById("content-wrapper")) {
-      height = iframe.contentDocument.getElementById("content-wrapper").scrollHeight;
-    } else if (iframe.contentWindow.document.getElementById("content-wrapper")) {
-      height = iframe.contentWindow.document.getElementById("content-wrapper").scrollHeight;
-    }
-
+  var resizeModal = function(height) {
     if (height) {
       document.getElementById(zincModalContentId).style.height = height;
     }

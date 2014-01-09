@@ -99,14 +99,14 @@ var waitForResult = function(url, requestId, callback) {
     } else {
       callback(data);
     }
-    triggerResizeEvent();
   }).fail(function(jqXhr, textStatus){
     showError({ "message": "Oops, it seems like we weren't able to reach the Zinc server." });
   });
 };
 
 var triggerResizeEvent = function() {
-  $("#content-wrapper").trigger("zinc-resize");
+  var height = $("#content-wrapper").outerHeight();
+  $("#content-wrapper").trigger("zinc-resize", height);
 };
 
 var initializeHandlebars = function() {
