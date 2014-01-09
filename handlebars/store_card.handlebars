@@ -5,16 +5,17 @@
   <div class="number form-group">
     <label class="col-sm-3 control-label">Credit Card Number</label>
     <div class="col-sm-8 controls">
-      <input class="number form-control input-sm" 
+      <input class="number form-control"
         type="text" name="number" required
-        placeholder="**** **** **** ****">
+        inputmode="numeric" autocomplete="cc-number" autocompletetype="cc-number" x-autocompletetype="cc-number"
+        placeholder="&#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149; &#149;&#149;&#149;&#149;">
     </div>
   </div>
   <div class="expiration-month form-group">
     <label class="col-sm-3 control-label">Expiration</label>
     <div class="controls">
       <div class="col-sm-3">
-        <select class="expiration-month form-control input-sm" name="expiration-month" type="number" data-validation-number-message="You must select a month" required>
+        <select class="expiration-month form-control" name="expiration-month" type="number" data-validation-number-message="You must select a month" required>
           <option selected="selected">Month</option>
           <option>01</option>
           <option>02</option>
@@ -31,7 +32,7 @@
         </select>
       </div>
       <div class="col-sm-5">
-        <select class="expiration-year form-control input-sm" name="expiration-year" type="number" data-validation-number-message="You must select a year" required>
+        <select class="expiration-year form-control" name="expiration-year" type="number" data-validation-number-message="You must select a year" required>
           <option selected="selected">Year</option>
           <option>14</option>
           <option>15</option>
@@ -53,20 +54,20 @@
   <div class="security-code form-group">
     <label class="col-sm-3 control-label">Security Code</label>
     <div class="col-sm-3 controls">
-      <input class="security-code form-control input-sm" type="text" name="security-code" required>
+      <input class="security-code form-control" type="text" name="security-code" required>
     </div>
   </div>
   <h2 class="page-header">Order Information</h2>
   <div class="is-gift form-group">
     <label class="col-sm-3 control-label">Send As Gift</label>
     <div class="col-sm-8 controls">
-      <input class="is-gift input-sm" type="checkbox" name="is-gift">
+      <input class="is-gift" type="checkbox" name="is-gift">
     </div>
   </div>
   <div class="email-address form-group">
     <label class="col-sm-3 control-label">Confirmation Email</label>
     <div class="col-sm-8 controls">
-      <input class="email-address input-sm form-control" type="email" name="email-address" required>
+      <input class="email-address form-control" type="email" name="email-address" required>
     </div>
   </div>
   <h2 class="page-header">Billing Address</h2>

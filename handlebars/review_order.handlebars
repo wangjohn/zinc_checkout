@@ -5,7 +5,7 @@
       <div class="retailer-name form-group">
         <label class="col-sm-3 control-label">Retailer Name</label>
         <div class="col-sm-8 controls">
-          <p class="form-control-static input-sm">{{ capitalize retailer }}</p>
+          <p class="form-control-static">{{ capitalize retailer }}</p>
         </div>
       </div>
     </div>
@@ -16,28 +16,28 @@
       <div class="variant-url form-group">
         <label class="col-sm-3 control-label">Product URL</label>
         <div class="col-sm-8 controls">
-          <p class="form-control-static input-sm">{{ product_url }}</p>
+          <p class="form-control-static">{{ product_url }}</p>
         </div>
       </div>
       {{#each products}}
         <div class="variant-price form-group">
           <label class="col-sm-3 control-label">Price</label>
           <div class="col-sm-8 controls">
-            <p class="form-control-static input-sm">{{ displayDollars unit_price }}</p>
+            <p class="form-control-static">{{ displayDollars unit_price }}</p>
           </div>
         </div>
         {{#each dimensions}}
           <div class="variant-description form-group">
             <label class="col-sm-3 control-label">{{ capitalize name}}</label>
             <div class="col-sm-8 controls">
-              <p class="form-control-static input-sm">{{ value }}</p>
+              <p class="form-control-static">{{ value }}</p>
             </div>
           </div>
         {{/each}}
         <div class="variant-quantity form-group">
           <label class="col-sm-3 control-label">Quantity</label>
           <div class="col-sm-8 controls">
-            <p class="form-control-static input-sm">{{ quantity }}</p>
+            <p class="form-control-static">{{ quantity }}</p>
           </div>
         </div>
       {{/each}}
@@ -53,13 +53,13 @@
       <div class="payment-method-brand form-group">
         <label class="col-sm-3 control-label">Credit Card Brand</label>
         <div class="col-sm-8 controls">
-          <p class="form-control-static input-sm">{{ payment_method.brand }}</p>
+          <p class="form-control-static">{{ payment_method.brand }}</p>
         </div>
       </div>
       <div class="payment-method-last-four form-group">
         <label class="col-sm-3 control-label">Credit Card</label>
         <div class="col-sm-8 controls">
-          <p class="form-control-static input-sm">
+          <p class="form-control-static">
             **** **** **** {{ payment_method.last_four }}
           </p>
         </div>
