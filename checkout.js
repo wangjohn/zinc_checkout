@@ -7,11 +7,12 @@
   var bootstrapJsUrl = "assets/bootstrap.js";
   var buttonCssUrl = "button.css";
 
+  var retailerRegex = /amazon|macys|jcrew/;
+
   var scriptElementId = "zinc-checkout";
   var zincIframeId = "zinc-checkout-iframe";
   var zincModalId = "zinc-checkout-modal";
   var zincModalContentId = "zinc-checkout-modal-content";
-  var zincButtonId = "zinc-checkout-button";
 
   var loadScript = function(url, callback) {
     if (/.css/.test(url)) {
@@ -50,6 +51,7 @@
           document.body.insertBefore(modal, scriptElement);
 
           $(function() {
+            retargetAffiliateLinks(scriptElement);
             $("#" + zincModalId).modal({
               show: false
             });
@@ -69,6 +71,38 @@
         });
       });
     });
+  };
+
+  var retargetAffiliateLinks = function(scriptElement) {
+    if (scriptElement.getAttribute("zinc-selector")) {
+      // If the user specified a selector to use, we should use it.
+      var selector = scriptElement.getAttribute("zinc-selector");
+      $("body").on("click", selector, retargetToModal);
+    } else {
+      // Otherwise, we're going to go look for things that look like affiliate links.
+      $("body").on("click", "a", function(e) {
+        if (retailerRegex.test(e.currentTarget.href)) {
+          retargetToModal(e);
+        }
+      });
+    }
+  };
+
+  var retargetToModal = function(e) {
+    var data = _parseVariantRequestData(e);
+    $("#" + zincModalId).trigger("zinc_modal_event", data);
+    return false;
+  };
+
+  var _parseVariantRequestData = function(e) {
+    var url = e.currentTarget.href;
+    // TODO: have a better way of parsing out retailers from the url
+    var retailerList = retailerRegex.exec(url);
+
+    return {
+      "retailer": retailerList[0],
+      "product_url": url
+    };
   };
 
   var dynamicResizeIFrame = function() {
@@ -160,23 +194,6 @@
     iframe.style.height = "100%";
 
     return iframe;
-  };
-
-  var createButtonElement = function(buttonText) {
-    var button = document.createElement("button");
-    button.className = "zinc-button-el";
-    button.id = zincButtonId;
-    button.setAttribute("data-toggle", "modal");
-    button.setAttribute("data-target", "#zinc-checkout-modal");
-    button.style.visibility = "visible";
-
-    var buttonSpan = document.createElement("span");
-    buttonSpan.innerHTML = buttonText;
-    button.style.display = "block";
-    button.style.minHeight = "30px";
-
-    button.appendChild(buttonSpan);
-    return button;
   };
 
   initialize();
