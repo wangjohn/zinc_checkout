@@ -64,14 +64,19 @@
   <div class="email-address form-group">
     <label class="col-sm-3 control-label">Confirmation Email</label>
     <div class="col-sm-8 controls">
-      <input class="email-address input-sm form-control" type="email" name="email-address" required >
+      <input class="email-address input-sm form-control" type="email" name="email-address" required>
     </div>
   </div>
   <h2 class="page-header">Billing Address</h2>
   <div class="form-group billing-address">
-    <label class="col-sm-3 control-label">My shipping address is the same as my billing address</label>
-    <div class="col-sm-3 controls">
-      <input class="use-shipping-address input-sm" type="checkbox" checked>
+    <label class="col-sm-3 control-label">Use Shipping Address</label>
+    <div class="col-sm-8 controls">
+      <div class="checkbox">
+        <label class="checkbox-inline">
+          <input class="use-shipping-address checkbox" type="checkbox" checked>
+          My shipping address is the same as my billing address.
+        </label>
+      </div>
     </div>
   </div>
   <div class="billing-address-information" style="display:none;">
