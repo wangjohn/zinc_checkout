@@ -29,7 +29,7 @@ var ProductDimensions = (function() {
   var _initializeStartingDropdowns = function(selector, productDimensions) {
     var dimensions = productDimensions["dimensions"];
     var dimensionNames = productDimensions["dimensionNames"];
-    for (var i in dimensionNames) {
+    for (var i=0; i<dimensionNames.length; i++) {
       dimensions = _initializeDropdown(selector, i, dimensionNames, dimensions)();
     }
   };
@@ -57,14 +57,19 @@ var ProductDimensions = (function() {
   };
 
   var _dimensionSelectElement = function(selector, name) {
-    return $(selector).find(".variant-dimension").find("." + name);
+    return $(selector).find(".variant-dimension").find("." + _sanitizeName(name));
+  };
+
+  var _sanitizeName = function(name) {
+    return Handlebars.helpers.sanitizeName(name);
   };
 
   var _getPrevDimensionValues = function(selector, index, productDimensions) {
     var prevValues = [];
 
     for (var i=0; i<index; i++) {
-      var val = $(selector).find("select." + productDimensions["dimensionNames"][i]).val();
+      var val = $(selector).find("select." + 
+          _sanitizeName(productDimensions["dimensionNames"][i])).val();
       prevValues.push(val);
     }
 

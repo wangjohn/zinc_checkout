@@ -1,7 +1,7 @@
 {{#each dimensionNames}}
   <div class="variant-dimension form-group">
     <label class="col-sm-3 control-label">{{ capitalize this }}</label>
-    <div class="col-sm-8 controls {{ this }}">
+    <div class="col-sm-8 controls {{ sanitizeName this }}">
     </div>
   </div>
 {{/each}}

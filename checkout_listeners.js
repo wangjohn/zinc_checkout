@@ -124,6 +124,10 @@ var initializeHandlebars = function() {
   Handlebars.registerHelper("displayDollars", function(cents, options) {
     return "$" + (parseInt(cents) / 100).toString();
   });
+
+  Handlebars.registerHelper("sanitizeName", function(name) {
+    return name.replace(/\s/, "-");
+  });
 };
 
 var _convertToSelector = function(attribute) {
