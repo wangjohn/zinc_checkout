@@ -163,17 +163,28 @@ var ProductDimensions = (function() {
 
   var createProductDropdowns = function(selector, variantOptions) {
     var productDimensions = _getProductDimensions(variantOptions);
-
-    // Initialize the product dropdown html
     $(selector).append(
       dropdownTemplate(productDimensions)
     );
-    _initializeStartingDropdowns(selector, productDimensions);
 
+    if (productDimensions["dimensionNames"].length === 0 &&
+        variantOptions.length > 0) {
+      console.log(variantOptions);
+      var productInfo = {
+        "product_id": variantOptions[0]["product_id"],
+        "unit_price": variantOptions[0]["unit_price"]
+      };
+      $(selector).find(".variant-product-info").html(
+        productInfoTemplate(productInfo)
+      );
+    } else {
+      // Initialize the product dropdown html
+      _initializeStartingDropdowns(selector, productDimensions);
 
-    // Listeners for the product dimensions
-    for (var i=0; i<productDimensions["dimensionNames"].length; i++) {
-      _dropdownChangeListener(i, productDimensions, selector)();
+      // Listeners for the product dimensions
+      for (var i=0; i<productDimensions["dimensionNames"].length; i++) {
+        _dropdownChangeListener(i, productDimensions, selector)();
+      }
     }
   };
 
