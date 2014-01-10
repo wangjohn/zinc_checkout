@@ -1,23 +1,25 @@
 (function(){
 
-  var iframeSource = "modal.html";
+  var zincUrl = "http://zinc.io/zinc_checkout/"
+
+  var iframeSource = zincUrl + "modal.html";
   var defaultButtonText = "Checkout";
 
   var resourceLoading = {
     "jquery": {
-      "url": "assets/jquery-1.10.2.min.js",
+      "url": zincUrl + "assets/jquery-1.10.2.min.js",
       "skipLoad": function() {
         return (window.jQuery);
       }
     },
     "bootstrap-js": {
-      "url": "assets/bootstrap.js",
+      "url": zincUrl + "assets/bootstrap.js",
       "skipLoad": function() {
         return (typeof $().modal == 'function');
       }
     },
     "button-css": {
-      "url": "button.css",
+      "url": zincUrl + "button.css",
       "skipLoad": function() { false }
     }
   };
