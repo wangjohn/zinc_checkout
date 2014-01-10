@@ -140,8 +140,16 @@
   };
 
   var dynamicResizeIFrame = function() {
-    $("#" + zincIframeId).on('zinc-resize', function(e, data) {
-      resizeModal(data);
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+    // Listen to message from child window
+    eventer(messageEvent, function(e) {
+      var match = /zinc-resize-height=(.*)/.exec(e.data);
+      if (match.length > 1) {
+        resizeModal(match[1]);
+      }
     });
   };
 
