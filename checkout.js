@@ -116,7 +116,7 @@
       // Otherwise, we're going to go look for things that look like affiliate links.
       $("body").on("click", "a", function(e) {
         if (retailerRegex.test(e.currentTarget.href)) {
-          retargetToModal(e);
+          return retargetToModal(e);
         }
       });
     }
