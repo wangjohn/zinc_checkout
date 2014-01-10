@@ -1,13 +1,9 @@
 #zinc-checkout-modal.modal-open,
 #zinc-checkout-modal.modal,
-#zinc-checkout-modal.modal.fade .modal-dialog,
-#zinc-checkout-modal.modal.in .modal-dialog,
 #zinc-checkout-modal .modal-dialog,
 #zinc-checkout-modal .modal-content,
 #zinc-checkout-modal+.modal-backdrop,
-#zinc-checkout-modal+.modal-backdrop.fade,
 #zinc-checkout-modal button.close,
-#zinc-checkout-modal+.modal-backdrop.in,
 #zinc-checkout-modal .modal-body,
 #zinc-checkout-modal .modal-dialog,
 #zinc-checkout-modal .modal-content,
@@ -177,8 +173,7 @@
   left: 0;
   z-index: 1040;
   display: none;
-  overflow: auto;
-  overflow-y: scroll;
+  overflow: hidden;
   background-color: rgba(0, 0, 0, 0);
 }
 
