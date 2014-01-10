@@ -82,7 +82,7 @@
 
             var iframe = document.getElementById(zincIframeId);
             $("#" + zincModalId).on("zinc_modal_event", function(e, data) {
-              iframe.contentWindow.$("#content-wrapper").trigger("variant_options_request", data);
+              iframe.setAttribute("src", _variantOptionsRequestSource(data));
               $(this).modal('show');
             });
 
@@ -95,6 +95,14 @@
         });
       });
     });
+  };
+
+  var _variantOptionsRequestSource(data) {
+    var queryStringArray = ["product_id=" + data["product_id"], 
+        "retailer=" + data["retailer"]];
+    var queryString = productId.join("&");
+
+    return (iframeSource + "?" + queryString);
   };
 
   var retargetAffiliateLinks = function(scriptElement) {

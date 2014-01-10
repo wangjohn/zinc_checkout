@@ -134,6 +134,22 @@ var _convertToSelector = function(attribute) {
   return "." + attribute.replace(/_/, "-");
 };
 
+var parseUrlParameters = function(url) {
+  var parameterSplit = url.split("?");
+  var result = {};
+
+  if (parameterSplit.length > 1) {
+    var individualParameterPairs = parameterSplit[1].split("&");
+
+    for (var i=0; i<individualParameterPairs.length; i++) {
+      var param = individualParameterPairs[i].split("=");
+      result[param[0]] = param[1];
+    }
+  }
+
+  return result;
+};
+
 /**
  * API Call specific functions
  * ----------------------------------------------------------------------------
@@ -227,12 +243,13 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
-  $("body").on("variant_options_request", function(e, eventData) {
+  $(window).load(function(e) {
+    eventData = parseUrlParameters(window.location.href);
     makeZincRequest({
       url: "https://demotwo.zinc.io/v0/variant_options",
       data: {
-        "retailer": eventData.retailer,
-        "product_url": eventData.product_url
+        "retailer": eventData["retailer"],
+        "product_url": eventData["product_url"]
       },
       callback: handleZincResponse(function(data) {
         $("body").data("variant_options_response", data);
