@@ -3,6 +3,10 @@
 HANDLEBARS_PATH = File.expand_path("../handlebars", __FILE__)
 COMPILED_TEMPLATE_PATH = File.expand_path("../compiled_templates", __FILE__)
 
+unless File.directory?(COMPILED_TEMPLATE_PATH)
+  Dir.mkdir(COMPILED_TEMPLATE_PATH)
+end
+
 Dir.foreach(HANDLEBARS_PATH) do |handlebars_file|
   if /\.handlebars$/ =~ handlebars_file
     handlebars_path = HANDLEBARS_PATH + "/" + handlebars_file
