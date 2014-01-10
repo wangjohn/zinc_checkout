@@ -97,10 +97,12 @@
     });
   };
 
-  var _variantOptionsRequestSource(data) {
-    var queryStringArray = ["product_id=" + data["product_id"], 
-        "retailer=" + data["retailer"]];
-    var queryString = productId.join("&");
+  var _variantOptionsRequestSource = function(data) {
+    var queryStringArray = [
+      encodeURIComponent("product_url") + "=" + encodeURIComponent(data["product_url"]),
+      encodeURIComponent("retailer") + "=" + encodeURIComponent(data["retailer"])
+    ];
+    var queryString = queryStringArray.join("&");
 
     return (iframeSource + "?" + queryString);
   };

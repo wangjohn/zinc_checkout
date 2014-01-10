@@ -136,14 +136,14 @@ var _convertToSelector = function(attribute) {
 
 var parseUrlParameters = function(url) {
   var parameterSplit = url.split("?");
+  var paramString = parameterSplit.slice(1).join("?");
   var result = {};
 
   if (parameterSplit.length > 1) {
-    var individualParameterPairs = parameterSplit[1].split("&");
-
-    for (var i=0; i<individualParameterPairs.length; i++) {
-      var param = individualParameterPairs[i].split("=");
-      result[param[0]] = param[1];
+    var match = /product_url=(.*)&retailer=(.*)/.exec(paramString);
+    if (match.length >= 3) {
+      result["product_url"] = decodeURIComponent(match[1]);
+      result["retailer"] = decodeURIComponent(match[2]);
     }
   }
 
