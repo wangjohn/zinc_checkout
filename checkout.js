@@ -203,7 +203,7 @@
     dismiss.setAttribute("aria-hidden", "true");
     dismiss.style.position = "relative";
     dismiss.style.zIndex = "1";
-    dismiss.style.margin = "15px 40px 0";
+    dismiss.style.margin = "20px -60px 0";
     dismiss.innerHTML = "&times;";
 
     modalHeader.appendChild(dismiss);

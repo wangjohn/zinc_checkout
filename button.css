@@ -1,11 +1,9 @@
 #zinc-checkout-modal.modal,
 #zinc-checkout-modal .modal-dialog,
-#zinc-checkout-modal .modal-content,
 #zinc-checkout-modal+.modal-backdrop,
 #zinc-checkout-modal button.close,
 #zinc-checkout-modal .modal-body,
 #zinc-checkout-modal .modal-dialog,
-#zinc-checkout-modal .modal-content,
 #zinc-checkout-modal button.close,
 #zinc-checkout-modal .close,
 #zinc-checkout-modal .close:hover,
@@ -163,7 +161,6 @@
 .modal-open {
   overflow: hidden;
 }
-
 #zinc-checkout-modal.modal {
   position: fixed;
   top: 0;
@@ -172,17 +169,14 @@
   left: 0;
   z-index: 1040;
   display: none;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: overlay;
   width: 50%;
   height: 80%;
   min-width: 770px;
   margin: auto;
-  background-color: rgba(0, 0, 0, 0);
   border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
   outline: none;
-  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
 }
 
 #zinc-checkout-modal.modal.fade .modal-dialog {
@@ -249,9 +243,10 @@
   filter: alpha(opacity=50);
 }
 
-#zinc-checkout-modal .modal-body {
+#zinc-checkout-modal #zinc-checkout-iframe.modal-body {
   position: relative;
   padding: 20px;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 768px) {
