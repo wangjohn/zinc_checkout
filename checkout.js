@@ -70,7 +70,7 @@
           var scriptElement = findScriptElement();
           var modal = createModalElement();
 
-          document.body.insertBefore(modal, scriptElement);
+          document.getElementsByTagName('body')[0].appendChild(modal);
 
           $(function() {
             retargetAffiliateLinks(scriptElement);
@@ -128,18 +128,13 @@
   };
 
   var dynamicResizeIFrame = function() {
-    var iframe = document.getElementById(zincIframeId);
-    iframe.onload = function() {
-      iframe.contentWindow.$("#content-wrapper").on("zinc-resize", function(e, data) {
-        resizeModal(data);
-      });
-    };
+    $("#" + zincIframeId).on('zinc-resize', function(e, data) {
+      resizeModal(data);
+    });
   };
 
   var resizeModal = function(height) {
-    if (height) {
-      document.getElementById(zincModalContentId).style.height = height;
-    }
+    $("#" + zincModalContentId).height(height);
   };
 
   var findScriptElement = function() {

@@ -106,7 +106,7 @@ var waitForResult = function(url, requestId, callback) {
 
 var triggerResizeEvent = function() {
   var height = $("#content-wrapper").outerHeight();
-  $("#content-wrapper").trigger("zinc-resize", height);
+  parent.$('#zinc-checkout-iframe').trigger('zinc-resize', height);
 };
 
 var initializeHandlebars = function() {
