@@ -3,6 +3,8 @@
  * ----------------------------------------------------------------------------
  */
 
+var zincUrl = "https://api.zinc.io/v0/";
+
 var showError = function(data) {
   $(".zinc-view").children().hide();
   $(".spinner").hide();
@@ -246,7 +248,7 @@ $(function() {
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
     makeZincRequest({
-      url: "https://demotwo.zinc.io/v0/variant_options",
+      url: zincUrl + "variant_options",
       data: {
         "retailer": eventData["retailer"],
         "product_url": eventData["product_url"]
@@ -268,7 +270,7 @@ $(function() {
     $("body").data("shipping_address_data", shippingAddressData);
 
     makeZincRequest({
-      url: "https://demotwo.zinc.io/v0/shipping_methods",
+      url: zincUrl + "shipping_methods",
       data: {
         "retailer": $("body").data("variant_options_response")["retailer"],
         "products": populateProducts("#shipping-methods-form .variant-product-info input.product-id"),
@@ -293,7 +295,7 @@ $(function() {
     );
 
     makeZincRequest({
-      url: "https://demotwo.zinc.io/v0/store_card",
+      url: zincUrl + "store_card",
       data: {
         "number": $("#store-card-form input.number").val(),
         "expiration_month": $("#store-card-form select.expiration-month").val(),
@@ -305,7 +307,7 @@ $(function() {
 
         // Make a review_order request immediately after the store_card request
         makeZincRequest({
-          url: "https://demotwo.zinc.io/v0/review_order",
+          url: zincUrl + "review_order",
           data: {
             "retailer": $("body").data("variant_options_response")["retailer"],
             "products": $("body").data("products"),
@@ -332,7 +334,7 @@ $(function() {
   $(".review-order").on("submit", "#place-order-form", valPassingCall(function(e) {
     console.log("placing order");
     makeZincRequest({
-      url: "https://demotwo.zinc.io/v0/place_order",
+      url: zincUrl + "place_order",
       data: {
         "place_order_key": $("body").data("review_order_response")["place_order_key"]
       },
