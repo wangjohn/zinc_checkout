@@ -14,15 +14,8 @@ var showError = function(data) {
   triggerResizeEvent();
 };
 
-var loadingSpinner = function(spinnerText) {
-  $(".zinc-view").children().hide();
-  $(".spinner").show();
-  $(".spinner .spinner-text").text(spinnerText);
-  triggerResizeEvent();
-};
-
 var showSection = function(section) {
-  $(".spinner").hide();
+  $(".spinner-wrapper .main-spinner.spinner").hide();
   $(section).show();
   $(".stage-navigation").find("li.active").removeClass("active");
   $(".stage-navigation").find(section + "-nav").addClass("active");
@@ -246,6 +239,7 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("variant_options_response", data);
+        $("#shipping-methods-form .spinner").hide();
         ProductDimensions.createProductDropdowns(
           "#shipping-methods-form .product-results",
           "#shipping-methods-form .variant-product-info",
@@ -258,6 +252,7 @@ $(function() {
     var shippingAddressData = createSelectorData("#shipping-methods-form input,select", addressDataAttributes);
     shippingAddressData["country"] = "US";
     $("body").data("shipping_address_data", shippingAddressData);
+    showSection(".store-card");
 
     makeZincRequest({
       url: zincUrl + "shipping_methods",
@@ -271,7 +266,6 @@ $(function() {
         $("#store-card-form .shipping-method-results").append(
           Handlebars.partials["_shipping_method_results"](data)
         );
-        showSection(".store-card");
       })
     });
   }));
