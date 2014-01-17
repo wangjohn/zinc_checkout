@@ -1,11 +1,19 @@
 <form id="shipping-methods-form" class="form-horizontal" method="post" novalidate>
-  <h2 class="page-header">Product Details</h2>
-  <div class="product-results"></div>
-  <h2 class="page-header">Shipping Information</h2>
-  {{> _address_input this }}
-  <div class="form-group">
-    <div class="col-sm-offset-3 col-sm-8">
-      <button class="btn btn-default" type="submit">Submit</button>
+  <div class="product-details col-sm-6">
+    <h2>Product Details</h2>
+    <div class="product-results"></div>
+  </div>
+  <div class="shipping-information col-sm-6">
+    <h2>Shipping Information</h2>
+    {{> _address_input this }}
+  </div>
+  <div class="submit-and-price col-sm-12">
+    <div class="well col-sm-offset-1 col-sm-10">
+      <div class="variant-product-info col-sm-6">
+      </div>
+      <div class="submit-button-col col-sm-6">
+        <button class="col-sm-offset-3 col-sm-6 btn btn-default" type="submit">Submit</button>
+      </div>
     </div>
   </div>
 </form>

@@ -3,7 +3,7 @@ var ProductDimensions = (function() {
   var dropdownTemplate = Handlebars.partials["_variant_option_results"];
   var productInfoTemplate = Handlebars.partials["_variant_product_info"];
 
-  var _dropdownChangeListener = function(i, productDimensions, selector) {
+  var _dropdownChangeListener = function(i, productDimensions, selector, productInfoSelector) {
     return function() {
       var currentName = productDimensions["dimensionNames"][i];
       _dimensionSelectElement(selector, currentName).change(function() {
@@ -11,14 +11,14 @@ var ProductDimensions = (function() {
           var nextName = productDimensions["dimensionNames"][i+1];
           var productDimensionList = _getProductDimensionList(selector, nextName, productDimensions);
           var html = dimensionSelectTemplate({values: productDimensionList, name: nextName});
-          $(selector).find(".variant-product-info").html();
+          $(productInfoSelector).html();
           _clearSelectionsAfter(selector, nextName, productDimensions);
           _dimensionSelectElement(selector, nextName).html(html);
         } else {
           var values = _getPrevDimensionValues(selector,
             productDimensions["dimensionNames"].length, productDimensions);
           var productInfo = productDimensions["dimensionProductMap"](values);
-          $(selector).find(".variant-product-info").html(
+          $(productInfoSelector).html(
             productInfoTemplate(productInfo)
           );
         }
@@ -161,7 +161,7 @@ var ProductDimensions = (function() {
     }
   };
 
-  var createProductDropdowns = function(selector, variantOptions) {
+  var createProductDropdowns = function(selector, productInfoSelector, variantOptions) {
     var productDimensions = _getProductDimensions(variantOptions);
     $(selector).append(
       dropdownTemplate(productDimensions)
@@ -173,7 +173,7 @@ var ProductDimensions = (function() {
         "product_id": variantOptions[0]["product_id"],
         "unit_price": variantOptions[0]["unit_price"]
       };
-      $(selector).find(".variant-product-info").html(
+      $(productInfoSelector).html(
         productInfoTemplate(productInfo)
       );
     } else {
@@ -182,7 +182,7 @@ var ProductDimensions = (function() {
 
       // Listeners for the product dimensions
       for (var i=0; i<productDimensions["dimensionNames"].length; i++) {
-        _dropdownChangeListener(i, productDimensions, selector)();
+        _dropdownChangeListener(i, productDimensions, selector, productInfoSelector)();
       }
     }
   };

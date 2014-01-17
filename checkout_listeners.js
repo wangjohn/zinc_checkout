@@ -255,7 +255,9 @@ $(function() {
       callback: handleZincResponse(function(data) {
         $("body").data("variant_options_response", data);
         ProductDimensions.createProductDropdowns(
-          "#shipping-methods-form .product-results", data["variant_options"]);
+          "#shipping-methods-form .product-results",
+          "#shipping-methods-form .variant-product-info",
+          data["variant_options"]);
         $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
 
         updateProgressBar("40%");
@@ -265,7 +267,7 @@ $(function() {
   });
 
   $("#shipping-methods-form").on("submit", valPassingCall(function(e) {
-    var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes);
+    var shippingAddressData = createSelectorData("#shipping-methods-form input,select", addressDataAttributes);
     shippingAddressData["country"] = "US";
     $("body").data("shipping_address_data", shippingAddressData);
 
