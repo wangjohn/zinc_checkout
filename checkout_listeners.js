@@ -73,7 +73,7 @@ var makeZincRequest = function(options) {
     type: "POST",
     dataType: "json",
     beforeSend: function() {
-      loadingSpinner("Making request to '" + options['url'] + "'");
+      loadingSpinner();
     },
     data: JSON.stringify(data)
   }).done(function(data){
@@ -88,7 +88,7 @@ var waitForResult = function(url, requestId, callback) {
     url: url + "/" + requestId,
     type: "GET",
     beforeSend: function(){
-      loadingSpinner('Waiting for response to request_id: ' + requestId);
+      loadingSpinner();
     },
   }).done(function(data) {
     if (data['_type'] === "error" && data['code'] === "request_processing") {
@@ -113,7 +113,7 @@ var triggerResizeEvent = function() {
 
 var initializeHandlebars = function() {
   $('.shipping-methods').append(
-    Handlebars.templates['shipping_methods']({ phone_number: true })
+    Handlebars.templates['shipping_methods']()
   );
   $('.store-card').append(Handlebars.templates['store_card']());
   $('.completed-order').append(Handlebars.templates['completed_order']());
@@ -266,7 +266,7 @@ $(function() {
   });
 
   $("#shipping-methods-form").on("submit", valPassingCall(function(e) {
-    var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes.concat("phone_number"));
+    var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes);
     $("body").data("shipping_address_data", shippingAddressData);
 
     makeZincRequest({
