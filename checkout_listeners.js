@@ -227,8 +227,7 @@ $(function() {
     "address_line2",
     "zip_code",
     "city",
-    "state",
-    "country"
+    "state"
   ];
 
   $("input,select,textarea").not("[type=submit]").jqBootstrapValidation({
@@ -267,6 +266,7 @@ $(function() {
 
   $("#shipping-methods-form").on("submit", valPassingCall(function(e) {
     var shippingAddressData = createSelectorData("#shipping-methods-form input", addressDataAttributes);
+    shippingAddressData["country"] = "US";
     $("body").data("shipping_address_data", shippingAddressData);
 
     makeZincRequest({
@@ -293,6 +293,9 @@ $(function() {
     $("body").data("shipping_method_id",
       $(".shipping-method-results input.shipping-result-radio:checked").attr("shipping-method-id")
     );
+    var billing_address = fetchBillingAddressData("input.use-shipping-address",
+      ".card-billing-address input", addressDataAttributes);
+    billing_address["country"] = "US";
 
     makeZincRequest({
       url: zincUrl + "store_card",
@@ -300,7 +303,7 @@ $(function() {
         "number": $("#store-card-form input.number").val(),
         "expiration_month": $("#store-card-form select.expiration-month").val(),
         "expiration_year": $("#store-card-form select.expiration-year").val(),
-        "billing_address": fetchBillingAddressData("input.use-shipping-address", ".card-billing-address input", addressDataAttributes)
+        "billing_address": billing_address
       },
       callback: handleZincResponse(function(data) {
         $("body").data("store_card_response", data);
