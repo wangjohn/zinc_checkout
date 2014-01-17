@@ -265,9 +265,6 @@ $(function() {
       },
       callback: handleZincResponse(function(data) {
         $("body").data("shipping_methods_response", data);
-        $("#store-card-form .shipping-method-results").append(
-          Handlebars.partials["_shipping_method_results"](data)
-        );
       })
     });
   }));

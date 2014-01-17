@@ -123,3 +123,21 @@ h2.page-header {
     -webkit-transform: scale(1.0);
   }
 }
+
+#store-card-form .credit-card {
+  background-color: rgba(66, 139, 202, 0.6);
+  border-color: #357ebd;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+#store-card-form .credit-card .credit-card-wrapper {
+  padding: 3%;
+}
+
+#store-card-form .billing-address-wrapper {
+  margin-top: 30px;
+}
+
+
