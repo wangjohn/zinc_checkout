@@ -11,7 +11,7 @@ var ProductDimensions = (function() {
           var nextName = productDimensions["dimensionNames"][i+1];
           var productDimensionList = _getProductDimensionList(selector, nextName, productDimensions);
           var html = dimensionSelectTemplate({values: productDimensionList, name: nextName});
-          $(productInfoSelector).html();
+          $(productInfoSelector).html(productInfoTemplate({}));
           _clearSelectionsAfter(selector, nextName, productDimensions);
           _dimensionSelectElement(selector, nextName).html(html);
         } else {
@@ -166,6 +166,10 @@ var ProductDimensions = (function() {
     $(selector).append(
       dropdownTemplate(productDimensions)
     );
+    $(productInfoSelector).html(
+      productInfoTemplate(productInfo)
+    );
+
 
     if (productDimensions["dimensionNames"].length === 0 &&
         variantOptions.length > 0) {

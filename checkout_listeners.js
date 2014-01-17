@@ -124,7 +124,7 @@ var initializeHandlebars = function() {
   });
 
   Handlebars.registerHelper("displayDollars", function(cents, options) {
-    return "$" + (parseInt(cents) / 100).toString();
+    return (parseInt(cents) / 100).toString();
   });
 
   Handlebars.registerHelper("sanitizeName", function(name) {

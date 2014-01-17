@@ -67,3 +67,19 @@ h2.page-header {
   margin-top: 5px;
   margin-bottom: 10px;
 }
+
+#shipping-methods-form .submit-and-price {
+  margin-top: 20px;
+}
+
+#shipping-methods-form .submit-and-price .well {
+  padding: 10px;
+}
+
+#content-wrapper .modal-footer {
+  border-top: none;
+}
+
+.checkout-dismiss button.button {
+  font-size: 20px;
+}
