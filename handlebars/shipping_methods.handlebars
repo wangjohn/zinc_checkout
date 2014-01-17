@@ -1,11 +1,16 @@
 <form id="shipping-methods-form" class="form-horizontal" method="post" novalidate>
-  <div class="product-details col-sm-6">
-    <h5>PRODUCT DETAILS</h5>
-    <div class="product-results"></div>
-  </div>
   <div class="shipping-information col-sm-6">
     <h5>SHIPPING INFORMATION</h5>
     {{> _address_input this }}
+  </div>
+  <div class="product-details col-sm-6">
+    <h5>PRODUCT DETAILS</h5>
+    <div class="product-results">
+      <div class="spinner">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+      </div>
+    </div>
   </div>
   <div class="submit-and-price col-sm-12">
     <div class="well col-sm-12">

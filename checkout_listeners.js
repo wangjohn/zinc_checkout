@@ -14,10 +14,6 @@ var showError = function(data) {
   triggerResizeEvent();
 };
 
-var updateProgressBar = function(completion) {
-  $(".progress-bar").css("width", completion);
-};
-
 var loadingSpinner = function(spinnerText) {
   $(".zinc-view").children().hide();
   $(".spinner").show();
@@ -72,9 +68,6 @@ var makeZincRequest = function(options) {
     url: options['url'],
     type: "POST",
     dataType: "json",
-    beforeSend: function() {
-      loadingSpinner();
-    },
     data: JSON.stringify(data)
   }).done(function(data){
     waitForResult(options['url'], data['request_id'], options['callback']);
@@ -87,9 +80,6 @@ var waitForResult = function(url, requestId, callback) {
   $.ajax({
     url: url + "/" + requestId,
     type: "GET",
-    beforeSend: function(){
-      loadingSpinner();
-    },
   }).done(function(data) {
     if (data['_type'] === "error" && data['code'] === "request_processing") {
       console.log('waiting');
@@ -246,6 +236,8 @@ $(function() {
 
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
+    $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
+    showSection(".shipping-methods");
     makeZincRequest({
       url: zincUrl + "variant_options",
       data: {
@@ -258,10 +250,6 @@ $(function() {
           "#shipping-methods-form .product-results",
           "#shipping-methods-form .variant-product-info",
           data["variant_options"]);
-        $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
-
-        updateProgressBar("40%");
-        showSection(".shipping-methods");
       })
     });
   });
@@ -283,8 +271,6 @@ $(function() {
         $("#store-card-form .shipping-method-results").append(
           Handlebars.partials["_shipping_method_results"](data)
         );
-
-        updateProgressBar("60%");
         showSection(".store-card");
       })
     });
@@ -328,7 +314,6 @@ $(function() {
           callback: handleZincResponse(function(data) {
             $("body").data("review_order_response", data);
             displayReviewOrder(".review-order");
-            updateProgressBar("100%");
             showSection(".review-order");
           })
         });
