@@ -15,6 +15,7 @@ var showError = function(data) {
 };
 
 var showSection = function(section) {
+  $(".zinc-view").children().hide();
   $(".spinner-wrapper .main-spinner.spinner").hide();
   $(section).show();
   $(".stage-navigation").find("li.active").removeClass("active");
@@ -244,6 +245,7 @@ $(function() {
           "#shipping-methods-form .product-results",
           "#shipping-methods-form .variant-product-info",
           data["variant_options"]);
+        $("#shipping-methods-form button.submit-shipping-methods").attr("disabled", false);
       })
     });
   });
