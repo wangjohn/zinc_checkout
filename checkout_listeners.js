@@ -27,7 +27,6 @@ $(function() {
     $(".error-message").html(data['message']);
     $(".error-handling").alert();
     $(".error-handling").show();
-    console.log("show error resize");
     triggerResizeEvent();
   };
 
@@ -37,7 +36,6 @@ $(function() {
     $(section).show();
     $(".stage-navigation").find("li.active").removeClass("active");
     $(".stage-navigation").find(section + "-nav").addClass("active");
-    console.log("show section resize");
     triggerResizeEvent();
   };
 
@@ -45,7 +43,6 @@ $(function() {
     $(".zinc-view").children().hide();
     $(".spinner-wrapper").show();
     $(".spinner-wrapper .spinner-text").text(message);
-    console.log("show loading resize");
     triggerResizeEvent();
   };
 
@@ -117,13 +114,10 @@ $(function() {
   };
 
   var triggerResizeEvent = function() {
-    var headerHeight = $("#content-wrapper .modal-header").outerHeight();
+    var headerHeight = $("#content-wrapper .modal-header").outerHeight(true);
     var bodyElement = $("#content-wrapper .modal-body");
-    if (bodyElement.length == 1) {
-      var height = headerHeight + bodyElement.outerHeight();
-      console.log("computed height: " + headerHeight + "; " + bodyElement.outerHeight() + "; " + height);
-      parent.postMessage("zinc-resize-height=" + height, "*");
-    }
+    var height = headerHeight + bodyElement.outerHeight(true);
+    parent.postMessage("zinc-resize-height=" + height, "*");
   };
 
   var initializeHandlebars = function() {
@@ -402,5 +396,10 @@ $(function() {
     });
   }));
 
-  triggerResizeEvent();
+  // FIXME: This is a hack around the DOM loading on the iframe. We need to fix this.
+  var keepResizing = function() {
+    triggerResizeEvent();
+    setTimeout(keepResizing, 300);
+  }
+  keepResizing();
 });
