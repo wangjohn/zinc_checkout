@@ -228,7 +228,8 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
-  ExpirationInput.createExpirationInput('.store-card .expiration-month-and-year');
+  CreditCard.createExpirationInput('#store-card-form .expiration-month-and-year');
+  CreditCard.createNumberInput('#store-card-form .credit-card-number');
 
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
