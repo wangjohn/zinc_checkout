@@ -228,6 +228,8 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
+  ExpirationInput.createExpirationInput('.store-card .expiration-month-and-year');
+
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
     $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();

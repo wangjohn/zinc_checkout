@@ -133,11 +133,14 @@ h2.page-header {
 }
 
 #store-card-form .credit-card .credit-card-wrapper {
-  padding: 3%;
+  padding: 20px 30px;
 }
 
 #store-card-form .billing-address-wrapper {
   margin-top: 30px;
 }
 
-
+#store-card-form .credit-card .credit-card-wrapper .controls {
+  padding-left: 7px;
+  padding-right: 7px;
+}
