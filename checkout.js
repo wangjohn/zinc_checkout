@@ -73,6 +73,7 @@
           var modal = createModalElement();
 
           document.getElementsByTagName('body')[0].appendChild(modal);
+          var lastSeenSource = '';
 
           $(function() {
             retargetAffiliateLinks(scriptElement);
@@ -82,7 +83,11 @@
 
             var iframe = document.getElementById(zincIframeId);
             $("#" + zincModalId).on("zinc_modal_event", function(e, data) {
-              iframe.setAttribute("src", _variantOptionsRequestSource(data));
+              var source = _variantOptionsRequestSource(data);
+              if (source !== lastSeenSource) {
+                iframe.setAttribute("src", source);
+                lastSeenSource = source;
+              }
               $(this).modal('show');
             });
 
