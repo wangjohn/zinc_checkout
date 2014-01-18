@@ -2,7 +2,11 @@ var CreditCard = (function() {
   var getInputValue = function(e, selector) {
     var inputValue = $.trim($(selector).val());
     inputValue = inputValue + String.fromCharCode(e.keyCode);
-    return inputValue.replace(/[^\d]/g, "");
+    return getNumber(inputValue);
+  };
+
+  var getNumber = function(string) {
+    return string.replace(/[^\d]/g, "");
   };
 
   var reachedMaximumLength = function(e, maximumLength, selector) {
@@ -151,8 +155,19 @@ var CreditCard = (function() {
       });
     };
 
+    var parseExpirationInput = function(expirationSelector) {
+      var inputValue = getNumber($(expirationSelector).val());
+      var month = inputValue.slice(0,2);
+      var year = "20" + inputValue(2);
+      return {
+        'year': year,
+        'month': month
+      };
+    };
+
     return {
-      createExpirationInput: createExpirationInput
+      createExpirationInput: createExpirationInput,
+      parseExpirationInput: parseExpirationInput
     };
   })();
 
@@ -163,7 +178,8 @@ var CreditCard = (function() {
   }
 
   return {
-    initialize: initialize
+    initialize: initialize,
+    parseExpirationInput: ExpirationInput.parseExpirationInput
   };
 
 })();
