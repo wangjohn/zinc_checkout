@@ -277,6 +277,7 @@ $(function() {
       '#store-card-form .security-code');
 
   $(window).load(function(e) {
+    triggerResizeEvent();
     eventData = parseUrlParameters(window.location.href);
     $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
     showSection(".shipping-methods");
