@@ -116,8 +116,9 @@ $(function() {
   var triggerResizeEvent = function() {
     var headerHeight = $("#content-wrapper .modal-header").outerHeight();
     var bodyHeight = $("#content-wrapper .modal-body").outerHeight();
+    console.log($("#content-wrapper .modal-body"));
     var height = headerHeight + bodyHeight;
-    console.log("computed height: " + height);
+    console.log("computed height: " + headerHeight + "; " + bodyHeight + "; " + height);
     parent.postMessage("zinc-resize-height=" + height, "*");
   };
 

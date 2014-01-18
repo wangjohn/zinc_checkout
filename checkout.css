@@ -150,6 +150,16 @@ h2.page-header {
   margin-top: 25px;
 }
 
+#store-card-form .billing-address-information-wrapper .send-as-gift-shipping-address-wrapper {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-bottom: 10px;
+}
+
+#store-card-form .billing-address-information-wrapper .send-as-gift-shipping-address-wrapper div.checkbox {
+  line-height: 26px;
+}
+
 .review-order .variant-options .controls {
   overflow-wrap: break-word;
 }
@@ -182,4 +192,8 @@ nav .stage-navigation .nav-wrapper span.glyphicon {
 nav .stage-navigation li {
   padding-left: 0px;
   padding-right: 0px;
+}
+
+.spinner-wrapper {
+  height: 100px;
 }
