@@ -3,8 +3,8 @@
   <div class="product-and-shipping col-sm-6">
     <div class="variant-options">
       <h5>PRODUCTS</h5>
-      <div class="variant-url col-sm-12">
-        <label class="col-sm-4 control-label">Product URL</label>
+      <div class="variant-product-url col-sm-12">
+        <label class="col-sm-4 control-label">Url</label>
         <div class="col-sm-8 controls">
           <p class="form-control-static">{{ product_url }}</p>
         </div>
@@ -41,7 +41,7 @@
     <div class="payment-method col-sm-12">
       <h5>PAYMENT AND PRICING</h5>
       <div class="payment-method-brand col-sm-12">
-        <label class="col-sm-4 control-label">{{ payment_method.brand }}:</label>
+        <label class="col-sm-4 control-label">{{ payment_method.brand }}</label>
         <div class="col-sm-8 controls">
           <p class="form-control-static">
             **** **** **** {{ payment_method.last_four }}
@@ -76,9 +76,12 @@
       </div>
     </div>
     <form id="place-order-form" class="form-horizontal" method="post" novalidate>
-      <div class="submit form-group">
-        <div class="col-sm-offset-4 col-sm-8">
-          <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
+      <div class="submit-wrapper col-sm-12">
+        <div class="well col-sm-12">
+          <div class="submit-button-col col-sm-offset-6 col-sm-6">
+            <button class="submit-shipping-methods col-sm-offset-3
+              col-sm-6 btn btn-primary" type="submit">Place Order</button>
+          </div>
         </div>
       </div>
     </form>

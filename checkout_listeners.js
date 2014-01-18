@@ -245,8 +245,6 @@ $(function() {
         minPrice = shippingMethods[i]["price"];
       }
     }
-    console.log("shipping method id:");
-    console.log(shippingMethodId);
     return shippingMethodId;
   };
 
