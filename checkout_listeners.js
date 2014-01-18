@@ -27,6 +27,7 @@ $(function() {
     $(".error-message").html(data['message']);
     $(".error-handling").alert();
     $(".error-handling").show();
+    console.log("show error resize");
     triggerResizeEvent();
   };
 
@@ -36,6 +37,7 @@ $(function() {
     $(section).show();
     $(".stage-navigation").find("li.active").removeClass("active");
     $(".stage-navigation").find(section + "-nav").addClass("active");
+    console.log("show section resize");
     triggerResizeEvent();
   };
 
@@ -43,6 +45,7 @@ $(function() {
     $(".zinc-view").children().hide();
     $(".spinner-wrapper").show();
     $(".spinner-wrapper .spinner-text").text(message);
+    console.log("show loading resize");
     triggerResizeEvent();
   };
 
@@ -115,11 +118,12 @@ $(function() {
 
   var triggerResizeEvent = function() {
     var headerHeight = $("#content-wrapper .modal-header").outerHeight();
-    var bodyHeight = $("#content-wrapper .modal-body").outerHeight();
-    console.log($("#content-wrapper .modal-body"));
-    var height = headerHeight + bodyHeight;
-    console.log("computed height: " + headerHeight + "; " + bodyHeight + "; " + height);
-    parent.postMessage("zinc-resize-height=" + height, "*");
+    var bodyElement = $("#content-wrapper .modal-body");
+    if (bodyElement.length == 1) {
+      var height = headerHeight + bodyElement.outerHeight();
+      console.log("computed height: " + headerHeight + "; " + bodyElement.outerHeight() + "; " + height);
+      parent.postMessage("zinc-resize-height=" + height, "*");
+    }
   };
 
   var initializeHandlebars = function() {
@@ -150,17 +154,16 @@ $(function() {
   var parseUrlParameters = function(url) {
     var parameterSplit = url.split("?");
     var paramString = parameterSplit.slice(1).join("?");
-    var result = {};
 
     if (parameterSplit.length > 1) {
+      var result = {};
       var match = /product_url=(.*)&retailer=(.*)/.exec(paramString);
       if (match.length >= 3) {
         result["product_url"] = decodeURIComponent(match[1]);
         result["retailer"] = decodeURIComponent(match[2]);
       }
+      return result;
     }
-
-    return result;
   };
 
   /**
@@ -281,25 +284,26 @@ $(function() {
 
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
-    $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
-    showSection(".shipping-methods");
-    makeZincRequest({
-      url: zincUrl + "variant_options",
-      data: {
-        "retailer": eventData["retailer"],
-        "product_url": eventData["product_url"]
-      },
-      callback: handleZincResponse(function(data) {
-        $("body").data("variant_options_response", data);
-        $("#shipping-methods-form .spinner").hide();
-        ProductDimensions.createProductDropdowns(
-          "#shipping-methods-form .product-results",
-          "#shipping-methods-form .variant-product-info",
-          data["variant_options"]);
-        $("#shipping-methods-form button.submit-shipping-methods").attr("disabled", false);
-      })
-    });
-    triggerResizeEvent();
+    if (eventData) {
+      $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
+      showSection(".shipping-methods");
+      makeZincRequest({
+        url: zincUrl + "variant_options",
+        data: {
+          "retailer": eventData["retailer"],
+          "product_url": eventData["product_url"]
+        },
+        callback: handleZincResponse(function(data) {
+          $("body").data("variant_options_response", data);
+          $("#shipping-methods-form .spinner").hide();
+          ProductDimensions.createProductDropdowns(
+            "#shipping-methods-form .product-results",
+            "#shipping-methods-form .variant-product-info",
+            data["variant_options"]);
+          $("#shipping-methods-form button.submit-shipping-methods").attr("disabled", false);
+        })
+      });
+    }
   });
 
   $("#store-card-form").on("submit", function(e) {
@@ -397,4 +401,6 @@ $(function() {
       })
     });
   }));
+
+  triggerResizeEvent();
 });

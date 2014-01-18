@@ -86,10 +86,6 @@
               $(this).modal('show');
             });
 
-            $("#" + zincModalId).on("shown.bs.modal", function(e) {
-              resizeModal(iframe);
-            });
-
             dynamicResizeIFrame();
           });
         });
@@ -192,22 +188,6 @@
 
   var createModalHeader = function() {
     var modalHeader = document.createElement("div");
-    modalHeader.className = "checkout-dismiss";
-    modalHeader.style.height = "0px";
-    modalHeader.style.width = "0px";
-    modalHeader.style.float = "right";
-
-    var dismiss = document.createElement("button");
-    dismiss.type = "button";
-    dismiss.className = "close";
-    dismiss.setAttribute("data-dismiss", "modal");
-    dismiss.setAttribute("aria-hidden", "true");
-    dismiss.style.position = "relative";
-    dismiss.style.zIndex = "1";
-    dismiss.style.margin = "20px -60px 0";
-    dismiss.innerHTML = "&times;";
-
-    modalHeader.appendChild(dismiss);
     return modalHeader;
   };
 
