@@ -1,5 +1,6 @@
 h2.page-header {
   font-weight: bold;
+  margin-top: 5px;
   margin-left: 2%;
   font-size: 24px;
 }
@@ -147,4 +148,8 @@ h2.page-header {
 
 #store-card-form .security-logos {
   margin-top: 25px;
+}
+
+.review-order .variant-options .controls {
+  overflow-wrap: break-word;
 }

@@ -148,6 +148,7 @@
     eventer(messageEvent, function(e) {
       var match = /zinc-resize-height=(.*)/.exec(e.data);
       if (match.length > 1) {
+        console.log(match[1]);
         resizeModal(match[1]);
       }
     });

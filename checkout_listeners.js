@@ -43,6 +43,7 @@ $(function() {
     $(".zinc-view").children().hide();
     $(".spinner-wrapper").show();
     $(".spinner-wrapper .spinner-text").text(message);
+    triggerResizeEvent();
   };
 
   var handleZincResponse = function(func) {

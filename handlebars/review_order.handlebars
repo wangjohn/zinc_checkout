@@ -1,89 +1,77 @@
 <div class="review-order-information">
   <h2 class="page-header">Your {{ capitalize retailer }} Order</h2>
   <div class="product-and-shipping col-sm-6">
-    <div class="variant-option col-sm-12 panel panel-primary">
-      <div class="panel-heading">
-        <h5 class="panel-title">PRODUCTS</h5>
+    <div class="variant-options">
+      <h5>PRODUCTS</h5>
+      <div class="variant-url col-sm-12">
+        <label class="col-sm-4 control-label">Product URL</label>
+        <div class="col-sm-8 controls">
+          <p class="form-control-static">{{ product_url }}</p>
+        </div>
       </div>
-      <div class="panel-body">
-        <div class="variant-url form-group">
-          <label class="col-sm-4 control-label">Product URL</label>
+      {{#each products}}
+        <div class="variant-price col-sm-12">
+          <label class="col-sm-4 control-label">Price</label>
           <div class="col-sm-8 controls">
-            <p class="form-control-static">{{ product_url }}</p>
+            <p class="form-control-static">{{ displayDollars unit_price }}</p>
           </div>
         </div>
-        {{#each products}}
-          <div class="variant-price form-group">
-            <label class="col-sm-4 control-label">Price</label>
+        {{#each dimensions}}
+          <div class="variant-description col-sm-12">
+            <label class="col-sm-4 control-label">{{ capitalize name}}</label>
             <div class="col-sm-8 controls">
-              <p class="form-control-static">{{ displayDollars unit_price }}</p>
-            </div>
-          </div>
-          {{#each dimensions}}
-            <div class="variant-description form-group">
-              <label class="col-sm-4 control-label">{{ capitalize name}}</label>
-              <div class="col-sm-8 controls">
-                <p class="form-control-static">{{ value }}</p>
-              </div>
-            </div>
-          {{/each}}
-          <div class="variant-quantity form-group">
-            <label class="col-sm-4 control-label">Quantity</label>
-            <div class="col-sm-8 controls">
-              <p class="form-control-static">{{ quantity }}</p>
+              <p class="form-control-static">{{ value }}</p>
             </div>
           </div>
         {{/each}}
-      </div>
+        <div class="variant-quantity col-sm-12">
+          <label class="col-sm-4 control-label">Quantity</label>
+          <div class="col-sm-8 controls">
+            <p class="form-control-static">{{ quantity }}</p>
+          </div>
+        </div>
+      {{/each}}
     </div>
-    <div class="shipping-address col-sm-12 panel panel-primary">
-      <div class="panel-heading">
-        <h5 class="panel-title">SHIPPING ADDRESS</h5>
-      </div>
-      <div class="panel-body">
-        {{> _address_display shipping_address }}
-      </div>
+    <div class="shipping-address col-sm-12">
+      <h5>SHIPPING ADDRESS</h5>
+      {{> _address_display shipping_address }}
     </div>
   </div>
   <div class="payment-and-pricing col-sm-6">
-    <div class="payment-method col-sm-12 panel panel-primary">
-      <div class="panel-heading">
-        <h5 class="panel-title">PAYMENT AND PRICING INFORMATION</h5>
+    <div class="payment-method col-sm-12">
+      <h5>PAYMENT AND PRICING</h5>
+      <div class="payment-method-brand col-sm-12">
+        <label class="col-sm-4 control-label">{{ payment_method.brand }}:</label>
+        <div class="col-sm-8 controls">
+          <p class="form-control-static">
+            **** **** **** {{ payment_method.last_four }}
+          </p>
+        </div>
       </div>
-      <div class="panel-body">
-        <div class="payment-method-brand col-sm-12">
-          <label class="col-sm-4 control-label">{{ payment_method.brand }}:</label>
-          <div class="col-sm-8 controls">
-            <p class="form-control-static">
-              **** **** **** {{ payment_method.last_four }}
-            </p>
-          </div>
+      <div class="subtotal col-sm-12">
+        <label class="col-sm-4 control-label">Subtotal</label>
+        <div class="col-sm-8 controls">
+          <p class="form-control-static">${{ displayDollars price_components.subtotal }}</p>
         </div>
-        <div class="subtotal col-sm-12">
-          <label class="col-sm-4 control-label">Subtotal</label>
-          <div class="col-sm-8 controls">
-            <p class="form-control-static">${{ displayDollars price_components.subtotal }}</p>
-          </div>
+      </div>
+      <div class="shipping col-sm-12">
+        <label class="col-sm-4 control-label">Shipping</label>
+        <div class="col-sm-8 controls">
+          <p class="form-control-static">${{ displayDollars price_components.shipping }}</p>
         </div>
-        <div class="shipping col-sm-12">
-          <label class="col-sm-4 control-label">Shipping</label>
-          <div class="col-sm-8 controls">
-            <p class="form-control-static">${{ displayDollars price_components.shipping }}</p>
-          </div>
+      </div>
+      <div class="tax col-sm-12">
+        <label class="col-sm-4 control-label">Tax</label>
+        <div class="col-sm-8 controls">
+          <p class="form-control-static">${{ displayDollars price_components.tax }}</p>
         </div>
-        <div class="tax col-sm-12">
-          <label class="col-sm-4 control-label">Tax</label>
-          <div class="col-sm-8 controls">
-            <p class="form-control-static">${{ displayDollars price_components.tax }}</p>
-          </div>
-        </div>
-        <div class="total col-sm-12">
-          <label class="col-sm-4 control-label">Total</label>
-          <div class="col-sm-8 controls">
-            <p class="form-control-static">
-            <strong>${{ displayDollars price_components.total }}</strong>
-            </p>
-          </div>
+      </div>
+      <div class="total col-sm-12">
+        <label class="col-sm-4 control-label">Total</label>
+        <div class="col-sm-8 controls">
+          <p class="form-control-static">
+          <strong>${{ displayDollars price_components.total }}</strong>
+          </p>
         </div>
       </div>
     </div>
