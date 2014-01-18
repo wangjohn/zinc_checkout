@@ -37,11 +37,13 @@ var CreditCard = (function() {
 
   var CvvInput = (function() {
     var selector;
+    var numberSelector;
 
-    var createCvvInput = function(mainSelector) {
+    var createCvvInput = function(mainSelector, creditCardNumberSelector) {
       selector = mainSelector;
+      numberSelector = creditCardNumberSelector;
 
-      var getMaximumLength(isAmericanExpressCard) {
+      var getMaximumLength = function(isAmericanExpressCard) {
         if (isAmericanExpressCard) {
           return 4;
         } else {
@@ -50,11 +52,12 @@ var CreditCard = (function() {
       };
 
       $(selector).keydown(function(e) {
-        var number = getInputValue(e, selector);
+        var number = getInputValue(e, numberSelector);
+        var cvv = getInputValue(e, selector)
         var isAmericanExpressCard = isAmericanExpress(number);
         var maximumLength = getMaximumLength(isAmericanExpressCard);
         if (shouldProcessInput(e, maximumLength, selector)) {
-          $(selector).val(number);
+          $(selector).val(cvv);
         }
       });
     };
@@ -97,7 +100,6 @@ var CreditCard = (function() {
     };
 
     var addSpaces = function(number, spaces) {
-      console.log(number);
       var parts = []
       var j = 0;
       for (var i=0; i<spaces.length; i++) {
@@ -113,7 +115,6 @@ var CreditCard = (function() {
           break;
         }
       }
-      console.log(parts);
 
       if (parts.length > 0) {
         return parts.join(" ");
@@ -151,10 +152,14 @@ var CreditCard = (function() {
     };
   })();
 
+  var initialize = function(expirationSelector, creditCardNumberSelector, cvvSelector) {
+    ExpirationInput.createExpirationInput(expirationSelector);
+    NumberInput.createNumberInput(creditCardNumberSelector);
+    CvvInput.createCvvInput(cvvSelector, creditCardNumberSelector);
+  }
+
   return {
-    createExpirationInput: ExpirationInput.createExpirationInput,
-    createNumberInput: NumberInput.createNumberInput,
-    createCvvInput: createCvvInput
+    initialize: initialize
   };
 
 })();

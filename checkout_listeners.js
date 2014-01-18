@@ -228,9 +228,10 @@ $(function() {
     $(".billing-address-information").toggle();
   });
 
-  CreditCard.createExpirationInput('#store-card-form .expiration-month-and-year');
-  CreditCard.createNumberInput('#store-card-form .credit-card-number');
-  CreditCard.createCvvInput('#store-card-form .security-code');
+  CreditCard.initialize(
+      '#store-card-form .expiration-month-and-year',
+      '#store-card-form .credit-card-number',
+      '#store-card-form .security-code');
 
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
