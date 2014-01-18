@@ -114,7 +114,10 @@ $(function() {
   };
 
   var triggerResizeEvent = function() {
-    var height = $("#content-wrapper").outerHeight();
+    var headerHeight = $("#content-wrapper .modal-header").outerHeight();
+    var bodyHeight = $("#content-wrapper .modal-body").outerHeight();
+    var height = headerHeight + bodyHeight;
+    console.log("computed height: " + height);
     parent.postMessage("zinc-resize-height=" + height, "*");
   };
 
@@ -124,7 +127,7 @@ $(function() {
     );
     $('.store-card').append(Handlebars.templates['store_card']());
     $('.completed-order').append(Handlebars.templates['completed_order']());
-    $('.modal-footer').append(Handlebars.templates['stage_navigation']());
+    $('.modal-header').append(Handlebars.templates['stage_navigation']());
 
     Handlebars.registerHelper("capitalize", function(string, options) {
       return string.charAt(0).toUpperCase() + string.slice(1);
@@ -276,7 +279,6 @@ $(function() {
       '#store-card-form .security-code');
 
   $(window).load(function(e) {
-    triggerResizeEvent();
     eventData = parseUrlParameters(window.location.href);
     $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
     showSection(".shipping-methods");
@@ -296,6 +298,7 @@ $(function() {
         $("#shipping-methods-form button.submit-shipping-methods").attr("disabled", false);
       })
     });
+    triggerResizeEvent();
   });
 
   $("#store-card-form").on("submit", function(e) {

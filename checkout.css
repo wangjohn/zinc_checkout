@@ -162,12 +162,20 @@ nav .stage-navigation .nav-wrapper {
   padding: 25px;
   width: 100%;
   border-radius: 0px;
+  background-color: rgba(66, 139, 202, 0.5);
+  border-color: rgba(66, 139, 202, 0.2);
+}
+
+nav .stage-navigation li.active .nav-wrapper {
   background-color: rgba(66, 139, 202, 1.0);
-  border-color: #357ebd;
 }
 
 nav .stage-navigation .nav-wrapper a {
   color: white;
+}
+
+nav .stage-navigation .nav-wrapper span.glyphicon {
+  margin-left: 10px;
 }
 
 .navbar-nav, 
