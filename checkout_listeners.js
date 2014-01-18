@@ -230,6 +230,7 @@ $(function() {
 
   CreditCard.createExpirationInput('#store-card-form .expiration-month-and-year');
   CreditCard.createNumberInput('#store-card-form .credit-card-number');
+  CreditCard.createCvvInput('#store-card-form .security-code');
 
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);

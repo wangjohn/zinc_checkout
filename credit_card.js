@@ -27,18 +27,47 @@ var CreditCard = (function() {
     return true;
   };
 
+  var isAmericanExpress = function(number) {
+    return number.match("^(34|37)");
+  };
+
   var shouldProcessInput = function(e, maximumLength, selector) {
      return (!isEscapedKeyStroke(e)) && onlyAllowNumeric(e, maximumLength, selector);
   };
+
+  var CvvInput = (function() {
+    var selector;
+
+    var createCvvInput = function(mainSelector) {
+      selector = mainSelector;
+
+      var getMaximumLength(isAmericanExpressCard) {
+        if (isAmericanExpressCard) {
+          return 4;
+        } else {
+          return 3;
+        }
+      };
+
+      $(selector).keydown(function(e) {
+        var number = getInputValue(e, selector);
+        var isAmericanExpressCard = isAmericanExpress(number);
+        var maximumLength = getMaximumLength(isAmericanExpressCard);
+        if (shouldProcessInput(e, maximumLength, selector)) {
+          $(selector).val(number);
+        }
+      });
+    };
+
+    return {
+      createCvvInput: createCvvInput
+    };
+  })();
 
   var NumberInput = (function() {
     var selector;
     var americanExpressSpaces = [4, 10, 15];
     var defaultSpaces = [4, 8, 12, 16];
-
-    var isAmericanExpress = function(number) {
-      return number.match("^(34|37)");
-    };
 
     var getMaximumLength = function(isAmericanExpressCard) {
       if (isAmericanExpressCard) {
@@ -124,7 +153,8 @@ var CreditCard = (function() {
 
   return {
     createExpirationInput: ExpirationInput.createExpirationInput,
-    createNumberInput: NumberInput.createNumberInput
+    createNumberInput: NumberInput.createNumberInput,
+    createCvvInput: createCvvInput
   };
 
 })();
