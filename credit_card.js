@@ -18,10 +18,14 @@ var CreditCard = (function() {
       (e.keyCode >= 35 && e.keyCode <= 39));
   };
 
+  var isNumberEvent = function(e) {
+    return (e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 96 && e.keyCode <= 105);
+  };
+
   var onlyAllowNumeric = function(e, maximumLength, selector) {
     e.preventDefault();
     // Ensure that it is a number and stop the keypress
-    if (reachedMaximumLength(e, maximumLength, selector) || e.shiftKey || (e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
+    if (reachedMaximumLength(e, maximumLength, selector) || e.shiftKey || (!isNumberEvent(e))) {
       return false;
     }
     return true;
@@ -51,7 +55,7 @@ var CreditCard = (function() {
         }
       };
 
-      $(selector).keydown(function(e) {
+      $(selector).keypress(function(e) {
         var number = getInputValue(e, numberSelector);
         var cvv = getInputValue(e, selector)
         var isAmericanExpressCard = isAmericanExpress(number);
@@ -82,7 +86,7 @@ var CreditCard = (function() {
 
     var createNumberInput = function(mainSelector) {
       selector = mainSelector;
-      $(selector).keydown(function(e) {
+      $(selector).keypress(function(e) {
         var number = getInputValue(e, selector);
         var isAmericanExpressCard = isAmericanExpress(number);
         var maximumLength = getMaximumLength(isAmericanExpressCard);
@@ -134,7 +138,7 @@ var CreditCard = (function() {
 
     var createExpirationInput = function(mainSelector) {
       selector = mainSelector
-      $(selector).keydown(function(e) {
+      $(selector).keypress(function(e) {
         if (shouldProcessInput(e, maximumLength, selector)) {
           var inputValue = getInputValue(e, selector);
           if (inputValue.length >= 2) {
