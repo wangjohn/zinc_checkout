@@ -1,6 +1,7 @@
 <div class="review-order-information">
-  <h2 class="page-header">Your {{ capitalize retailer }} Order</h2>
-    <div class="variant-option form-horizontal col-sm-6">
+  <div class="product-and-shipping col-sm-6">
+    <h2 class="page-header">Your {{ capitalize retailer }} Order</h2>
+    <div class="variant-option col-sm-12">
       <h5>PRODUCTS</h5>
       <div class="variant-url form-group">
         <label class="col-sm-4 control-label">Product URL</label>
@@ -31,15 +32,15 @@
         </div>
       {{/each}}
     </div>
+    <div class="shipping-address col-sm-12">
+      <h5>SHIPPING ADDRESS</h5>
+      {{> _address_display shipping_address }}
+    </div>
   </div>
-  <div class="shipping-address col-sm-6">
-    <h5>SHIPPING ADDRESS</h5>
-    {{> _address_display shipping_address }}
-  </div>
-  <div class="payment-method col-sm-6">
-    <h5>PAYMENT INFORMATION</h5>
-    <div class="form-horizontal">
-      <div class="payment-method-brand form-group">
+  <div class="payment-and-pricing col-sm-6">
+    <div class="payment-method col-sm-12">
+      <h5>PAYMENT INFORMATION</h5>
+      <div class="payment-method-brand form-group col-sm-12">
         <label class="col-sm-4 control-label">{{ payment_method.brand }}:</label>
         <div class="col-sm-8 controls">
           <p class="form-control-static">
@@ -48,41 +49,41 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="place-order col-sm-6">
-    <h2 class="page-header">ORDER PRICING</h2>
-    <form id="place-order-form" class="form-horizontal" method="post" novalidate>
+    <div class="place-order col-sm-12">
+      <h5>ORDER PRICING</h5>
       <div class="final-pricing">
-        <div class="subtotal form-group">
+        <div class="subtotal form-group col-sm-12">
           <label class="col-sm-4 control-label">Subtotal</label>
           <div class="col-sm-8 controls">
-            <p class="form-control-static">{{ displayDollars price_components.subtotal }}</p>
+            <p class="form-control-static">${{ displayDollars price_components.subtotal }}</p>
           </div>
         </div>
-        <div class="shipping form-group">
+        <div class="shipping form-group col-sm-12">
           <label class="col-sm-4 control-label">Shipping</label>
           <div class="col-sm-8 controls">
-            <p class="form-control-static">{{ displayDollars price_components.shipping }}</p>
+            <p class="form-control-static">${{ displayDollars price_components.shipping }}</p>
           </div>
         </div>
-        <div class="tax form-group">
+        <div class="tax form-group col-sm-12">
           <label class="col-sm-4 control-label">Tax</label>
           <div class="col-sm-8 controls">
-            <p class="form-control-static">{{ displayDollars price_components.tax }}</p>
+            <p class="form-control-static">${{ displayDollars price_components.tax }}</p>
           </div>
         </div>
-        <div class="total form-group">
+        <div class="total form-group col-sm-12">
           <label class="col-sm-4 control-label">Total</label>
           <div class="col-sm-8 controls">
             <p class="form-control-static">
-            <strong>{{ displayDollars price_components.total }}</strong>
+            <strong>${{ displayDollars price_components.total }}</strong>
             </p>
           </div>
         </div>
-        <div class="submit form-group">
-          <div class="col-sm-offset-4 col-sm-8">
-            <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
-          </div>
+      </div>
+    </div>
+    <form id="place-order-form" class="form-horizontal" method="post" novalidate>
+      <div class="submit form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+          <button type="submit" class="btn btn-primary btn-lg">Place Order</button>
         </div>
       </div>
     </form>
