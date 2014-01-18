@@ -63,11 +63,11 @@ h2.page-header {
   margin-bottom: 10px;
 }
 
-#shipping-methods-form .submit-and-price {
+.submit-wrapper {
   margin-top: 20px;
 }
 
-#shipping-methods-form .submit-and-price .well {
+.submit-wrapper .well {
   padding: 10px;
 }
 
@@ -143,4 +143,8 @@ h2.page-header {
 #store-card-form .credit-card .credit-card-wrapper .controls {
   padding-left: 7px;
   padding-right: 7px;
+}
+
+#store-card-form .security-logos {
+  margin-top: 25px;
 }

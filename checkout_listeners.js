@@ -1,4 +1,19 @@
 /**
+ * Constants
+ */
+
+var addressDataAttributes = [
+  "first_name",
+  "last_name",
+  "address_line1",
+  "address_line2",
+  "zip_code",
+  "city",
+  "state"
+];
+
+
+/**
  * Main helper functions
  * ----------------------------------------------------------------------------
  */
@@ -195,6 +210,17 @@ var displayReviewOrder = function(selector) {
   );
 }
 
+var populateBillingAddress = function(selector, isChecked) {
+  var shippingAddressData = $("body").data("shipping_address_data");
+  for (var i=0; i<addressDataAttributes.length; i++) {
+    var attribute = addressDataAttributes[i];
+    var attributeValue = "";
+    if (isChecked) {
+      attributeValue = shippingAddressData[attribute];
+    }
+    $(selector).find(_convertToSelector(attribute)).val(attributeValue);
+  }
+}
 
 /**
  * Main logic for listeners
@@ -203,16 +229,6 @@ var displayReviewOrder = function(selector) {
 
 $(function() {
   initializeHandlebars();
-
-  var addressDataAttributes = [
-    "first_name",
-    "last_name",
-    "address_line1",
-    "address_line2",
-    "zip_code",
-    "city",
-    "state"
-  ];
 
   $("input,select,textarea").not("[type=submit]").jqBootstrapValidation({
     filter: function () {
@@ -224,8 +240,9 @@ $(function() {
     $(this).closest('.variant').toggleClass('checked');
   });
 
-  $('.store-card .billing-address').on('click', '.use-shipping-address', function(e) {
-    $(".billing-address-information").toggle();
+  $('.store-card').delegate('input.use-shipping-address', 'click', function(e) {
+    var isChecked = $(".store-card input.use-shipping-address").is(":checked");
+    populateBillingAddress('#store-card-form .card-billing-address', isChecked);
   });
 
   CreditCard.initialize(
@@ -259,6 +276,7 @@ $(function() {
     var shippingAddressData = createSelectorData("#shipping-methods-form input,select", addressDataAttributes);
     shippingAddressData["country"] = "US";
     $("body").data("shipping_address_data", shippingAddressData);
+    populateBillingAddress('#store-card-form .card-billing-address', true);
     showSection(".store-card");
 
     makeZincRequest({

@@ -36,53 +36,47 @@
         </div>
       </div>
     </section>
+    <div class="security-logos col-sm-12">
+      <div class="security-logo-1 col-sm-6">
+        <img class="col-sm-12" src="assets/security-logo-1.png">
+      </div>
+      <div class="security-logo-2 col-sm-6">
+        <img class="col-sm-12" src="assets/security-logo-2.png">
+      </div>
+    </div>
   </div>
   <div class="order-information-wrapper col-sm-6">
-    <h5>ORDER INFORMATION</h5>
-    <div class="is-gift form-group">
-      <div class="col-sm-offset-1 col-sm-10 controls">
-        <div class="checkbox">
-        <label class="checkbox-inline">
+    <h5>BILLING INFORMATION</h5>
+    <div class="billing-address-information-wrapper col-sm-12">
+      <div class="send-as-gift col-sm-12 controls">
+        <div class="col-sm-7 checkbox">
+          <input class="use-shipping-address checkbox" type="checkbox" checked>
+          Use shipping address
+        </div>
+        <div class="col-sm-5 checkbox">
           <input class="is-gift checkbox" type="checkbox" checked>
-            Send as gift
-          </label>
+          Send as gift
         </div>
       </div>
-    </div>
-    <div class="email-address form-group">
-      <div class="col-sm-offset-1 col-sm-10 controls">
-        <input class="email-address form-control" type="email" name="email-address"
-          placeholder="Confirmation Email"
-          required>
+      <div class="billing-address-information">
+        <div class="card-billing-address">
+          {{> _address_input }}
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="billing-address-wrapper col-sm-6">
-    <h5>BILLING ADDRESS</h5>
-    <div class="form-group billing-address">
-      <div class="col-sm-offset-1 col-sm-10 controls">
-        <div class="checkbox">
-          <label class="checkbox-inline">
-            <input class="use-shipping-address checkbox" type="checkbox" checked>
-            Use shipping address for billing
-          </label>
+      <div class="email-address form-group">
+        <div class="col-sm-12 controls">
+          <input class="email-address form-control" type="email" name="email-address"
+            placeholder="Confirmation Email"
+            required>
         </div>
       </div>
     </div>
   </div>
-  <div class="billing-address-information-wrapper col-sm-12">
-    <div class="billing-address-information" style="display:none;">
-      <div class="card-billing-address">
-        {{> _address_input }}
-      </div>
-    </div>
-  </div>
-  <div class="submit-and-price col-sm-12">
+  <div class="submit-wrapper col-sm-12">
     <div class="well col-sm-12">
       <div class="submit-button-col col-sm-offset-6 col-sm-6">
         <button class="submit-shipping-methods col-sm-offset-3
-          col-sm-6 btn btn-primary" type="submit"
-          disabled="disabled">Next</button>
+          col-sm-6 btn btn-primary" type="submit">Next</button>
       </div>
     </div>
   </div>
