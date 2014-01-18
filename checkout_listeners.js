@@ -112,7 +112,7 @@ var triggerResizeEvent = function() {
 
 var initializeHandlebars = function() {
   $('.shipping-methods').append(
-    Handlebars.templates['shipping_methods']()
+    Handlebars.templates['shipping_methods']({'name': true})
   );
   $('.store-card').append(Handlebars.templates['store_card']());
   $('.completed-order').append(Handlebars.templates['completed_order']());
@@ -222,6 +222,12 @@ var populateBillingAddress = function(selector, isChecked) {
   }
 }
 
+var populateCreditCardName = function(selector) {
+  var shippingAddressData = $("body").data("shipping_address_data");
+  var name = shippingAddressData["first_name"] + " " + shippingAddressData["last_name"];
+  $(selector).val(name);
+};
+
 /**
  * Main logic for listeners
  * ----------------------------------------------------------------------------
@@ -277,6 +283,7 @@ $(function() {
     shippingAddressData["country"] = "US";
     $("body").data("shipping_address_data", shippingAddressData);
     populateBillingAddress('#store-card-form .card-billing-address', true);
+    populateCreditCardName('#store-card-form .billing-address-name');
     showSection(".store-card");
 
     makeZincRequest({

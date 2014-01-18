@@ -133,7 +133,7 @@ var CreditCard = (function() {
   })();
 
   var ExpirationInput = (function() {
-    var maximumLength = 6;
+    var maximumLength = 4;
     var selector;
 
     var createExpirationInput = function(mainSelector) {

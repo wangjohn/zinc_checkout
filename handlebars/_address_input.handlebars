@@ -1,15 +1,17 @@
-<div class="first-name last-name form-group">
-  <div class="col-sm-6 controls">
-    <input class="first-name form-control" type="text" name="first-name"
-    placeholder="First Name"
-    required>
+{{#if name}}
+  <div class="first-name last-name form-group">
+    <div class="col-sm-6 controls">
+      <input class="first-name form-control" type="text" name="first-name"
+      placeholder="First Name"
+      required>
+    </div>
+    <div class="col-sm-6 controls">
+      <input class="last-name form-control" type="text" name="last-name"
+      placeholder="Last Name"
+      required>
+    </div>
   </div>
-  <div class="col-sm-6 controls">
-    <input class="last-name form-control" type="text" name="last-name"
-    placeholder="Last Name"
-    required>
-  </div>
-</div>
+{{/if}}
 <div class="address-line1 form-group">
   <div class="col-sm-12 controls">
     <input class="address-line1 form-control" 
