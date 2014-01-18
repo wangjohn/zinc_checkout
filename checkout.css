@@ -153,3 +153,7 @@ h2.page-header {
 .review-order .variant-options .controls {
   overflow-wrap: break-word;
 }
+
+.review-order label {
+  padding-left: 0px;
+}
