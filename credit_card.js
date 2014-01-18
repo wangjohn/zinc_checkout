@@ -158,7 +158,7 @@ var CreditCard = (function() {
     var parseExpirationInput = function(expirationSelector) {
       var inputValue = getNumber($(expirationSelector).val());
       var month = inputValue.slice(0,2);
-      var year = "20" + inputValue(2);
+      var year = "20" + inputValue.slice(2);
       return {
         'year': year,
         'month': month
