@@ -157,3 +157,21 @@ h2.page-header {
 .review-order label {
   padding-left: 0px;
 }
+
+nav .stage-navigation .nav-wrapper {
+  padding: 25px;
+  width: 100%;
+  border-radius: 0px;
+  background-color: rgba(66, 139, 202, 1.0);
+  border-color: #357ebd;
+}
+
+nav .stage-navigation .nav-wrapper a {
+  color: white;
+}
+
+.navbar-nav, 
+nav .stage-navigation li {
+  padding-left: 0px;
+  padding-right: 0px;
+}
