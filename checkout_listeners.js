@@ -295,8 +295,37 @@ $(function() {
   };
 
   var validateStoreCardForm = function() {
-
-
+    var selectorValidatorTypeMap = {
+      "#store-card-form .credit-card-wrapper": {
+        "type": "creditCard",
+        "name": "credit card",
+      },
+      "#store-card-form input.billing-address-name": {
+        "type": "required",
+        "name": "name",
+      },
+      "#store-card-form input.address-line1": {
+        "type": "required",
+        "name": "address",
+      },
+      "#store-card-form input.city": {
+        "type": "required",
+        "name": "city",
+      },
+      "#store-card-form input.state": {
+        "type": "required",
+        "name": "state",
+      },
+      "#store-card-form input.zip-code": {
+        "type": "required",
+        "name": "zip code",
+      },
+      "#store-card-form select.dimension-values": {
+        "type": "multipleRequired",
+        "name": "product variants",
+      },
+    }
+    return Validation.validate(selectorValidatorTypeMap);
   };
 
   /**
