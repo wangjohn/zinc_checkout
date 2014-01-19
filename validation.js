@@ -1,10 +1,12 @@
 Validation = (function(){
   var Validators = (function() {
     var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var required = function(value) {
+    var required = function(value, fieldName) {
       var isValid = ($.trim(value) === "");
+      var message = "The " + fieldName + " field is required"
       return {
-        "is_valid": isValid
+        "is_valid": isValid,
+        "message": message
       }
     };
 
@@ -12,7 +14,8 @@ Validation = (function(){
       var email = $.trim(value);
       var isValid = emailRegex.test(email);
       return {
-        "is_valid": isValid
+        "is_valid": isValid,
+        "message": "Invalid email address"
       }
     };
 
@@ -28,19 +31,14 @@ Validation = (function(){
         }
         if (!isValid) {
           message = "Invalid security code";
-          errorType = "security_code";
         }
       } else {
         message = "Invalid credit card number";
-        errorType = "credit_card_number";
       }
 
       return {
         "is_valid": isValid,
-        "data": {
-          "message": message,
-          "error_type": errorType
-        }
+        "message": message
       };
     };
 
@@ -73,5 +71,44 @@ Validation = (function(){
     }
   })();
 
-  var validate
+  var ValidationErrorHolder = (function() {
+    var errorsPayload = [];
+
+    var addError = function(selector, message) {
+      var payload = {
+        "selector": selector,
+        "message": message
+      }
+      errorsPayload.push(payload);
+    };
+
+    var triggerErrorMessage = function() {
+      $("body").trigger("zinc_client_validation_error", errorsPayload);
+    };
+
+    return {
+      addError: addError,
+      triggerErrorMessage: triggerErrorMessage
+    };
+  });
+
+  var validate = function(selectorValidatorMap) {
+    var errorHolder = ValidationErrorHolder();
+    for (var selector in selectorValidatorMap) {
+      if (selectorValidatorMap.hasOwnProperty(selector)) {
+        var value = $(selector).val();
+        var validatorType = selectorValidatorMap[selector];
+        var validatorResults = Validators[validatorType](value);
+
+        if (!(validatorResults["is_valid"])) {
+          errorHolder.addError(selector, validatorResults["message"]);
+        }
+      }
+    }
+    errorHolder.triggerErrorMessage();
+  };
+
+  return {
+    validate: validate
+  };
 })();

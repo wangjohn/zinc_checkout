@@ -250,7 +250,7 @@ $(function() {
   };
 
   /**
-   * Main logic for listeners
+   * Initializers
    * ----------------------------------------------------------------------------
    */
 
@@ -275,6 +275,21 @@ $(function() {
       '#store-card-form .expiration-month-and-year',
       '#store-card-form .credit-card-number',
       '#store-card-form .security-code');
+
+  $('body').on('zinc_client_validation_error', function(e) {
+    $('.error-handling .error-message').html(
+      Handlebars.partials["_error_messages"](e.data);
+    );
+    $("body").find(".has-error").removeClass("has-error");
+    for (var i=0; i<e.data.length; i++) {
+      $(e.data[i]["selector"]).closest(".control-group").addClass("has-error");
+    }
+  });
+
+  /**
+   * Main logic for listeners
+   * ----------------------------------------------------------------------------
+   */
 
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
