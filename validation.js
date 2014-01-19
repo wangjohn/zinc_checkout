@@ -1,18 +1,26 @@
 Validation = (function(){
   var Validators = (function() {
     var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var expirationRegex = /(\d\d)\s*\/\s*(\d\d)/g;
 
-    var required = function(selector, fieldName) {
-      var value = $(selector).val()
-      var isValid = ($.trim(value) === "");
-      var message = "The " + fieldName + " field is required"
+    var required = function(selector, data) {
+      var value = $.trim($(selector).val())
+      var isValid = (value === "");
       return {
         "is_valid": isValid,
-        "message": message
-      }
+        "output_value": value,
+        "message": data["message"]
+      };
     };
 
-    var multipleRequired = function(selector) {
+    var noValidation = function(selector, data) {
+      return {
+        "is_valid": true
+        "output_value": $(selector).val()
+      };
+    };
+
+    var multipleRequired = function(selector, data) {
       var invalidSelectors = []
       $(selector).each(function(index, element) {
         var isValid = ($.trim($(element).val()) === "");
@@ -23,19 +31,37 @@ Validation = (function(){
 
       return {
         "is_valid": (invalidSelectors.length === 0),
-        "message": "Please select a product",
+        "output_value": $(data["product_id_selector"]).val()
+        "message": data["message"],
         "selectors": invalidSelectors
-      }
+      };
     };
 
-    var email = function(selector) {
-      var value = $(selector).val()
-      var email = $.trim(value);
+    var email = function(selector, data) {
+      var email = $.trim($(selector).val());
       var isValid = emailRegex.test(email);
       return {
         "is_valid": isValid,
-        "message": "Invalid email address"
+        "output_value": email,
+        "message": data["message"]
+      };
+    };
+
+    var creditCardExpiration = function(selector, data) {
+      var expirationVal = $.trim($(selector).val());
+      var matched = expirationRegex.exec(expirationVal);
+      var isValid = false;
+      var outputValue = [];
+      if (match.length == 3) {
+        isValid = true;
+        var outputValue = [match[1], match[2]];
       }
+
+      return {
+        "is_valid": isValid,
+        "message": data["message"],
+        "output_value": outputValue
+      };
     };
 
     var creditCard = function(selector) {
@@ -60,13 +86,14 @@ Validation = (function(){
 
       return {
         "is_valid": isValid,
+        "ouput_value": number,
         "message": message
       };
     };
 
     var isAmericanExpress = function(number) {
       return (number.length == 15);
-    }
+    };
 
     // Luhn Algorithm.
     var isValidCreditCardNumber = function(value) {
@@ -84,14 +111,33 @@ Validation = (function(){
         bEven = !bEven;
       }
       return (nCheck % 10) == 0;
-    }
+    };
+
+    var name = function(selector, data) {
+      var nameVal = $.trim($(selector).val());
+      var split = nameVal.split(" ");
+      var outputValue = [];
+      var isValid = false;
+      if (split.length >= 1) {
+        isValid = true;
+        outputValue = [nameVal.splice(0,nameVal.length), nameVal[nameVal.length-1]];
+      }
+
+      return {
+        "is_valid": isValid,
+        "output_value": outputValue,
+        "message": data["message"]
+      };
+    };
 
     return {
       required: required,
       creditCard: creditCard,
+      creditCardExpiration: creditCardExpiration,
       multipleRequired: multipleRequired,
+      noValidation: noValidation,
       email: email
-    }
+    };
   })();
 
   var ValidationErrorHolder = (function() {
@@ -165,7 +211,13 @@ Validation = (function(){
         var validatorResults = Validators[validatorType](selector, fieldName);
 
         if (validatorResults["is_valid"]) {
-          outputHolder.addOutput(currentMapping["output_name"], validatorResults["output_value"]);
+          if (currentMapping["output_name"] instanceof Array) {
+            for (var i=0; i<currentMapping["output_name"].length; i++) {
+              outputHolder.addOutput(currentMapping["output_name"][i], validatorResults["output_value"][i]);
+            }
+          } else {
+            outputHolder.addOutput(currentMapping["output_name"], validatorResults["output_value"]);
+          }
         } else {
           errorHolder.addError(selector, validatorResults);
           anyErrors = true;
@@ -186,49 +238,128 @@ Validation = (function(){
   };
 })();
 
-  var validateShippingMethodsForm = function() {
-    var selectorValidatorTypeMap = {
-      "#shipping-methods-form input.first-name": {
-        "type": "required",
-        "name": "first name",
-        "output_name": "shipping_methods.first_name",
+var validateShippingMethodsForm = function() {
+  var selectorValidatorTypeMap = {
+    "#shipping-methods-form input.first-name": {
+      "type": "required",
+      "data": {
+        "message": "The first name field is required",
       },
-      "#shipping-methods-form input.last-name": {
-        "type": "required",
-        "name": "last name",
-        "output_name": "shipping_methods.last_name",
+      "output_name": "shipping_methods.first_name",
+    },
+    "#shipping-methods-form input.last-name": {
+      "type": "required",
+      "data": {
+        "message": "The last name field is required",
       },
-      "#shipping-methods-form input.address-line1": {
-        "type": "required",
-        "name": "address",
-        "output_name": "shipping_methods.address_line1",
+      "output_name": "shipping_methods.last_name",
+    },
+    "#shipping-methods-form input.address-line1": {
+      "type": "required",
+      "data": {
+        "message": "The address field is required",
       },
-      "#shipping-methods-form input.address-line1": {
-        "type": "none",
-        "name": "address",
-        "output_name": "shipping_methods.address_line2",
+      "output_name": "shipping_methods.address_line1",
+    },
+    "#shipping-methods-form input.address-line2": {
+      "type": "noValidation",
+      "output_name": "shipping_methods.address_line2",
+    },
+    "#shipping-methods-form input.city": {
+      "type": "required",
+      "data": {
+        "message": "The city field is required",
       },
-      "#shipping-methods-form input.city": {
-        "type": "required",
-        "name": "city",
-        "output_name": "shipping_methods.city",
+      "output_name": "shipping_methods.city",
+    },
+    "#shipping-methods-form input.state": {
+      "type": "required",
+      "data": {
+        "message": "The state field is required",
       },
-      "#shipping-methods-form input.state": {
-        "type": "required",
-        "name": "state",
-        "output_name": "shipping_methods.state",
+      "output_name": "shipping_methods.state",
+    },
+    "#shipping-methods-form input.zip-code": {
+      "type": "required",
+      "data": {
+        "message": "The zip code field is required",
       },
-      "#shipping-methods-form input.zip-code": {
-        "type": "required",
-        "name": "zip code",
-        "output_name": "shipping_methods.zip_code",
+      "output_name": "shipping_methods.zip_code",
+    },
+    "#shipping-methods-form select.dimension-values": {
+      "type": "multipleRequired",
+      "data": {
+        "message": "Please select a product to purchase",
+        "product_id_selector": "#shipping-methods-form input.product-id"
       },
-      "#shipping-methods-form select.dimension-values": {
-        "type": "multipleRequired",
-        "name": "product variants",
-        "output_name": "products",
+      "output_name": "products",
+    },
+  };
+  return Validation.validate(selectorValidatorTypeMap);
+};
+
+
+var validateStoreCardForm = function() {
+  var selectorValidatorTypeMap = {
+    "#store-card-form section.credit-card": {
+      "type": "creditCard",
+      "output_name": "store_card.number"
+    },
+    "#store-card-form section.credit-card .expiration-month-and-year": {
+      "type": "creditCardExpiration",
+      "data": {
+        "message": "Invalid credit card expiration date"
       },
-    }
-    return Validation.validate(selectorValidatorTypeMap);
+      "output_name": ["store_card.expiration_month", "store_card.expiration_year"]
+    },
+    "#store-card-form input.billing-address-name": {
+      "type": "name",
+      "output_name": ["store_card.billing_address.first_name", "store_card.billing_address.last_name"]
+    },
+    "#store-card-form input.address-line1": {
+      "type": "required",
+      "data": {
+        "message": "The address field is required",
+      },
+      "output_name": "store_card.billing_address.address_line1",
+    },
+    "#store-card-form input.address-line2": {
+      "type": "noValidation",
+      "output_name": "store_card.billing_address.address_line2",
+    },
+    "#store-card-form input.city": {
+      "type": "required",
+      "data": {
+        "message": "The city field is required",
+      },
+      "output_name": "store_card.billing_address.city",
+    },
+    "#store-card-form input.state": {
+      "type": "required",
+      "data": {
+        "message": "The state field is required",
+      },
+      "output_name": "store_card.billing_address.state",
+    },
+    "#store-card-form input.zip-code": {
+      "type": "required",
+      "data": {
+        "message": "The zip code field is required",
+      },
+      "output_name": "store_card.billing_address.zip_code",
+    },
+    "#store-card-form input.is-gift": {
+      "type": "checkbox",
+      "output_name": "review_order.is_gift"
+    },
+    "#store-card-form input.email-address": {
+      "type": "email",
+      "data": {
+        "message": "Invalid email address"
+      },
+      "output_name": "review_order.customer_email"
+    },
   };
 
+  return Validation.validate(selectorValidatorTypeMap);
+};
