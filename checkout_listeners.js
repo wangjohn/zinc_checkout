@@ -262,12 +262,6 @@ $(function() {
 
   initializeHandlebars();
 
-  $("input,select,textarea").not("[type=submit]").jqBootstrapValidation({
-    filter: function () {
-      return $(this).is(":visible");
-    }
-  });
-
   $('.shipping-methods .product-results').on('click', 'input.variant-checkbox', function(e) {
     $(this).closest('.variant').toggleClass('checked');
   });
@@ -299,7 +293,6 @@ $(function() {
   $(window).load(function(e) {
     eventData = parseUrlParameters(window.location.href);
     if (eventData) {
-      $("#shipping-methods-form select.dimension-values").jqBootstrapValidation();
       showSection(".shipping-methods");
       makeZincRequest({
         url: zincUrl + "variant_options",
