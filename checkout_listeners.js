@@ -317,8 +317,9 @@ $(function() {
     var shippingMethodsData = Validation.validateShippingMethodsForm();
 
     if (shippingMethodsData) {
-      $("body").data("shipping_address_data", shippingAddressData);
+      console.log(shippingMethodsData);
       shippingMethodsData["shipping_address"]["country"] = "US";
+      $("body").data("shipping_address_data", shippingMethodsData["shipping_address"]);
 
       // Get ready to show things in the store card form
       populateBillingAddress('#store-card-form .card-billing-address', true);

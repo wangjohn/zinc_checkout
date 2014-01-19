@@ -90,7 +90,7 @@ Validation = (function(){
 
       return {
         "is_valid": isValid,
-        "ouput_value": number,
+        "ouput_value": [number, securityCode],
         "message": message
       };
     };
@@ -282,7 +282,7 @@ Validation = (function(){
         },
         "output_name": "shipping_methods.city",
       },
-      "#shipping-methods-form input.state": {
+      "#shipping-methods-form select.state": {
         "type": "required",
         "data": {
           "message": "The state field is required",
@@ -313,7 +313,7 @@ Validation = (function(){
     var selectorValidatorTypeMap = {
       "#store-card-form section.credit-card": {
         "type": "creditCard",
-        "output_name": "store_card.number"
+        "output_name": ["store_card.number", "review_order.payment_method.security_code"]
       },
       "#store-card-form section.credit-card .expiration-month-and-year": {
         "type": "creditCardExpiration",
@@ -344,7 +344,7 @@ Validation = (function(){
         },
         "output_name": "store_card.billing_address.city",
       },
-      "#store-card-form input.state": {
+      "#store-card-form select.state": {
         "type": "required",
         "data": {
           "message": "The state field is required",

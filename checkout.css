@@ -9,7 +9,10 @@ h2.page-header {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
+}
+
+.error-handling .error-message ul {
+  margin: 0px;
 }
 
 .product-results .variant {
@@ -197,3 +200,4 @@ nav .stage-navigation li {
 .spinner-wrapper {
   height: 100px;
 }
+
