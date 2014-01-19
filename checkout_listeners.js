@@ -30,7 +30,13 @@ $(function() {
     triggerResizeEvent();
   };
 
+  var clearErrors = function() {
+    $("body").find(".has-error").removeClass("has-error");
+    $(".error-message").html("");
+  };
+
   var showSection = function(section) {
+    clearErrors();
     $(".zinc-view").children().hide();
     $(".spinner-wrapper").hide();
     $(section).show();
@@ -280,7 +286,6 @@ $(function() {
     $('.error-handling .error-message').html(
       Handlebars.partials["_error_messages"](e.data);
     );
-    $("body").find(".has-error").removeClass("has-error");
     for (var i=0; i<e.data.length; i++) {
       $(e.data[i]["selector"]).closest(".control-group").addClass("has-error");
     }
