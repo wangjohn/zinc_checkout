@@ -122,26 +122,113 @@ Validation = (function(){
     };
   });
 
+  var ValidationOutputHolder = (function() {
+    var output = {};
+
+    var addOutput = function(outputName, value) {
+      var outputParts = outputName.split(".");
+      var currentPart = output;
+      for (var i=0; i<outputParts.length; i++) {
+        if (!output.hasOwnProperty(outputParts[i])) {
+          currentPart[outputParts[i]] = {};
+        }
+
+        // Either place the value into the output, or continue going down the
+        // search space.
+        if (i === outputParts.length-1) {
+          currentPart[outputParts[i]] = value
+        } else {
+          currentPart = currentPart[outputParts[i]];
+        }
+      }
+    };
+
+    var getOutput = function() {
+      return output;
+    };
+
+    return {
+      addOutput: addOutput,
+      getOuput: getOuput
+    }
+  });
+
   var validate = function(selectorValidatorMap) {
     var errorHolder = ValidationErrorHolder();
+    var outputHolder = ValidationOuputHolder();
     var anyErrors = false;
     for (var selector in selectorValidatorMap) {
       if (selectorValidatorMap.hasOwnProperty(selector)) {
-        var validatorType = selectorValidatorMap[selector]["type"];
-        var fieldName = selectorValidatorMap[selector]["name"];
+        var currentMapping = selectorValidatorMap[selector];
+        var validatorType = currentMapping["type"];
+        var fieldName = currentMapping["name"];
         var validatorResults = Validators[validatorType](selector, fieldName);
 
-        if (!(validatorResults["is_valid"])) {
+        if (validatorResults["is_valid"]) {
+          outputHolder.addOutput(currentMapping["output_name"], validatorResults["output_value"]);
+        } else {
           errorHolder.addError(selector, validatorResults);
           anyErrors = true;
         }
       }
     }
-    errorHolder.triggerErrorMessage();
-    return anyErrors;
+
+    if (anyErrors) {
+      errorHolder.triggerErrorMessage();
+      return false;
+    } else {
+      return outputHolder.getOutput();
+    }
   };
 
   return {
     validate: validate
   };
 })();
+
+  var validateShippingMethodsForm = function() {
+    var selectorValidatorTypeMap = {
+      "#shipping-methods-form input.first-name": {
+        "type": "required",
+        "name": "first name",
+        "output_name": "shipping_methods.first_name",
+      },
+      "#shipping-methods-form input.last-name": {
+        "type": "required",
+        "name": "last name",
+        "output_name": "shipping_methods.last_name",
+      },
+      "#shipping-methods-form input.address-line1": {
+        "type": "required",
+        "name": "address",
+        "output_name": "shipping_methods.address_line1",
+      },
+      "#shipping-methods-form input.address-line1": {
+        "type": "none",
+        "name": "address",
+        "output_name": "shipping_methods.address_line2",
+      },
+      "#shipping-methods-form input.city": {
+        "type": "required",
+        "name": "city",
+        "output_name": "shipping_methods.city",
+      },
+      "#shipping-methods-form input.state": {
+        "type": "required",
+        "name": "state",
+        "output_name": "shipping_methods.state",
+      },
+      "#shipping-methods-form input.zip-code": {
+        "type": "required",
+        "name": "zip code",
+        "output_name": "shipping_methods.zip_code",
+      },
+      "#shipping-methods-form select.dimension-values": {
+        "type": "multipleRequired",
+        "name": "product variants",
+        "output_name": "products",
+      },
+    }
+    return Validation.validate(selectorValidatorTypeMap);
+  };
+
