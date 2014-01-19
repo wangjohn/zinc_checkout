@@ -1,7 +1,9 @@
 Validation = (function(){
   var Validators = (function() {
     var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var required = function(value, fieldName) {
+
+    var required = function(selector, fieldName) {
+      var value = $(selector).val()
       var isValid = ($.trim(value) === "");
       var message = "The " + fieldName + " field is required"
       return {
@@ -10,7 +12,24 @@ Validation = (function(){
       }
     };
 
-    var email = function(value) {
+    var multipleRequired = function(selector) {
+      var invalidSelectors = []
+      $(selector).each(function(index, element) {
+        var isValid = ($.trim($(element).val()) === "");
+        if (!isValid) {
+          invalidSelectors.push(element);
+        }
+      });
+
+      return {
+        "is_valid": (invalidSelectors.length === 0),
+        "message": "Please select a product",
+        "selectors": invalidSelectors
+      }
+    };
+
+    var email = function(selector) {
+      var value = $(selector).val()
       var email = $.trim(value);
       var isValid = emailRegex.test(email);
       return {
@@ -19,10 +38,13 @@ Validation = (function(){
       }
     };
 
-    var creditCard = function(number, securityCode) {
+    var creditCard = function(selector) {
+      var number = $(selector).find("input.credit-card-number");
       var number = $.trim(number).replace(/\D/g, "");
+      var securityCode = $(selector).find("input.security-code");
       var securityCode = $.trim(securityCode).replace(/\D/g, "");
       var message, isValid, errorType;
+
       if (isValidCreditCardNumber(number)) {
         if (isAmericanExpres(number)) {
           isValid = (securityCode.length == 4);
@@ -67,22 +89,30 @@ Validation = (function(){
     return {
       required: required,
       creditCard: creditCard,
+      multipleRequired: multipleRequired,
       email: email
     }
   })();
 
   var ValidationErrorHolder = (function() {
-    var errorsPayload = [];
+    var errorMessages = [];
+    var selectors = [];
 
-    var addError = function(selector, message) {
-      var payload = {
-        "selector": selector,
-        "message": message
+    var addError = function(selector, validatorResults) {
+      if (validatorResults.hasOwnProperty("selectors")) {
+        selectors = selectors.concat(validatorResults["selectors"]);
+      } else {
+        selectors.push(selector)
       }
-      errorsPayload.push(payload);
+
+      errorMessages.push(validatorResults["message"]);
     };
 
     var triggerErrorMessage = function() {
+      var errorsPayload = {
+        "selectors": selectors,
+        "messages": errorMessages
+      };
       $("body").trigger("zinc_client_validation_error", errorsPayload);
     };
 
@@ -94,18 +124,21 @@ Validation = (function(){
 
   var validate = function(selectorValidatorMap) {
     var errorHolder = ValidationErrorHolder();
+    var anyErrors = false;
     for (var selector in selectorValidatorMap) {
       if (selectorValidatorMap.hasOwnProperty(selector)) {
-        var value = $(selector).val();
-        var validatorType = selectorValidatorMap[selector];
-        var validatorResults = Validators[validatorType](value);
+        var validatorType = selectorValidatorMap[selector]["type"];
+        var fieldName = selectorValidatorMap[selector]["name"];
+        var validatorResults = Validators[validatorType](selector, fieldName);
 
         if (!(validatorResults["is_valid"])) {
-          errorHolder.addError(selector, validatorResults["message"]);
+          errorHolder.addError(selector, validatorResults);
+          anyErrors = true;
         }
       }
     }
     errorHolder.triggerErrorMessage();
+    return anyErrors;
   };
 
   return {

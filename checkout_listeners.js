@@ -256,6 +256,50 @@ $(function() {
   };
 
   /**
+   * Validators
+   * ----------------------------------------------------------------------------
+   */
+
+  var validateShippingMethodsForm = function() {
+    var selectorValidatorTypeMap = {
+      "#shipping-methods-form input.first-name": {
+        "type": "required",
+        "name": "first name",
+      },
+      "#shipping-methods-form input.last-name": {
+        "type": "required",
+        "name": "last name",
+      },
+      "#shipping-methods-form input.address-line1": {
+        "type": "required",
+        "name": "address",
+      },
+      "#shipping-methods-form input.city": {
+        "type": "required",
+        "name": "city",
+      },
+      "#shipping-methods-form input.state": {
+        "type": "required",
+        "name": "state",
+      },
+      "#shipping-methods-form input.zip-code": {
+        "type": "required",
+        "name": "zip code",
+      },
+      "#shipping-methods-form select.dimension-values": {
+        "type": "multipleRequired",
+        "name": "product variants",
+      },
+    }
+    return Validation.validate(selectorValidatorTypeMap);
+  };
+
+  var validateStoreCardForm = function() {
+
+
+  };
+
+  /**
    * Initializers
    * ----------------------------------------------------------------------------
    */
@@ -278,10 +322,10 @@ $(function() {
 
   $('body').on('zinc_client_validation_error', function(e) {
     $('.error-handling .error-message').html(
-      Handlebars.partials["_error_messages"](e.data);
+      Handlebars.partials["_error_messages"](e.data)
     );
-    for (var i=0; i<e.data.length; i++) {
-      $(e.data[i]["selector"]).closest(".control-group").addClass("has-error");
+    for (var i=0; i<e.data["selectors"].length; i++) {
+      $(e.data["selectors"][i]).closest(".control-group").addClass("has-error");
     }
   });
 
