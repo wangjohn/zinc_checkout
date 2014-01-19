@@ -22,9 +22,7 @@ $(function() {
   var zincUrl = "https://api.zinc.io/v0/";
 
   var showError = function(data) {
-    $(".zinc-view").children().hide();
     $(".spinner").hide();
-    $(".error-message").html(data['message']);
     $(".error-handling").alert();
     $(".error-handling").show();
     triggerResizeEvent();
@@ -256,79 +254,6 @@ $(function() {
   };
 
   /**
-   * Validators
-   * ----------------------------------------------------------------------------
-   */
-
-  var validateShippingMethodsForm = function() {
-    var selectorValidatorTypeMap = {
-      "#shipping-methods-form input.first-name": {
-        "type": "required",
-        "name": "first name",
-      },
-      "#shipping-methods-form input.last-name": {
-        "type": "required",
-        "name": "last name",
-      },
-      "#shipping-methods-form input.address-line1": {
-        "type": "required",
-        "name": "address",
-      },
-      "#shipping-methods-form input.city": {
-        "type": "required",
-        "name": "city",
-      },
-      "#shipping-methods-form input.state": {
-        "type": "required",
-        "name": "state",
-      },
-      "#shipping-methods-form input.zip-code": {
-        "type": "required",
-        "name": "zip code",
-      },
-      "#shipping-methods-form select.dimension-values": {
-        "type": "multipleRequired",
-        "name": "product variants",
-      },
-    }
-    return Validation.validate(selectorValidatorTypeMap);
-  };
-
-  var validateStoreCardForm = function() {
-    var selectorValidatorTypeMap = {
-      "#store-card-form .credit-card-wrapper": {
-        "type": "creditCard",
-        "name": "credit card",
-      },
-      "#store-card-form input.billing-address-name": {
-        "type": "required",
-        "name": "name",
-      },
-      "#store-card-form input.address-line1": {
-        "type": "required",
-        "name": "address",
-      },
-      "#store-card-form input.city": {
-        "type": "required",
-        "name": "city",
-      },
-      "#store-card-form input.state": {
-        "type": "required",
-        "name": "state",
-      },
-      "#store-card-form input.zip-code": {
-        "type": "required",
-        "name": "zip code",
-      },
-      "#store-card-form select.dimension-values": {
-        "type": "multipleRequired",
-        "name": "product variants",
-      },
-    }
-    return Validation.validate(selectorValidatorTypeMap);
-  };
-
-  /**
    * Initializers
    * ----------------------------------------------------------------------------
    */
@@ -349,13 +274,15 @@ $(function() {
       '#store-card-form .credit-card-number',
       '#store-card-form .security-code');
 
-  $('body').on('zinc_client_validation_error', function(e) {
+  $('body').on('zinc_client_validation_error', function(e, data) {
     $('.error-handling .error-message').html(
-      Handlebars.partials["_error_messages"](e.data)
+      Handlebars.partials["_error_messages"](data)
     );
-    for (var i=0; i<e.data["selectors"].length; i++) {
-      $(e.data["selectors"][i]).closest(".control-group").addClass("has-error");
+    console.log(data);
+    for (var i=0; i<data["selectors"].length; i++) {
+      $(data["selectors"][i]).closest(".control-group").addClass("has-error");
     }
+    showError();
   });
 
   /**
@@ -385,6 +312,36 @@ $(function() {
       });
     }
   });
+
+  $("#shipping-methods-form").on("submit", valPassingCall(function(e) {
+    var shippingMethodsData = Validation.validateShippingMethodsForm();
+
+    if (shippingMethodsData) {
+      $("body").data("shipping_address_data", shippingAddressData);
+      shippingMethodsData["shipping_address"]["country"] = "US";
+
+      // Get ready to show things in the store card form
+      populateBillingAddress('#store-card-form .card-billing-address', true);
+      populateCreditCardName('#store-card-form .billing-address-name');
+      showSection(".store-card");
+
+      makeZincRequest({
+        url: zincUrl + "shipping_methods",
+        data: shippingMethodsData,
+        callback: handleZincResponse(function(data) {
+          $("body").data("shipping_methods_response", data);
+
+          if ($("body").data("store_card_data")) {
+            placeStoreCardAndReviewOrderCall();
+          } else {
+            $("#store-card-form").on("submit", valPassingCall(function(e) {
+              placeStoreCardAndReviewOrderCall();
+            }));
+          }
+        })
+      });
+    }
+  }));
 
   $("#store-card-form").on("submit", function(e) {
     e.preventDefault();
@@ -436,35 +393,6 @@ $(function() {
       })
     });
   };
-
-  $("#shipping-methods-form").on("submit", valPassingCall(function(e) {
-    var shippingAddressData = createSelectorData("#shipping-methods-form input,select", addressDataAttributes);
-    shippingAddressData["country"] = "US";
-    $("body").data("shipping_address_data", shippingAddressData);
-    populateBillingAddress('#store-card-form .card-billing-address', true);
-    populateCreditCardName('#store-card-form .billing-address-name');
-    showSection(".store-card");
-
-    makeZincRequest({
-      url: zincUrl + "shipping_methods",
-      data: {
-        "retailer": $("body").data("variant_options_response")["retailer"],
-        "products": populateProducts("#shipping-methods-form .variant-product-info input.product-id"),
-        "shipping_address": shippingAddressData
-      },
-      callback: handleZincResponse(function(data) {
-        $("body").data("shipping_methods_response", data);
-
-        if ($("body").data("store_card_data")) {
-          placeStoreCardAndReviewOrderCall();
-        } else {
-          $("#store-card-form").on("submit", valPassingCall(function(e) {
-            placeStoreCardAndReviewOrderCall();
-          }));
-        }
-      })
-    });
-  }));
 
   $(".review-order").on("submit", "#place-order-form", valPassingCall(function(e) {
     console.log("placing order");
