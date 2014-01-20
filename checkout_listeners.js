@@ -324,6 +324,7 @@ $(function() {
       shippingMethodsData["shipping_address"]["country"] = "US";
       shippingMethodsData["retailer"] = $("body").data("variant_options_response")["retailer"],
       $("body").data("shipping_address_data", shippingMethodsData["shipping_address"]);
+      $("body").data("products", shippingMethodsData["products"]);
 
       // Get ready to show things in the store card form
       populateBillingAddress('#store-card-form .card-billing-address', true);
