@@ -6,7 +6,7 @@ Validation = (function(){
   var Validators = (function() {
     var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var expirationRegex = /(\d\d)\s*\/\s*(\d\d)/g;
-    var zipCodeRegex = /\d\d\d\d\d(\s*-?\s*\d\d\d\d)?/;
+    var zipCodeRegex = /(^\d{5}$)|(^\d{5}\s*-\s*\d{4}$)/;
 
     var required = function(selector, data) {
       var value = $.trim($(selector).val())
@@ -79,7 +79,7 @@ Validation = (function(){
       var expirationVal = $.trim($(selector).val());
       var match = expirationRegex.exec(expirationVal);
       var isValid = false;
-      var outputValue = [];
+      var outputValue = ["", ""];
       if (match && match.length == 3) {
         var month = parseInt(match[1], 10);
         var year = "20" + match[2];
@@ -97,10 +97,10 @@ Validation = (function(){
     };
 
     var creditCard = function(selector) {
-      var number = $(selector).find("input.credit-card-number");
-      var number = $.trim(number).replace(/\D/g, "");
-      var securityCode = $(selector).find("input.security-code");
-      var securityCode = $.trim(securityCode).replace(/\D/g, "");
+      var rawNumber = $(selector).find("input.credit-card-number").val();
+      var number = $.trim(rawNumber).replace(/\D/g, "");
+      var rawSecurityCode = $(selector).find("input.security-code").val();
+      var securityCode = $.trim(rawSecurityCode).replace(/\D/g, "");
       var message, isValid, errorType;
 
       if (isValidCreditCardNumber(number)) {
@@ -149,7 +149,7 @@ Validation = (function(){
     var name = function(selector, data) {
       var nameVal = $.trim($(selector).val());
       var split = nameVal.split(" ");
-      var outputValue = [];
+      var outputValue = ["", ""];
       var isValid = false;
       if (split.length >= 1) {
         isValid = true;
@@ -389,7 +389,7 @@ Validation = (function(){
       "#store-card-form input.zip-code": {
         "type": "zipCode",
         "data": {
-          "message": "The zip code field is required",
+          "message": "The zip code field is either invalid or missing",
         },
         "output_name": "store_card.billing_address.zip_code",
       },

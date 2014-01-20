@@ -37,7 +37,7 @@ $(function() {
 
   var clearErrors = function() {
     $("body").find(".has-error").removeClass("has-error");
-    $(".error-message").html("");
+    $(".error-handling .error-message").html("");
     $(".error-handling").hide();
   };
 
@@ -280,6 +280,7 @@ $(function() {
       '#store-card-form .security-code');
 
   $('body').on('zinc_client_validation_error', function(e, data) {
+    clearErrors();
     for (var i=0; i<data["selectors"].length; i++) {
       $(data["selectors"][i]).closest(".control-group").addClass("has-error");
     }
