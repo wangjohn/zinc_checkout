@@ -1,6 +1,6 @@
 (function(){
 
-  var zincUrl = "http://localhost:8888/"
+  var zincUrl = "https://dl.dropboxusercontent.com/spa/qjopb1dsqoaxdqh/zinc_checkout/";
 
   var iframeSource = zincUrl + "modal.html";
   var defaultButtonText = "Checkout";
