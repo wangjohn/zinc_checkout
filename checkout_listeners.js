@@ -22,15 +22,23 @@ $(function() {
   var zincUrl = "https://api.zinc.io/v0/";
 
   var showError = function(data) {
-    $(".spinner").hide();
+    $('.error-handling .error-message').html(
+      Handlebars.partials["_error_messages"](data)
+    );
     $(".error-handling").alert();
     $(".error-handling").show();
     triggerResizeEvent();
   };
 
+  var showMajorError = function(data) {
+    showError(data);
+    $(".zinc-view").children().hide();
+  };
+
   var clearErrors = function() {
     $("body").find(".has-error").removeClass("has-error");
     $(".error-message").html("");
+    $(".error-handling").hide();
   };
 
   var showSection = function(section) {
@@ -53,7 +61,7 @@ $(function() {
   var handleZincResponse = function(func) {
     return function(data) {
       if (data['_type'] === 'error') {
-        showError(data);
+        showMajorError({"major_error": data["message"]});
       } else {
         func(data);
       }
@@ -74,10 +82,7 @@ $(function() {
   var valPassingCall = function(cb) {
     return function(e) {
       e.preventDefault();
-
-      if (!$(e.currentTarget).hasClass("has-validation-error")) {
-        cb(e);
-      }
+      cb(e);
     }
   };
 
@@ -93,7 +98,7 @@ $(function() {
     }).done(function(data){
       waitForResult(options['url'], data['request_id'], options['callback']);
     }).fail(function(jqXhr, textStatus){
-      showError({ "message": "Oops, it seems like we weren't able to reach the Zinc server." });
+      showMajorError({"major_error": "Oops, it seems like we weren't able to reach the Zinc server."});
     });
   };
 
@@ -107,13 +112,13 @@ $(function() {
         setTimeout(function() {
           waitForResult(url, requestId, callback)
         }, 1000);
-      } else if (data['_type'] === "error") {
-        showError(data);
+      } else if (data['_type'] === "error" && ['code'] !== 'request_processing') {
+        showMajorError({"major_error": data["message"]});
       } else {
         callback(data);
       }
     }).fail(function(jqXhr, textStatus){
-      showError({ "message": "Oops, it seems like we weren't able to reach the Zinc server." });
+      showMajorError({"major_error": "Oops, it seems like we weren't able to reach the Zinc server."});
     });
   };
 
@@ -275,14 +280,10 @@ $(function() {
       '#store-card-form .security-code');
 
   $('body').on('zinc_client_validation_error', function(e, data) {
-    $('.error-handling .error-message').html(
-      Handlebars.partials["_error_messages"](data)
-    );
-    console.log(data);
     for (var i=0; i<data["selectors"].length; i++) {
       $(data["selectors"][i]).closest(".control-group").addClass("has-error");
     }
-    showError();
+    showError(data);
   });
 
   /**
@@ -317,8 +318,8 @@ $(function() {
     var shippingMethodsData = Validation.validateShippingMethodsForm();
 
     if (shippingMethodsData) {
-      console.log(shippingMethodsData);
       shippingMethodsData["shipping_address"]["country"] = "US";
+      shippingMethodsData["retailer"] = $("body").data("variant_options_response")["retailer"],
       $("body").data("shipping_address_data", shippingMethodsData["shipping_address"]);
 
       // Get ready to show things in the store card form
@@ -346,21 +347,16 @@ $(function() {
 
   $("#store-card-form").on("submit", function(e) {
     e.preventDefault();
-    $("body").data("security_code", $("#store-card-form input.security-code").val());
-    var billing_address = fetchBillingAddressData("input.use-shipping-address",
-      ".card-billing-address input", addressDataAttributes);
-    billing_address["country"] = "US";
-    var expirationData = CreditCard.parseExpirationInput("#store-card-form input.expiration-month-and-year");
+    var validatedData = Validation.validateStoreCardForm();
+    console.log(validatedData);
+    if (validatedData) {
+      $("body").data("review_order_data", validatedData["review_order"]);
+      var storeCardData = validatedData["store_card"];
+      storeCardData["billing_address"]["country"] = "US";
+      $("body").data("store_card_data", storeCardData);
 
-    var storeCardData = {
-      "number": $("#store-card-form input.credit-card-number").val(),
-      "expiration_month": expirationData["month"],
-      "expiration_year": expirationData["year"],
-      "billing_address": billing_address
-    };
-    $("body").data("store_card_data", storeCardData);
-
-    showLoadingScreen();
+      showLoadingScreen();
+    }
   });
 
   var placeStoreCardAndReviewOrderCall = function() {

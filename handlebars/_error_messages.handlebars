@@ -1,5 +1,9 @@
-<ul role="alert">
-  {{#each messages }}
-    <li>{{ this }}</li>
-  {{/each}}
-</ul>
+{{#if major_error}}
+  <span class="major-error">{{ major_error}}</span>
+{{else}}
+  <ul role="alert">
+    {{#each messages }}
+      <li>{{ this }}</li>
+    {{/each}}
+  </ul>
+{{/if}}
