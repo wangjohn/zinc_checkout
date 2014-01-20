@@ -357,7 +357,6 @@ $(function() {
       $("body").data("review_order_data", validatedData["review_order"]);
       var storeCardData = validatedData["store_card"];
       storeCardData["billing_address"]["country"] = "US";
-      console.log(storeCardData);
       $("body").data("store_card_data", storeCardData);
 
       showLoadingScreen();
@@ -370,6 +369,7 @@ $(function() {
       data: $("body").data("store_card_data"),
       callback: handleZincResponse(function(data) {
         $("body").data("store_card_response", data);
+        var reviewOrderData = $("body").data("review_order_data");
 
         // Make a review_order request immediately after the store_card request
         makeZincRequest({
@@ -378,13 +378,13 @@ $(function() {
             "retailer": $("body").data("variant_options_response")["retailer"],
             "products": $("body").data("products"),
             "shipping_address": $("body").data("shipping_address_data"),
-            "is_gift": $("#store-card-form input.is-gift").attr(":checked") !== undefined,
+            "is_gift": reviewOrderData["is_gift"],
             "shipping_method_id": getShippingMethodId(),
             "payment_method": {
-              "security_code": $("body").data("security_code"),
+              "security_code": reviewOrderData["payment_method"]["security_code"],
               "cc_token": $("body").data("store_card_response")["cc_token"],
             },
-            "customer_email": $("#store-card-form input.email-address").val()
+            "customer_email": reviewOrderData["customer_email"]
           },
           callback: handleZincResponse(function(data) {
             $("body").data("review_order_response", data);

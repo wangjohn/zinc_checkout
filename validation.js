@@ -223,7 +223,7 @@ Validation = (function(){
       var outputParts = outputName.split(".");
       var currentPart = output;
       for (var i=0; i<outputParts.length; i++) {
-        if (!output.hasOwnProperty(outputParts[i])) {
+        if (!currentPart.hasOwnProperty(outputParts[i])) {
           currentPart[outputParts[i]] = {};
         }
 
