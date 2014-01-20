@@ -406,9 +406,15 @@ $(function() {
   }));
 
   // FIXME: This is a hack around the DOM loading on the iframe. We need to fix this.
-  var keepResizing = function() {
-    triggerResizeEvent();
-    setTimeout(keepResizing, 300);
+  var originalBodyHeight = $(".modal-body").outerHeight();
+  var resizeOnHandlebarsLoad = function() {
+    var currentHeight = $(".modal-body").outerHeight();
+    if (originalBodyHeight === currentHeight ||
+        (!$(".variant-product-info").is(":visible"))) {
+      setTimeout(resizeOnHandlebarsLoad, 50);
+    } else {
+      triggerResizeEvent();
+    }
   }
-  keepResizing();
+  resizeOnHandlebarsLoad();
 });
