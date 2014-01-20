@@ -220,9 +220,13 @@ h2.page-header {
   margin-bottom: 10px;
 }
 
-.product-name a.product-name-link {
+#shipping-methods-form .product-name a.product-name-link {
   overflow: hidden;
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+#shipping-methods-form .product-name {
+  margin-bottom: 15px;
 }
