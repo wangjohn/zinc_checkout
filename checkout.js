@@ -9,7 +9,9 @@
     "jquery": {
       "url": zincUrl + "assets/jquery-1.10.2.min.js",
       "skipLoad": function() {
-        return (window.jQuery);
+        return (window.jQuery && window.jQuery && 
+          validVersion("1.7", window.jQuery.fn.jquery)
+          );
       }
     },
     "bootstrap-js": {
@@ -30,6 +32,22 @@
   var zincIframeId = "zinc-checkout-iframe";
   var zincModalId = "zinc-checkout-modal";
   var zincModalContentId = "zinc-checkout-modal-content";
+
+  var validVersion = function(targetVersion, versionNumber) {
+    var targetVersionSplit = targetVersion.split(".");
+    var versionNumberSplit = versionNumber.split(".");
+
+    for (var i=0; i<targetVersionSplit.length; i++) {
+      if (i > (versionNumberSplit.length - 1)) {
+        return false;
+      } else if (versionNumberSplit[i] > targetVersionSplit[i]) {
+        return true;
+      } else if (versionNumberSplit[i] < targetVersionSplit[i]) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   var loadScript = function(scriptData, callback) {
     var url = scriptData["url"];
