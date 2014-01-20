@@ -28,6 +28,7 @@ $(function() {
     $(".error-handling").alert();
     $(".spinner-wrapper").hide();
     $(".error-handling").show();
+    parent.postMessage("zinc-error", "*");
     triggerResizeEvent();
   };
 

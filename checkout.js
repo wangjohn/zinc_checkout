@@ -92,6 +92,7 @@
             });
 
             dynamicResizeIFrame();
+            listenToIFrameErrors();
 
             $("body").delegate(".modal-backdrop", "click", function(e) {
               $("#" + zincModalId).modal('hide');
@@ -152,10 +153,35 @@
     // Listen to message from child window
     eventer(messageEvent, function(e) {
       var match = /zinc-resize-height=(.*)/.exec(e.data);
-      if (match.length > 1) {
+      if (match !== null && match.length > 1) {
         resizeModal(match[1]);
       }
     });
+  };
+
+  var listenToIFrameErrors = function() {
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+    eventer(messageEvent, function(e) {
+      if (/zinc-error/.test(e.data)) {
+        shakeModal(2);
+      }
+    });
+  };
+
+  var shakeAnimationTime = 130;
+  var shakeModal = function(count) {
+    if (count > 0) {
+      $("#" + zincModalId).animate({'left': '-20px'}, shakeAnimationTime, function() {
+        $("#" + zincModalId).animate({'left': '20px'}, shakeAnimationTime, function() {
+          shakeModal(count-1);
+        });
+      });
+    } else {
+      $("#" + zincModalId).animate({'left': '0px'}, shakeAnimationTime);
+    }
   };
 
   var resizeModal = function(height) {
