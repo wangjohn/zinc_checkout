@@ -136,7 +136,6 @@ $(function() {
       Handlebars.templates['shipping_methods']({'name': true})
     );
     $('.store-card').append(Handlebars.templates['store_card']());
-    $('.completed-order').append(Handlebars.templates['completed_order']());
     $('.modal-header').append(Handlebars.templates['stage_navigation']());
 
     Handlebars.registerHelper("capitalize", function(string, options) {
@@ -221,6 +220,7 @@ $(function() {
       products: selectedProducts,
       product_url: $("body").data("variant_options_response")["product_url"],
       shipping_address: $("body").data("shipping_address_data"),
+      billing_address: $("body").data("store_card_data")["billing_address"],
       payment_method: $("body").data("store_card_response"),
       price_components: $("body").data("review_order_response")["price_components"]
     };
@@ -399,15 +399,15 @@ $(function() {
 
   $(".review-order").on("submit", "#place-order-form", valPassingCall(function(e) {
     console.log("placing order");
+    showLoadingScreen();
+
     makeZincRequest({
       url: zincUrl + "place_order",
       data: {
         "place_order_key": $("body").data("review_order_response")["place_order_key"]
       },
       callback: handleZincResponse(function(data) {
-        $(".completed-order .order-confirmation").append(
-          Handlebars.partials["_completed_order"](data)
-        );
+        $(".completed-order").append(Handlebars.templates["completed_order"](data));
         showSection(".completed-order");
       })
     });
