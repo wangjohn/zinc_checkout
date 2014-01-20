@@ -201,3 +201,19 @@ nav .stage-navigation li {
   height: 100px;
 }
 
+label.control-label {
+  margin-bottom: 0px;
+}
+
+.retailer-information-panel .panel-body {
+  padding: 10px;
+}
+
+.retailer-information-panel .panel {
+  margin-bottom: 10px;
+}
+
+.billing-address address,
+.shipping-address address {
+  margin-bottom: 10px;
+} 

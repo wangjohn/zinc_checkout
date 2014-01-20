@@ -11,12 +11,6 @@
     <div class="products col-sm-12">
       <h5>PRODUCT DETAILS</h5>
       {{#each products}}
-        <div class="variant-price col-sm-12">
-          <label class="col-sm-4 control-label">Price</label>
-          <div class="col-sm-8 controls">
-            <p class="form-control-static">{{ displayDollars unit_price }}</p>
-          </div>
-        </div>
         {{#each dimensions}}
           <div class="variant-description col-sm-12">
             <label class="col-sm-4 control-label">{{ capitalize name}}</label>
