@@ -75,6 +75,10 @@
           document.getElementsByTagName('body')[0].appendChild(modal);
           var lastSeenSource = '';
 
+          if (!$) {
+            $ = window.jQuery;
+          }
+
           $(function() {
             retargetAffiliateLinks(scriptElement);
             $("#" + zincModalId).modal({
