@@ -78,7 +78,7 @@ h2.page-header {
 }
 
 .spinner {
-  margin: 100px auto 0;
+  margin: 70px auto 0;
   width: 70px;
   text-align: center;
 }
@@ -220,7 +220,7 @@ h2.page-header {
   margin-bottom: 10px;
 }
 
-#shipping-methods-form .product-name a.product-name-link {
+.product-name a.product-name-link {
   overflow: hidden;
   display: block;
   text-overflow: ellipsis;
