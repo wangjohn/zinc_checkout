@@ -13,7 +13,7 @@
       }
     },
     "bootstrap-js": {
-      "url": zincUrl + "assets/bootstrap.js",
+      "url": zincUrl + "assets/bootstrap-modal.js",
       "skipLoad": function() {
         return ($ && typeof $().modal == 'function');
       }
