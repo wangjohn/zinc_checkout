@@ -53,6 +53,7 @@ $(function() {
   };
 
   var showLoadingScreen = function(message) {
+    clearErrors();
     $(".zinc-view").children().hide();
     $(".spinner-wrapper").show();
     $(".spinner-wrapper .spinner-text").text(message);
@@ -352,11 +353,11 @@ $(function() {
   $("#store-card-form").on("submit", function(e) {
     e.preventDefault();
     var validatedData = Validation.validateStoreCardForm();
-    console.log(validatedData);
     if (validatedData) {
       $("body").data("review_order_data", validatedData["review_order"]);
       var storeCardData = validatedData["store_card"];
       storeCardData["billing_address"]["country"] = "US";
+      console.log(storeCardData);
       $("body").data("store_card_data", storeCardData);
 
       showLoadingScreen();

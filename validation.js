@@ -59,7 +59,10 @@ Validation = (function(){
 
     var email = function(selector, data) {
       var email = $.trim($(selector).val());
-      var isValid = emailRegex.test(email);
+      var isValid = false;
+      if (email !== "" && emailRegex.test(email)) {
+        isValid = true;
+      }
       return {
         "is_valid": isValid,
         "output_value": email,
@@ -244,31 +247,37 @@ Validation = (function(){
     }
   });
 
+  var processSelector = function(selector, selectorValidatorMap, errorHolder, outputHolder) {
+    if (selectorValidatorMap.hasOwnProperty(selector)) {
+      var currentMapping = selectorValidatorMap[selector];
+      var validatorType = currentMapping["type"];
+      var fieldName = currentMapping["name"];
+      var validatorResults = Validators[validatorType](selector, currentMapping["data"]);
+
+      if (validatorResults["is_valid"]) {
+        if (currentMapping["output_name"] instanceof Array) {
+          for (var i=0; i<currentMapping["output_name"].length; i++) {
+            outputHolder.addOutput(currentMapping["output_name"][i],
+                validatorResults["output_value"][i]);
+          }
+        } else {
+          outputHolder.addOutput(currentMapping["output_name"],
+              validatorResults["output_value"]);
+        }
+      } else {
+        errorHolder.addError(selector, validatorResults);
+        return true;
+      }
+    }
+  };
+
   var validate = function(selectorValidatorMap) {
     var errorHolder = ValidationErrorHolder();
     var outputHolder = ValidationOutputHolder();
     var anyErrors = false;
     for (var selector in selectorValidatorMap) {
-      if (selectorValidatorMap.hasOwnProperty(selector)) {
-        var currentMapping = selectorValidatorMap[selector];
-        var validatorType = currentMapping["type"];
-        var fieldName = currentMapping["name"];
-        var validatorResults = Validators[validatorType](selector, currentMapping["data"]);
-
-        if (validatorResults["is_valid"]) {
-          if (currentMapping["output_name"] instanceof Array) {
-            for (var i=0; i<currentMapping["output_name"].length; i++) {
-              outputHolder.addOutput(currentMapping["output_name"][i],
-                  validatorResults["output_value"][i]);
-            }
-          } else {
-            outputHolder.addOutput(currentMapping["output_name"],
-                validatorResults["output_value"]);
-          }
-        } else {
-          errorHolder.addError(selector, validatorResults);
-          anyErrors = true;
-        }
+      if (processSelector(selector, selectorValidatorMap, errorHolder, outputHolder)) {
+        anyErrors = true;
       }
     }
     if (anyErrors) {
