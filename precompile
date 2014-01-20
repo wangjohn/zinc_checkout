@@ -10,7 +10,9 @@ end
 Dir.foreach(HANDLEBARS_PATH) do |handlebars_file|
   if /\.handlebars$/ =~ handlebars_file
     handlebars_path = HANDLEBARS_PATH + "/" + handlebars_file
+    handlebars_path = handlebars_path.gsub(' ', '\ ')
     result_path = COMPILED_TEMPLATE_PATH + "/" + handlebars_file.gsub(/handlebars$/, "js")
+    result_path = result_path.gsub(' ', '\ ')
 
     if /^_/ =~ handlebars_file
       system "handlebars -p #{handlebars_path} -f #{result_path}"
