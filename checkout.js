@@ -68,16 +68,13 @@
   var initialize = function(){
     loadScript(resourceLoading["button-css"], function() {
       loadScript(resourceLoading["jquery"], function() {
+        if (!$) $ = window.jQuery;
         loadScript(resourceLoading["bootstrap-js"], function() {
           var scriptElement = findScriptElement();
           var modal = createModalElement();
 
           document.getElementsByTagName('body')[0].appendChild(modal);
           var lastSeenSource = '';
-
-          if (!$) {
-            $ = window.jQuery;
-          }
 
           $(function() {
             retargetAffiliateLinks(scriptElement);
