@@ -214,6 +214,7 @@ $(function() {
         }
       }
     }
+    $("body").data("products_display_data", selectedProducts);
 
     var data = {
       retailer: $("body").data("variant_options_response")["retailer"],
@@ -407,6 +408,9 @@ $(function() {
         "place_order_key": $("body").data("review_order_response")["place_order_key"]
       },
       callback: handleZincResponse(function(data) {
+        data["products"] = $("body").data("products_display_data");
+        data["billing_address"] = $("body").data("store_card_data")["billing_address"];
+        data["payment_method"] = $("body").data("store_card_response");
         $(".completed-order").append(Handlebars.templates["completed_order"](data));
         showSection(".completed-order");
       })
