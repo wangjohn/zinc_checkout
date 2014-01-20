@@ -111,7 +111,6 @@ $(function() {
       type: "GET",
     }).done(function(data) {
       if (data['_type'] === "error" && data['code'] === "request_processing") {
-        console.log('waiting');
         setTimeout(function() {
           waitForResult(url, requestId, callback)
         }, 1000);
@@ -223,6 +222,7 @@ $(function() {
       product_url: $("body").data("variant_options_response")["product_url"],
       shipping_address: $("body").data("shipping_address_data"),
       billing_address: $("body").data("store_card_data")["billing_address"],
+      product_name: $("body").data("product_name_response")["product_name"],
       payment_method: $("body").data("store_card_response"),
       price_components: $("body").data("review_order_response")["price_components"]
     };
@@ -316,6 +316,16 @@ $(function() {
           $("#shipping-methods-form button.submit-shipping-methods").attr("disabled", false);
         })
       });
+      makeZincRequest({
+        url: zincUrl + "get_product_name",
+        data: {
+          "retailer": eventData["retailer"],
+          "product_url": eventData["product_url"]
+        },
+        callback: handleZincResponse(function(data) {
+          $("body").data("product_name_response", data);
+        })
+      });
     }
   });
 
@@ -400,7 +410,6 @@ $(function() {
   };
 
   $(".review-order").on("submit", "#place-order-form", valPassingCall(function(e) {
-    console.log("placing order");
     showLoadingScreen();
 
     makeZincRequest({
@@ -412,6 +421,8 @@ $(function() {
         data["products"] = $("body").data("products_display_data");
         data["billing_address"] = $("body").data("store_card_data")["billing_address"];
         data["payment_method"] = $("body").data("store_card_response");
+        data["product_name"] = $("body").data("product_name_response")["product_name"];
+        data["product_url"] = $("body").data("variant_options_response")["product_url"];
         $(".completed-order").append(Handlebars.templates["completed_order"](data));
         showSection(".completed-order");
       })
