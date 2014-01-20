@@ -26,6 +26,7 @@ $(function() {
       Handlebars.partials["_error_messages"](data)
     );
     $(".error-handling").alert();
+    $(".spinner-wrapper").hide();
     $(".error-handling").show();
     triggerResizeEvent();
   };
@@ -338,7 +339,9 @@ $(function() {
             placeStoreCardAndReviewOrderCall();
           } else {
             $("#store-card-form").on("submit", valPassingCall(function(e) {
-              placeStoreCardAndReviewOrderCall();
+              if ($("body").data("store_card_data")) {
+                placeStoreCardAndReviewOrderCall();
+              }
             }));
           }
         })

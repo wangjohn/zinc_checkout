@@ -5,7 +5,7 @@ Validation = (function(){
    */
   var Validators = (function() {
     var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var expirationRegex = /(\d\d)\s*\/\s*(\d\d)/g;
+    var expirationRegex = /(\d\d)\s*\/\s*(\d\d)/;
     var zipCodeRegex = /(^\d{5}$)|(^\d{5}\s*-\s*\d{4}$)/;
 
     var required = function(selector, data) {
@@ -80,7 +80,7 @@ Validation = (function(){
       var match = expirationRegex.exec(expirationVal);
       var isValid = false;
       var outputValue = ["", ""];
-      if (match && match.length == 3) {
+      if (match && match.length === 3) {
         var month = parseInt(match[1], 10);
         var year = "20" + match[2];
         if (month >= 0 && month <= 12) {
@@ -101,7 +101,8 @@ Validation = (function(){
       var number = $.trim(rawNumber).replace(/\D/g, "");
       var rawSecurityCode = $(selector).find("input.security-code").val();
       var securityCode = $.trim(rawSecurityCode).replace(/\D/g, "");
-      var message, isValid, errorType;
+      var message, errorType;
+      var isValid = false;
 
       if (isValidCreditCardNumber(number)) {
         if (isAmericanExpress(number)) {
@@ -116,11 +117,12 @@ Validation = (function(){
         message = "Invalid credit card number";
       }
 
-      return {
+      result = {
         "is_valid": isValid,
-        "ouput_value": [number, securityCode],
+        "output_value": [number, securityCode],
         "message": message
       };
+      return result;
     };
 
     var isAmericanExpress = function(number) {
@@ -151,9 +153,11 @@ Validation = (function(){
       var split = nameVal.split(" ");
       var outputValue = ["", ""];
       var isValid = false;
-      if (split.length >= 1) {
+      if (split.length > 1) {
         isValid = true;
-        outputValue = [split.splice(0,nameVal.length-1), nameVal[nameVal.length-1]];
+        var firstName = split.splice(0, split.length-1).join(" ");
+        var lastName = split[split.length-1];
+        outputValue = [firstName, lastName];
       }
 
       return {
@@ -343,7 +347,7 @@ Validation = (function(){
 
   var validateStoreCardForm = function() {
     var selectorValidatorTypeMap = {
-      "#store-card-form .credit-card": {
+      "#store-card-form .credit-card .number": {
         "type": "creditCard",
         "output_name": ["store_card.number", "review_order.payment_method.security_code"]
       },
@@ -357,7 +361,7 @@ Validation = (function(){
       "#store-card-form input.billing-address-name": {
         "type": "name",
         "data": {
-          "message": "The name field is required",
+          "message": "The name field is either missing or invalid - try using both first and last names",
         },
         "output_name": ["store_card.billing_address.first_name", "store_card.billing_address.last_name"]
       },
