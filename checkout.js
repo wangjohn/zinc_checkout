@@ -15,7 +15,7 @@
     "bootstrap-js": {
       "url": zincUrl + "assets/bootstrap.js",
       "skipLoad": function() {
-        return (typeof $().modal == 'function');
+        return ($ && typeof $().modal == 'function');
       }
     },
     "button-css": {
