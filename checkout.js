@@ -114,7 +114,7 @@
   };
 
   var retargetAffiliateLinks = function(scriptElement) {
-    if (scriptElement.getAttribute("zinc-selector")) {
+    if (scriptElement !== null && scriptElement.getAttribute("zinc-selector")) {
       // If the user specified a selector to use, we should use it.
       var selector = scriptElement.getAttribute("zinc-selector");
       $("body").on("click", selector, retargetToModal);

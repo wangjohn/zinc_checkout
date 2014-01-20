@@ -132,7 +132,7 @@ $(function() {
     });
 
     Handlebars.registerHelper("displayDollars", function(cents, options) {
-      return (parseInt(cents) / 100).toString();
+      return (parseInt(cents, 10) / 100).toFixed(2);
     });
 
     Handlebars.registerHelper("sanitizeName", function(name) {
@@ -288,6 +288,8 @@ $(function() {
           "product_url": eventData["product_url"]
         },
         callback: handleZincResponse(function(data) {
+          $("#shipping-methods-form .product-name a").text(data["product_name"]);
+          $("#shipping-methods-form .product-name a").attr('href', eventData["product_url"]);
           $("body").data("product_name_response", data);
         })
       });
