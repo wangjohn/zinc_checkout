@@ -24,7 +24,7 @@
     }
   };
 
-  var retailerRegex = /amazon|macys|jcrew/;
+  var retailerRegex = /amazon|amzn/;
 
   var scriptElementId = "zinc-checkout";
   var zincIframeId = "zinc-checkout-iframe";
@@ -130,17 +130,29 @@
 
   var retargetToModal = function(e) {
     var data = _parseVariantRequestData(e);
-    $("#" + zincModalId).trigger("zinc_modal_event", data);
-    return false;
+    if (data) {
+      $("#" + zincModalId).trigger("zinc_modal_event", data);
+      return false;
+    }
   };
 
   var _parseVariantRequestData = function(e) {
     var url = e.currentTarget.href;
     // TODO: have a better way of parsing out retailers from the url
     var retailerList = retailerRegex.exec(url);
+    if (retailerList === null) {
+      return false;
+    }
+
+    var retailer;
+    if (retailerList[0] === "amzn") {
+      retailer = "amazon";
+    } else {
+      retailer = retailerList[0];
+    }
 
     return {
-      "retailer": retailerList[0],
+      "retailer": retailer,
       "product_url": url
     };
   };
