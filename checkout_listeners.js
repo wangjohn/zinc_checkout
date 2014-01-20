@@ -227,6 +227,21 @@ $(function() {
     return shippingMethodId;
   };
 
+  var shippingResponseCallback = function(eventData) {
+    if ($("body").data("variant_options_response") &&
+        $("body").data("product_name_response")) {
+      $("#shipping-methods-form .product-name a").text(
+          $("body").data("product_name_response")["product_name"]);
+      $("#shipping-methods-form .product-name a").attr('href', eventData["product_url"]);
+      $("#shipping-methods-form .spinner").hide();
+      ProductDimensions.createProductDropdowns(
+        "#shipping-methods-form .product-results",
+        "#shipping-methods-form .variant-product-info",
+        $("body").data("variant_options_response")["variant_options"]);
+      $("#shipping-methods-form button.submit-shipping-methods").attr("disabled", false);
+    }
+  };
+
   /**
    * Initializers
    * ----------------------------------------------------------------------------
@@ -273,12 +288,7 @@ $(function() {
         },
         callback: handleZincResponse(function(data) {
           $("body").data("variant_options_response", data);
-          $("#shipping-methods-form .spinner").hide();
-          ProductDimensions.createProductDropdowns(
-            "#shipping-methods-form .product-results",
-            "#shipping-methods-form .variant-product-info",
-            data["variant_options"]);
-          $("#shipping-methods-form button.submit-shipping-methods").attr("disabled", false);
+          shippingResponseCallback(eventData);
         })
       });
       makeZincRequest({
@@ -288,9 +298,8 @@ $(function() {
           "product_url": eventData["product_url"]
         },
         callback: handleZincResponse(function(data) {
-          $("#shipping-methods-form .product-name a").text(data["product_name"]);
-          $("#shipping-methods-form .product-name a").attr('href', eventData["product_url"]);
           $("body").data("product_name_response", data);
+          shippingResponseCallback(eventData);
         })
       });
     }
