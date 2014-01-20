@@ -1,5 +1,5 @@
 <div class="col-sm-12 top-row">
-  <div class="shipping-address-wrapper col-sm-6">
+  <div class="shipping-address-wrapper col-sm-5">
     <div class="shipping-address col-sm-12">
       <h5>SHIPPING ADDRESS</h5>
       <div class="shipping-address-wrapper">
@@ -7,29 +7,29 @@
       </div>
     </div>
   </div>
-  <div class="products-wrapper col-sm-6">
+  <div class="products-wrapper col-sm-7">
     <div class="products col-sm-12">
       <h5>PRODUCT DETAILS</h5>
       <div class="product-name col-sm-12">
-        <label class="col-sm-4 contrl-label">Name</label>
-        <div class="controls col-sm-8">
+        <label class="col-sm-3 control-label">Name</label>
+        <div class="controls col-sm-9">
           <p class="form-control-static">
-            <a href="{{ product_url }}">{{ product_name }}</a>
+            <a class="product-name-link" href="{{ product_url }}">{{ product_name }}</a>
           </p>
         </div>
       </div>
       {{#each products}}
         {{#each dimensions}}
           <div class="variant-description col-sm-12">
-            <label class="col-sm-4 control-label">{{ capitalize name}}</label>
-            <div class="col-sm-8 controls">
+            <label class="col-sm-3 control-label">{{ capitalize name}}</label>
+            <div class="col-sm-9 controls">
               <p class="form-control-static">{{ value }}</p>
             </div>
           </div>
         {{/each}}
         <div class="variant-quantity col-sm-12">
-          <label class="col-sm-4 control-label">Quantity</label>
-          <div class="col-sm-8 controls">
+          <label class="col-sm-3 control-label">Quantity</label>
+          <div class="col-sm-9 controls">
             <p class="form-control-static">{{ quantity }}</p>
           </div>
         </div>
@@ -38,7 +38,7 @@
   </div>
 </div>
 <div class="col-sm-12 bottom-row">
-  <div class="billing-address-wrapper col-sm-6">
+  <div class="billing-address-wrapper col-sm-5">
     <div class="billing-address col-sm-12">
       <h5>BILLING ADDRESS</h5>
       <div class="billing-address-wrapper">
@@ -46,38 +46,38 @@
       </div>
     </div>
   </div>
-  <div class="payment-and-pricing col-sm-6">
+  <div class="payment-and-pricing col-sm-7">
     <div class="payment-method col-sm-12">
       <h5>PAYMENT AND PRICING</h5>
       <div class="payment-method-brand col-sm-12">
-        <label class="col-sm-4 control-label">{{ payment_method.brand }}</label>
-        <div class="col-sm-8 controls">
+        <label class="col-sm-3 control-label">{{ payment_method.brand }}</label>
+        <div class="col-sm-9 controls">
           <p class="form-control-static">
             **** **** **** {{ payment_method.last_four }}
           </p>
         </div>
       </div>
       <div class="subtotal col-sm-12">
-        <label class="col-sm-4 control-label">Subtotal</label>
-        <div class="col-sm-8 controls">
+        <label class="col-sm-3 control-label">Subtotal</label>
+        <div class="col-sm-9 controls">
           <p class="form-control-static">${{ displayDollars price_components.subtotal }}</p>
         </div>
       </div>
       <div class="shipping col-sm-12">
-        <label class="col-sm-4 control-label">Shipping</label>
-        <div class="col-sm-8 controls">
+        <label class="col-sm-3 control-label">Shipping</label>
+        <div class="col-sm-9 controls">
           <p class="form-control-static">${{ displayDollars price_components.shipping }}</p>
         </div>
       </div>
       <div class="tax col-sm-12">
-        <label class="col-sm-4 control-label">Tax</label>
-        <div class="col-sm-8 controls">
+        <label class="col-sm-3 control-label">Tax</label>
+        <div class="col-sm-9 controls">
           <p class="form-control-static">${{ displayDollars price_components.tax }}</p>
         </div>
       </div>
       <div class="total col-sm-12">
-        <label class="col-sm-4 control-label">Total</label>
-        <div class="col-sm-8 controls">
+        <label class="col-sm-3 control-label">Total</label>
+        <div class="col-sm-9 controls">
           <p class="form-control-static">
           <strong>${{ displayDollars price_components.total }}</strong>
           </p>

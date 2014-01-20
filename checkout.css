@@ -48,12 +48,6 @@ h2.page-header {
   margin-right: 10px;
 }
 
-.variant-option label.variant-price,
-.variant-option label.variant-description-name,
-.variant-option label.variant-quantity {
-  padding: 0;
-}
-
 .form-horizontal .form-group {
   margin-bottom: 8px;
 }
@@ -224,4 +218,11 @@ label.control-label {
 
 h2.page-header {
   margin-bottom: 10px;
+}
+
+.product-name a.product-name-link {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

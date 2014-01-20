@@ -71,17 +71,6 @@ $(function() {
     }
   };
 
-  var createSelectorData = function(selector, attributes) {
-    var result = {};
-    var jqSelector = $(selector);
-    for (var i in attributes) {
-      var attr = attributes[i];
-      result[attr] = jqSelector.filter(_convertToSelector(attr)).val();
-    }
-
-    return result;
-  };
-
   var valPassingCall = function(cb) {
     return function(e) {
       e.preventDefault();
@@ -174,30 +163,6 @@ $(function() {
    * API Call specific functions
    * ----------------------------------------------------------------------------
    */
-
-  var populateProducts = function(selector) {
-    var products = [{
-      "product_id": $(selector).val(),
-      "quantity": 1
-    }];
-
-    $('body').data("products", products);
-    return products;
-  };
-
-  var fetchBillingAddressData = function(checkbox_selector, selector, attributes) {
-    if ($(checkbox_selector).is(":checked")) {
-      var data = $("body").data("shipping_address_data");
-      var result = {};
-      for (var i in attributes) {
-        result[attributes[i]] = data[attributes[i]];
-      }
-
-      return result;
-    } else {
-      return createSelectorData(selector, attributes);
-    }
-  };
 
   var displayReviewOrder = function(selector) {
     var productsData = $("body").data("products");
