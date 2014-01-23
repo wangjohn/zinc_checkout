@@ -52,7 +52,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
   Modal.prototype.show = function (_relatedTarget) {
     var that = this
-    var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
+    var e    = $.Event('show.zinc.bs.modal', { relatedTarget: _relatedTarget })
 
     this.$element.trigger(e)
 
@@ -83,10 +83,10 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
       that.enforceFocus()
 
-      var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
+      var e = $.Event('shown.zinc.bs.modal', { relatedTarget: _relatedTarget })
 
       transition ?
-        that.$element.find('.modal-dialog') // wait for modal to slide in
+        that.$element.find('.zinc-modal-dialog') // wait for modal to slide in
           .one($.support.transition.end, function () {
             that.$element.focus().trigger(e)
           })
@@ -98,7 +98,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   Modal.prototype.hide = function (e) {
     if (e) e.preventDefault()
 
-    e = $.Event('hide.bs.modal')
+    e = $.Event('hide.zinc.bs.modal')
 
     this.$element.trigger(e)
 
@@ -108,7 +108,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     this.escape()
 
-    $(document).off('focusin.bs.modal')
+    $(document).off('focusin.zinc.bs.modal')
 
     this.$element
       .removeClass('in')
@@ -124,8 +124,8 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
   Modal.prototype.enforceFocus = function () {
     $(document)
-      .off('focusin.bs.modal') // guard against infinite focus loop
-      .on('focusin.bs.modal', $.proxy(function (e) {
+      .off('focusin.zinc.bs.modal') // guard against infinite focus loop
+      .on('focusin.zinc.bs.modal', $.proxy(function (e) {
         if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
           this.$element.focus()
         }
@@ -134,11 +134,11 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
   Modal.prototype.escape = function () {
     if (this.isShown && this.options.keyboard) {
-      this.$element.on('keyup.dismiss.bs.modal', $.proxy(function (e) {
+      this.$element.on('keyup.dismiss.zinc.bs.modal', $.proxy(function (e) {
         e.which == 27 && this.hide()
       }, this))
     } else if (!this.isShown) {
-      this.$element.off('keyup.dismiss.bs.modal')
+      this.$element.off('keyup.dismiss.zinc.bs.modal')
     }
   }
 
@@ -147,7 +147,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     this.$element.hide()
     this.backdrop(function () {
       that.removeBackdrop()
-      that.$element.trigger('hidden.bs.modal')
+      that.$element.trigger('hidden.zinc.bs.modal')
     })
   }
 
@@ -203,28 +203,28 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   // MODAL PLUGIN DEFINITION
   // =======================
 
-  var old = $.fn.modal
+  var old = $.fn.zincModal
 
-  $.fn.modal = function (option, _relatedTarget) {
+  $.fn.zincModal = function (option, _relatedTarget) {
     return this.each(function () {
       var $this   = $(this)
-      var data    = $this.data('bs.modal')
+      var data    = $this.data('zinc.bs.modal')
       var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-      if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
+      if (!data) $this.data('zinc.bs.modal', (data = new Modal(this, options)))
       if (typeof option == 'string') data[option](_relatedTarget)
       else if (options.show) data.show(_relatedTarget)
     })
   }
 
-  $.fn.modal.Constructor = Modal
+  $.fn.zincModal.Constructor = Modal
 
 
   // MODAL NO CONFLICT
   // =================
 
-  $.fn.modal.noConflict = function () {
-    $.fn.modal = old
+  $.fn.zincModal.noConflict = function () {
+    $.fn.zincModal = old
     return this
   }
 
@@ -232,23 +232,23 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
   // MODAL DATA-API
   // ==============
 
-  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
+  $(document).on('click.zinc.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
     var $this   = $(this)
     var href    = $this.attr('href')
     var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-    var option  = $target.data('modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+    var option  = $target.data('zinc-modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
     e.preventDefault()
 
     $target
-      .modal(option, this)
+      .zincModal(option, this)
       .one('hide', function () {
         $this.is(':visible') && $this.focus()
       })
   })
 
   $(document)
-    .on('show.bs.modal',  '.modal', function () { $(document.body).addClass('modal-open') })
-    .on('hidden.bs.modal', '.modal', function () { $(document.body).removeClass('modal-open') })
+    .on('show.zinc.bs.modal',  '.zinc-modal', function () { $(document.body).addClass('modal-open') })
+    .on('hidden.zinc.bs.modal', '.zinc-modal', function () { $(document.body).removeClass('modal-open') })
 
 }(jQuery);

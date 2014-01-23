@@ -1,7 +1,7 @@
 (function(){
 
-  var zincUrl = "https://dl.dropboxusercontent.com/spa/qjopb1dsqoaxdqh/zinc_checkout/";
-  //var zincUrl = "http://localhost:8888/";
+  //var zincUrl = "https://dl.dropboxusercontent.com/spa/qjopb1dsqoaxdqh/zinc_checkout/";
+  var zincUrl = "http://localhost:8888/";
 
   var iframeSource = zincUrl + "modal.html";
   var defaultButtonText = "Checkout";
@@ -97,7 +97,7 @@
 
           $(function() {
             retargetAffiliateLinks(scriptElement);
-            $("#" + zincModalId).modal({
+            $("#" + zincModalId).zincModal({
               show: false
             });
 
@@ -108,14 +108,14 @@
                 iframe.setAttribute("src", source);
                 lastSeenSource = source;
               }
-              $(this).modal('show');
+              $(this).zincModal('show');
             });
 
             dynamicResizeIFrame();
             listenToIFrameErrors();
 
             $("body").delegate(".zinc-modal-backdrop", "click", function(e) {
-              $("#" + zincModalId).modal('hide');
+              $("#" + zincModalId).zincModal('hide');
             });
           });
         });
