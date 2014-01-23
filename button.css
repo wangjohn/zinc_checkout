@@ -211,7 +211,7 @@
   background-clip: padding-box;
 }
 
-#zinc-checkout-modal+.zinc-modal-backdrop {
+.zinc-modal-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -221,7 +221,7 @@
   background-color: #000000;
 }
 
-#zinc-checkout-modal+.zinc-modal-backdrop.fade {
+.zinc-modal-backdrop.fade {
   opacity: 0;
   filter: alpha(opacity=0);
 }
@@ -235,7 +235,7 @@
 }
 
 
-#zinc-checkout-modal+.zinc-modal-backdrop.in {
+.zinc-modal-backdrop.in {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
