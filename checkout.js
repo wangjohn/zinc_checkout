@@ -1,6 +1,7 @@
 (function(){
 
-  var zincUrl = "https://dl.dropboxusercontent.com/spa/qjopb1dsqoaxdqh/zinc_checkout/";
+  //var zincUrl = "https://dl.dropboxusercontent.com/spa/qjopb1dsqoaxdqh/zinc_checkout/";
+  var zincUrl = "http://localhost:8888/";
 
   var iframeSource = zincUrl + "modal.html";
   var defaultButtonText = "Checkout";
@@ -113,7 +114,7 @@
             dynamicResizeIFrame();
             listenToIFrameErrors();
 
-            $("body").delegate(".modal-backdrop", "click", function(e) {
+            $("body").delegate(".zinc-modal-backdrop", "click", function(e) {
               $("#" + zincModalId).modal('hide');
             });
           });
@@ -229,7 +230,7 @@
 
   var createModalElement = function() {
     var modal = document.createElement("div");
-    modal.className = "modal fade";
+    modal.className = "zinc-modal fade";
     modal.id = zincModalId;
     modal.setAttribute("tab-index", "-1");
     modal.setAttribute("role", "dialog");
@@ -237,10 +238,10 @@
     modal.setAttribute("aria-hidden", "true");
 
     var modalDialog = document.createElement("div");
-    modalDialog.className = "modal-dialog";
+    modalDialog.className = "zinc-modal-dialog";
 
     var modalContent = document.createElement("div");
-    modalContent.className = "modal-content";
+    modalContent.className = "zinc-modal-content";
     modalContent.id = zincModalContentId;
 
     modalContent.appendChild(createModalHeader());
@@ -258,7 +259,7 @@
 
   var createIFrameElement = function() {
     var iframe = document.createElement("iframe");
-    iframe.className = "modal-body";
+    iframe.className = "zinc-modal-body";
     iframe.id = zincIframeId;
     iframe.setAttribute("src", iframeSource);
 

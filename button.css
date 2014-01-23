@@ -1,9 +1,9 @@
-#zinc-checkout-modal.modal,
-#zinc-checkout-modal .modal-dialog,
-#zinc-checkout-modal+.modal-backdrop,
+#zinc-checkout-modal.zinc-modal,
+#zinc-checkout-modal .zinc-modal-dialog,
+#zinc-checkout-modal+.zinc-modal-backdrop,
 #zinc-checkout-modal button.close,
-#zinc-checkout-modal .modal-body,
-#zinc-checkout-modal .modal-dialog,
+#zinc-checkout-modal .zinc-modal-body,
+#zinc-checkout-modal .zinc-modal-dialog,
 #zinc-checkout-modal button.close,
 #zinc-checkout-modal .close,
 #zinc-checkout-modal .close:hover,
@@ -158,10 +158,7 @@
   z-index : auto;
 }
 
-.modal-open {
-  overflow: hidden;
-}
-#zinc-checkout-modal.modal {
+#zinc-checkout-modal.zinc-modal {
   position: fixed;
   top: 0;
   right: 0;
@@ -179,7 +176,7 @@
   outline: none;
 }
 
-#zinc-checkout-modal.modal.fade .modal-dialog {
+#zinc-checkout-modal.zinc-modal.fade .zinc-modal-dialog {
   -webkit-transform: translate(0, -25%);
   -ms-transform: translate(0, -25%);
   transform: translate(0, -25%);
@@ -189,19 +186,19 @@
   transition: transform 0.3s ease-out;
 }
 
-#zinc-checkout-modal.modal.in .modal-dialog {
+#zinc-checkout-modal.zinc-modal.in .zinc-modal-dialog {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   transform: translate(0, 0);
 }
 
-#zinc-checkout-modal .modal-dialog {
+#zinc-checkout-modal .zinc-modal-dialog {
   position: relative;
   z-index: 1050;
   width: auto;
   margin: 10px;
 }
-#zinc-checkout-modal .modal-content {
+#zinc-checkout-modal .zinc-modal-content {
   position: relative;
   height: 406px;
   background-color: #ffffff;
@@ -214,7 +211,7 @@
   background-clip: padding-box;
 }
 
-#zinc-checkout-modal+.modal-backdrop {
+#zinc-checkout-modal+.zinc-modal-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -224,7 +221,7 @@
   background-color: #000000;
 }
 
-#zinc-checkout-modal+.modal-backdrop.fade {
+#zinc-checkout-modal+.zinc-modal-backdrop.fade {
   opacity: 0;
   filter: alpha(opacity=0);
 }
@@ -238,23 +235,23 @@
 }
 
 
-#zinc-checkout-modal+.modal-backdrop.in {
+#zinc-checkout-modal+.zinc-modal-backdrop.in {
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
 
-#zinc-checkout-modal #zinc-checkout-iframe.modal-body {
+#zinc-checkout-modal #zinc-checkout-iframe.zinc-modal-body {
   position: relative;
   padding: 20px;
   overflow: hidden;
 }
 
 @media screen and (min-width: 768px) {
-  #zinc-checkout-modal .modal-dialog {
+  #zinc-checkout-modal .zinc-modal-dialog {
     width: 800px;
     margin: 30px auto;
   }
-  #zinc-checkout-modal .modal-content {
+  #zinc-checkout-modal .zinc-modal-content {
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     height: 406px;
