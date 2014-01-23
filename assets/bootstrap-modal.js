@@ -62,7 +62,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     this.escape()
 
-    this.$element.on('click.dismiss.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+    this.$element.on('click.dismiss.zinc-modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
 
     this.backdrop(function () {
       var transition = $.support.transition && that.$element.hasClass('fade')
@@ -113,7 +113,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
     this.$element
       .removeClass('in')
       .attr('aria-hidden', true)
-      .off('click.dismiss.modal')
+      .off('click.dismiss.zinc-modal')
 
     $.support.transition && this.$element.hasClass('fade') ?
       this.$element
@@ -166,7 +166,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
       this.$backdrop = $('<div class="zinc-modal-backdrop ' + animate + '" />')
         .appendTo(document.body)
 
-      this.$element.on('click.dismiss.modal', $.proxy(function (e) {
+      this.$element.on('click.dismiss.zinc-modal', $.proxy(function (e) {
         if (e.target !== e.currentTarget) return
         this.options.backdrop == 'static'
           ? this.$element[0].focus.call(this.$element[0])

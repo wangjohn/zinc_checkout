@@ -17,13 +17,11 @@
     },
     "bootstrap-js": {
       "url": zincUrl + "assets/bootstrap-modal.js",
-      "skipLoad": function() {
-        return function() { false };
-      }
+      "skipLoad": function() { return false }
     },
     "button-css": {
       "url": zincUrl + "button.css",
-      "skipLoad": function() { false }
+      "skipLoad": function() { return false }
     }
   };
 
