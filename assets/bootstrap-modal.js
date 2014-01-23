@@ -89,8 +89,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
         that.$element.find('.zinc-modal-dialog') // wait for modal to slide in
           .one($.support.transition.end, function () {
             that.$element.focus().trigger(e)
-          })
-          .emulateTransitionEnd(300) :
+          }) :
         that.$element.focus().trigger(e)
     })
   }
@@ -117,8 +116,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     $.support.transition && this.$element.hasClass('fade') ?
       this.$element
-        .one($.support.transition.end, $.proxy(this.hideModal, this))
-        .emulateTransitionEnd(300) :
+        .one($.support.transition.end, $.proxy(this.hideModal, this)) :
       this.hideModal()
   }
 
@@ -181,8 +179,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
       doAnimate ?
         this.$backdrop
-          .one($.support.transition.end, callback)
-          .emulateTransitionEnd(150) :
+          .one($.support.transition.end, callback) :
         callback()
 
     } else if (!this.isShown && this.$backdrop) {
@@ -190,8 +187,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
       $.support.transition && this.$element.hasClass('fade')?
         this.$backdrop
-          .one($.support.transition.end, callback)
-          .emulateTransitionEnd(150) :
+          .one($.support.transition.end, callback) :
         callback()
 
     } else if (callback) {
